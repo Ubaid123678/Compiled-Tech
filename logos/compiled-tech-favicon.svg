@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Compiled Tech">
+  <title>Compiled Tech</title>
+  <rect width="128" height="128" rx="26" fill="#070B11"/>
+  <g transform="translate(14.4 14.4) scale(0.775)"><path d="M81.3 24 L64 14 L20.7 39 V89 L64 114 L81.3 104" fill="none" stroke="#E9EFF6" stroke-width="18" stroke-linejoin="miter" stroke-miterlimit="10"/>
+  <path d="M36 56 L45 40 H112 L103 56 H82 V86 H64 V56 Z" fill="#E9EFF6"/></g>
+</svg>
