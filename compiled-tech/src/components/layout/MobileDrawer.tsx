@@ -21,9 +21,9 @@ export function MobileDrawer({
   onOpenChange,
 }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   useEffect(() => {
+    const prev = document.body.style.overflow;
     if (open) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
-    return () => (document.body.style.overflow = "");
+    return () => { document.body.style.overflow = prev; };
   }, [open]);
 
   const close = () => onOpenChange(false);
