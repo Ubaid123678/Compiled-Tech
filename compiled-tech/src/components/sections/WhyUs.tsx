@@ -33,7 +33,7 @@ export function WhyUs() {
         <Reveal>
           <SectionHeading
             id="why-heading"
-            h2="Why CompileTech"
+            h2="Why CompiledTech"
             className="mb-12 lg:mb-16"
           />
         </Reveal>
