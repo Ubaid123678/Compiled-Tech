@@ -82,12 +82,16 @@ export const coreServices = [
 ] as const;
 
 export const industries = [
-  "Startups",
-  "SaaS",
-  "E-commerce",
-  "Professional services",
   "Healthcare",
-  "Education",
   "Finance",
+  "Education",
+  "Manufacturing",
+  "Retail",
+  "Real estate",
   "Logistics",
+  "Automotive",
+  "Hospitality",
+  "Government",
+  "Startups",
+  "Enterprise",
 ] as const;

@@ -53,3 +53,7 @@ export function TechLogo({ name, size = 32, className }: TechLogoProps) {
 }
 
 export const trustStack = Object.keys(techLogos) as Array<keyof typeof techLogos>;
+
+export const movingStack = trustStack.filter(
+  (name) => !["React", "Next.js", "TypeScript", "Node.js", "Python"].includes(name),
+);
