@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 type SectionHeadingProps = {
-  eyebrow: string;
+  eyebrow?: string;
   h2?: string;
   lead?: string;
   id?: string;

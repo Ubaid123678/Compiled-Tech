@@ -1,18 +1,32 @@
 import { cn } from "@/lib/utils";
+import {
+  siReact,
+  siNextdotjs,
+  siTypescript,
+  siNodedotjs,
+  siPython,
+  siFlutter,
+  siAngular,
+  siLaravel,
+  siMongodb,
+  siMysql,
+  siPostgresql,
+  type SimpleIcon,
+} from "simple-icons";
 
-const techLogos: Record<string, { icon: string; color?: string }> = {
-  React: { icon: "siReact" },
-  "Next.js": { icon: "siNextdotjs" },
-  TypeScript: { icon: "siTypescript" },
-  Node.js: { icon: "siNodedotjs" },
-  Python: { icon: "siPython" },
-  Flutter: { icon: "siFlutter" },
-  "React Native": { icon: "siReact" },
-  Angular: { icon: "siAngular" },
-  Laravel: { icon: "siLaravel" },
-  MongoDB: { icon: "siMongodb" },
-  MySQL: { icon: "siMysql" },
-  PostgreSQL: { icon: "siPostgresql" },
+const techLogos: Record<string, { icon: SimpleIcon; color?: string }> = {
+  React: { icon: siReact, color: "#61DAFB" },
+  "Next.js": { icon: siNextdotjs, color: "#000000" },
+  TypeScript: { icon: siTypescript, color: "#3178C6" },
+  "Node.js": { icon: siNodedotjs, color: "#339933" },
+  Python: { icon: siPython, color: "#3776AB" },
+  Flutter: { icon: siFlutter, color: "#02569B" },
+  "React Native": { icon: siReact, color: "#61DAFB" },
+  Angular: { icon: siAngular, color: "#DD0031" },
+  Laravel: { icon: siLaravel, color: "#FF2D20" },
+  MongoDB: { icon: siMongodb, color: "#47A248" },
+  MySQL: { icon: siMysql, color: "#4479A1" },
+  PostgreSQL: { icon: siPostgresql, color: "#4169E1" },
 };
 
 type TechLogoProps = {
@@ -23,16 +37,18 @@ type TechLogoProps = {
 
 export function TechLogo({ name, size = 32, className }: TechLogoProps) {
   const { icon, color } = techLogos[name];
-  const Icon = require(`simple-icons`)[icon];
 
   return (
-    <Icon
+    <svg
       className={cn("flex-shrink-0 text-steel transition-colors hover:text-frost", className)}
       width={size}
       height={size}
-      style={color ? { color } : undefined}
+      viewBox={icon.viewBox}
+      fill={color || "currentColor"}
       aria-hidden="true"
-    />
+    >
+      <path d={icon.path} />
+    </svg>
   );
 }
 

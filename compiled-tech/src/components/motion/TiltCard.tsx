@@ -1,6 +1,6 @@
 "use client";
 
-import { useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -83,7 +83,9 @@ export function TiltCard({
       <div
         className="relative p-6 lg:p-8"
         style={{
-          transform: prefersReducedMotion ? "none" : { rotateX, rotateY, perspective: 1000 },
+          transform: prefersReducedMotion
+            ? "none"
+            : `perspective(1000px) rotateX(${rotateX.get()}deg) rotateY(${rotateY.get()}deg)`,
           transformStyle: "preserve-3d",
         }}
       >
