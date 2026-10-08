@@ -11,10 +11,9 @@ import {
   siMongodb,
   siMysql,
   siPostgresql,
-  type SimpleIcon,
 } from "simple-icons";
 
-const techLogos: Record<string, { icon: SimpleIcon; color?: string }> = {
+const techLogos: Record<string, { icon: any; color?: string }> = {
   React: { icon: siReact, color: "#61DAFB" },
   "Next.js": { icon: siNextdotjs, color: "#000000" },
   TypeScript: { icon: siTypescript, color: "#3178C6" },
