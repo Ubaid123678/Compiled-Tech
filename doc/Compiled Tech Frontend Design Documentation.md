@@ -270,12 +270,12 @@ The home page has nine blocks in this order: Hero, Trust strip, Services, Proces
 - H2: "Four ways we ship software"
 - Lead: "Pick one pillar or combine them. Every project is software only."
 
-| Card | One line | List |
+| Card | One line | Services |
 | --- | --- | --- |
-| Build | Websites, apps, and SaaS products that load fast and scale. | Web development; App development (React and Flutter); SaaS products; E-commerce; APIs and backend |
-| AI and ML | Models, chatbots, and document tools trained on your data. | Machine learning projects; Model training and fine-tuning; RAG systems; Chatbots; Extractor and document processing |
-| Automate and Analyze | Workflows and dashboards that remove manual work. | AI automation workflows; Data dashboards; Analytics and reporting |
-| Advise and Support | Guidance, training, and care after launch. | AI consulting; Training workshops; Maintenance and support |
+| Build | Web, mobile, and SaaS products that load fast and scale. | Web & Mobile App Development; SaaS & Custom Software Development; E-commerce Development |
+| AI and ML | Custom models, intelligent agents, and document intelligence. | Custom AI & Machine Learning; AI Chatbots & Virtual Assistants; AI Data & Document Processing |
+| Automate and Analyze | Workflows and agents that remove manual work. | AI Automation & AI Agents |
+| Advise and Support | Guidance, training, and care after launch. | AI Consulting; Training Workshops; Maintenance and Support |
 
 Each card ends with a text link "View services" and an arrow. Card label above the title: "PILLAR 1" to "PILLAR 4" in code style.
 
@@ -389,21 +389,16 @@ Every inner page starts with the same `PageHero`: breadcrumbs, an H1 in Orbitron
 
 | Service | Pillar | Tile line |
 | --- | --- | --- |
-| Web development | Build | Fast, search-friendly websites and web apps. |
-| App development | Build | iOS and Android apps in React and Flutter. |
-| SaaS product development | Build | From first version to paying customers. |
-| E-commerce | Build | Stores and platforms that take payments. |
-| APIs and backend | Build | Secure services that power your apps. |
-| Machine learning projects | AI and ML | Models built for your data and goal. |
-| Model training and fine-tuning | AI and ML | Adapt a model to your field. |
-| RAG systems | AI and ML | Answers grounded in your own documents. |
-| Chatbots | AI and ML | Assistants for support and sales. |
-| Extractor | AI and ML | Pull data out of documents and web pages. |
-| AI-powered document processing | AI and ML | Classify, read, and route documents. |
-| AI automation workflows | Automate and Analyze | Replace repeated manual steps. |
-| Data dashboards and analytics | Automate and Analyze | See your numbers in one place. |
-| AI consulting and training workshops | Advise and Support | Plan and learn before you build. |
-| Maintenance and support | Advise and Support | Updates, fixes, and monitoring. |
+| Web & Mobile App Development | Build | Websites, web applications, and mobile apps. |
+| SaaS & Custom Software Development | Build | Build scalable software products, business platforms, and SaaS applications. |
+| E-commerce Development | Build | Build online stores, custom e-commerce platforms, and integrations. |
+| Custom AI & Machine Learning | AI and ML | Develop and customize AI/ML models for specialized business requirements, including training and fine-tuning. |
+| AI Chatbots & Virtual Assistants | AI and ML | Customer-support and business assistants that understand your company's information and communicate with users. |
+| AI Data & Document Processing | AI and ML | Automatically extract, organize, and process information from invoices, PDFs, forms, websites, and other data sources. |
+| AI Automation & AI Agents | Automate and Analyze | Automate business processes and build AI systems that can perform tasks and workflows. |
+| AI Consulting | Advise and Support | Strategic guidance on AI adoption, model selection, and implementation. |
+| Training Workshops | Advise and Support | Hands-on training for your team on AI tools and workflows. |
+| Maintenance and Support | Advise and Support | Updates, fixes, monitoring, and ongoing optimization. |
 
 **Pillar page template:** PageHero, service sections, "How it works" (3 short steps), "Tech we use" chips, 1 or 2 related `CaseCard`s, FAQ accordion (3 to 5 questions), CTABand.
 
