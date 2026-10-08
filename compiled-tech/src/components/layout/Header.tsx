@@ -1,86 +1,156 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
-import { MobileDrawer } from "./MobileDrawer";
-import { Container } from "./Container";
-import { cn } from "@/lib/utils";
-
-const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
-  { label: "Work", href: "/work" },
-  { label: "Process", href: "/process" },
-  { label: "About", href: "/about" },
-  { label: "Blog", href: "/blog" },
-];
+import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { cta, nav } from "@/data/nav";
 
 export function Header() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const previous = document.body.style.overflow;
+    if (open) {
+      document.body.style.overflow = "hidden";
+      firstLinkRef.current?.focus();
+    } else {
+      document.body.style.overflow = previous;
+      menuButtonRef.current?.focus();
+    }
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = document.querySelectorAll<HTMLElement>("#mobile-menu a, #mobile-menu button");
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 flex items-center justify-between h-18 transition-all duration-250 ease-out",
-        scrolled
-          ? "h-15 bg-ink/80 backdrop-blur-[14px] border-b border-line"
-          : "bg-transparent"
-      )}
-    >
-      <Container>
-        <div className="flex items-center justify-between h-full">
-          <Link href="/" className="flex items-center gap-3" aria-label="Compiled Tech home">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" className="text-frost">
-              <rect width="32" height="32" rx="6" fill="currentColor" />
-              <path d="M16 8 L16 24 M8 16 L24 16" stroke="#070B11" strokeWidth="3" strokeLinecap="round" />
-            </svg>
-            <span className="font-display font-semibold text-[0.95rem] tracking-[0.16em] uppercase text-frost">
-              COMPILED TECH
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 h-[72px] transition-all duration-[250ms] ease-out ${
+          scrolled ? "h-[60px] border-b border-line bg-ink/80 backdrop-blur-[14px]" : "bg-transparent"
+        }`}
+      >
+        <div className="mx-auto flex h-full items-center justify-between px-[calc(16px+clamp(20px,5vw,64px))]">
+          <Link href="/" className="flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel" aria-label="Compiled Tech home">
+            <img src="/logo/compiled-tech-icon-for-dark-bg.svg" alt="" className="h-8 w-8" />
+            <span className="font-display text-[0.95rem] font-semibold uppercase tracking-[0.16em] text-frost">
+              Compiled Tech
             </span>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-4 lg:gap-6" aria-label="Main navigation">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "font-body text-[0.92rem] tracking-[0.04em] transition-colors duration-150 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[1px] after:w-0 after:bg-frost after:transition-all after:duration-150",
-                  link.href === "/"
-                    ? "text-frost after:w-full"
-                    : "text-mist/88 hover:text-frost hover:after:w-full"
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
+          <nav className="hidden items-center gap-6 min-[900px]:flex" aria-label="Main navigation">
+            {nav.map((item) => {
+              const active = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`relative font-body text-[0.92rem] tracking-[0.04em] transition-colors after:absolute after:bottom-[-5px] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-frost after:transition-transform after:duration-150 hover:text-frost hover:after:scale-x-100 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel ${
+                    active ? "text-frost after:scale-x-100" : "text-mist/88"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
 
-          <div className="flex items-center gap-3">
-            <Button variant="primary" size="md" asChild>
-              <Link href="/contact">Start a Project</Link>
-            </Button>
+          <div className="flex items-center">
+            <div className="hidden min-[900px]:block">
+              <Button href={cta.href} icon={<ArrowUpRight size={16} strokeWidth={1.7} />}>
+                {cta.label}
+              </Button>
+            </div>
             <button
-              className="lg:hidden p-2 text-mist hover:text-frost transition-colors"
-              onClick={() => setMobileOpen(true)}
-              aria-label="Open menu"
-              aria-expanded={mobileOpen}
+              ref={menuButtonRef}
+              type="button"
+              className="flex size-11 items-center justify-center text-mist transition-colors hover:text-frost focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel min-[900px]:hidden"
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              aria-label={open ? "Close menu" : "Open menu"}
+              onClick={() => setOpen((value) => !value)}
             >
-              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {open ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
-      </Container>
-      <MobileDrawer open={mobileOpen} onOpenChange={setMobileOpen} />
-    </header>
+      </header>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="mobile-menu"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-ink/90 px-6 backdrop-blur-[14px] min-[900px]:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <nav className="flex flex-col items-center gap-6" aria-label="Mobile navigation">
+              {nav.map((item, index) => (
+                <motion.div
+                  key={item.href}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 16 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                >
+                  <Link
+                    ref={index === 0 ? firstLinkRef : undefined}
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    className="font-display text-[clamp(1.4rem,4vw,2rem)] uppercase tracking-[0.1em] text-frost focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-steel"
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
+              ))}
+            </nav>
+            <div className="absolute inset-x-6 bottom-8 flex justify-center">
+              <Button href={cta.href} size="lg" icon={<ArrowUpRight size={16} strokeWidth={1.7} />} onClick={() => setOpen(false)}>
+                {cta.label}
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
