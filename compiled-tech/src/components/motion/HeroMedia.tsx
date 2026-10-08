@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
+const easeOut = [0.22, 1, 0.36, 1] as const;
+
 type HeroMediaProps = {
   poster: string;
   videoWebm?: string;
@@ -42,7 +44,8 @@ export function HeroMedia({ poster, videoWebm, videoMp4, className = "" }: HeroM
   useEffect(() => {
     if (!videoWebm && !videoMp4) return;
     const onLoad = () => {
-      const vp = navigator.connection;
+      const nav = navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } };
+      const vp = nav.connection;
       if (vp?.saveData || vp?.effectiveType === "slow-2g" || vp?.effectiveType === "2g") return;
       if (window.innerWidth < 900) return;
       setPlayVideo(true);
@@ -70,8 +73,8 @@ export function HeroMedia({ poster, videoWebm, videoMp4, className = "" }: HeroM
       <motion.div
         className="absolute inset-0"
         style={posterStyle}
-        animate={{ opacity: playVideo && videoRef.current?.readyState >= 2 ? 0 : 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        animate={{ opacity: playVideo && (videoRef.current?.readyState ?? 0) >= 2 ? 0 : 1 }}
+        transition={{ duration: 0.5, ease: easeOut }}
       >
         <img
           src={poster}
@@ -94,7 +97,7 @@ export function HeroMedia({ poster, videoWebm, videoMp4, className = "" }: HeroM
           style={videoStyle}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5, ease: easeOut }}
         >
           {videoWebm && <source src={videoWebm} type="video/webm" />}
           {videoMp4 && <source src={videoMp4} type="video/mp4" />}

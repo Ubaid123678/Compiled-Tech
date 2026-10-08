@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 
+const easeOut = [0.22, 1, 0.36, 1] as const;
+
 type HeadlineSplitProps = {
   leftTop: string;
   leftBottom: string;
@@ -24,12 +26,12 @@ export function HeadlineSplit({
 
   const itemVariants = {
     hidden: { opacity: 0, x: -24 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: easeOut } },
   };
 
   const itemVariantsRight = {
     hidden: { opacity: 0, x: 24 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: easeOut } },
   };
 
   return (
