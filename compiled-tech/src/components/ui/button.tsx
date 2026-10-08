@@ -12,11 +12,14 @@ const buttonVariants = cva(
           "bg-steel text-ink hover:bg-frost hover:shadow-[0_10px_30px_rgba(185,198,212,0.25)]",
         ghost:
           "border-line text-frost hover:bg-slate hover:border-steel/40 hover:shadow-[0_10px_30px_rgba(185,198,212,0.25)]",
+        outline:
+          "border-line text-frost hover:bg-slate hover:border-steel/40",
         link: "text-frost underline-offset-4 hover:underline",
       },
       size: {
         md: "h-11 px-6 gap-2",
         lg: "h-12 px-7 gap-2.5",
+        "icon-sm": "size-7 rounded-[999px]",
       },
     },
     defaultVariants: {
