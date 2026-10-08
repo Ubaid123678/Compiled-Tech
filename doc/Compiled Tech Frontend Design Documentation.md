@@ -78,14 +78,14 @@ The site uses six colors, three fonts, and one spacing scale. Put these in Tailw
 | frost | `#E9EFF6` | Headings, logo, highest-emphasis text | 17.0 : 1 |
 | line | `rgba(185,198,212,0.16)` | 1 px borders and dividers | n/a |
 
-All text pairs pass WCAG AA. Mist on slate is the lowest at 5.7 : 1, so do not use mist below 14 px on slate. There is no accent color. Emphasis comes from brightness: frost is loudest, mist is quietest.
+All text pairs pass WCAG AA. Mist on slate is the lowest at 5.7 : 1, so do not use mist below 14 px on slate. There is no accent color. Emphasis comes from brightness: frost is loudest, mist is quietest. Form messages use two soft state colors, error #F2A0A0 and success #9AD9B8, only for message text, borders, and small icons.
 
 **Typography**
 
 | Role | Font | Weights | Use |
 | --- | --- | --- | --- |
 | Display | Orbitron | 500, 600 | Headlines, nav, buttons, labels. Always uppercase, with letter spacing. |
-| Body | Exo 2 | 300, 400, 500 | Paragraphs, forms, lists |
+| Body | Exo 2 | 400, 500 | Paragraphs, forms, lists |
 | Code | JetBrains Mono | 400 | Tech chips, code samples, small data labels |
 
 Orbitron is very wide. Use it for short text only, never for paragraphs or text under 12 px.
@@ -175,7 +175,7 @@ The logo is a hexagon "C" with a slanted "T" crossbar, set beside the name "Comp
 - Do not stretch, rotate, or recolor the mark. Do not put it on a busy photo without a dark overlay.
 - The icon is the only 3D-looking element near the logo. Keep the area around the header logo flat.
 
-The wordmark font is still open. The mockup used a generic geometric sans. Decide in section 12 before you export the final lockup.
+Orbitron is the working choice for the wordmark. Section 12 lists it as an open decision to confirm before you export the final lockup.
 
 ## 5. Site map and navigation
 
@@ -284,7 +284,7 @@ Each card ends with a text link "View services" and an arrow. Card label above t
 
 **Components.** `SectionHeading`, `PillarCard` (built on `TiltCard`), `PlusStrip`.
 
-**Motion.** Cards reveal with a 80 ms stagger. On hover, a card tilts up to 6 degrees toward the pointer and a soft light follows the cursor inside it. On touch screens there is no tilt.
+**Motion.** Cards reveal with an 80 ms stagger. On hover, a card tilts up to 6 degrees toward the pointer and a soft light follows the cursor inside it. On touch screens there is no tilt.
 
 ### 6.4 Process
 
@@ -342,7 +342,7 @@ Every sample card carries a small badge "SAMPLE PROJECT". Replace them with your
 - Tab 2 "Extractor": a sample invoice image on the left, and four extracted fields on the right: Vendor, Invoice number, Date, Total. Boxes on the invoice highlight one by one.
 - Under the window: a small note "Demo with sample data".
 
-In v1 the answers are pre-written and typed out with an animation. Connect the live chatbot route in build phase 6 (section 11).
+In v1 the answers are pre-written and typed out with an animation. Connect the live chatbot route in build step 9 (section 11).
 
 **Components.** `AIDemoWindow`, `ChatDemo`, `ExtractorDemo`, `Tabs`.
 
@@ -419,7 +419,7 @@ Every inner page starts with the same `PageHero`: breadcrumbs, an H1 in Orbitron
 
 - H1: "About Compiled Tech". Lead: "A software and AI studio that turns ideas into products people use."
 - Sections in order: Story, Mission, Values, Approach, Team, CTABand.
-- Story and Mission need your own words. Write two short paragraphs: why you started the agency, and who you build for. Do not copy the placeholders below.
+- Story and Mission need your own words. Write two short paragraphs: why you started the agency, and who you build for.
 - Values (four tiles, suggested): "Ship early", "Say it plainly", "Own the result", "Keep learning". Each has one sentence.
 - Approach: three lines on how you work (talk to the developer, written scope, handover).
 - Team: one card per person with photo (square, grayscale until hover), name, role, and one line. Start with the founder only. Do not add fake team members.
@@ -727,3 +727,28 @@ NEXT_PUBLIC_PLAUSIBLE_DOMAIN=
 8. **Motion pass.** Reveals, tilt, parallax, the pinned process timeline, Lenis. Check reduced motion.
 9. **AI demos.** Scripted chat and extractor first. Then the live chatbot route, with rate limiting and a spending cap.
 10. **Finish.** Swap in the real hero video (or the live 3D scene), real case studies, SEO files, accessibility checks, performance checks, then launch.
+
+## 12. Open decisions and risks
+
+Ten decisions are still open. The recommendation column is what this document assumes.
+
+| Decision | Recommendation | Needed by |
+| --- | --- | --- |
+| Hero: pre-rendered video or live 3D | Pre-rendered video (route A) | Step 3 |
+| Wordmark font | Orbitron 600 for now, then test a custom "C" | Step 2 |
+| Light mode toggle | Skip it. Dark only for v1, which also keeps the build smaller. | Step 1 |
+| Domain and name check | Search the name and domain before launch | Before step 10 |
+| Case studies | Your own finished projects, or clearly labeled samples | Step 4 |
+| Contact details | Email, WhatsApp, city and country | Step 5 |
+| Pricing | Show no prices. Use "Request a quote" and the budget field. | Step 5 |
+| Live chatbot | Scripted demo at launch, live route later | Step 9 |
+| Tone of copy | Confident and plain, as written here | Step 4 |
+| Claims in the copy | Confirm "reply within one working day", "direct access to developers", "written scope and price", and the typical lengths | Before step 10 |
+
+**Risks**
+
+- Too much motion can drop the mobile Lighthouse score. Keep one big moment and check the score after every step.
+- Sample projects and invented quotes make an agency look fake. Label samples or leave them out.
+- A public chatbot can run up costs. Add rate limits and a monthly spending cap first.
+- The hexagon-letter logo style is common. Search for similar marks before you print or register anything.
+- Copying a paid template's layout can cause legal trouble. Keep the mood, and make the layout and 3D object your own.
