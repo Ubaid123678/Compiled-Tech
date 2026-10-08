@@ -66,7 +66,7 @@ export function Header() {
   return (
     <>
       <header
-        className={`animate-[header-in_700ms_var(--ease-out)_both] fixed inset-x-0 z-50 h-18 transition-all duration-250 ease-out ${
+        className={`animate-[header-in_1600ms_var(--ease-out)_100ms_both] fixed inset-x-0 z-50 h-18 transition-all duration-500 ease-out ${
           scrolled
             ? "top-0 h-15 border-b border-line bg-ink/80 backdrop-blur-[14px]"
             : "top-4 bg-transparent"

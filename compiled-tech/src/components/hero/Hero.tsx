@@ -18,7 +18,7 @@ export function Hero() {
         <span className="sr-only absolute">{site.heroSrText}</span>
         <span
           aria-hidden="true"
-          className="animate-[hero-in_600ms_var(--ease-out)_both] [--from:-24px] min-[760px]:col-start-1"
+          className="animate-[hero-in_1800ms_var(--ease-out)_300ms_both] [--from:-40px] min-[760px]:col-start-1"
         >
           <span className="block font-display text-[clamp(1.8rem,9vw,2.6rem)] font-semibold uppercase leading-none text-frost [text-shadow:0_2px_30px_rgb(7_11_17/0.6)] min-[760px]:text-[clamp(1.8rem,4vw,3.7rem)]">
             {site.heroLeft.big}
@@ -29,7 +29,7 @@ export function Hero() {
         </span>
         <span
           aria-hidden="true"
-          className="animate-[hero-in_600ms_var(--ease-out)_80ms_both] [--from:24px] text-right min-[760px]:col-start-3"
+          className="animate-[hero-in_1800ms_var(--ease-out)_500ms_both] [--from:40px] text-right min-[760px]:col-start-3"
         >
           <span className="block font-display text-[clamp(1.8rem,9vw,2.6rem)] font-semibold uppercase leading-none text-frost [text-shadow:0_2px_30px_rgb(7_11_17/0.6)] min-[760px]:text-[clamp(1.8rem,4vw,3.7rem)]">
             {site.heroRight.big}
@@ -40,7 +40,7 @@ export function Hero() {
         </span>
       </h1>
 
-      <div className="animate-[hero-bottom-in_700ms_var(--ease-out)_250ms_both] absolute inset-x-0 bottom-0 z-20 flex flex-col items-center gap-6 px-[clamp(20px,5vw,64px)] py-7 min-[760px]:flex-row min-[760px]:flex-wrap min-[760px]:justify-between">
+      <div className="animate-[hero-bottom-in_1600ms_var(--ease-out)_900ms_both] absolute inset-x-0 bottom-0 z-20 flex flex-col items-center gap-6 px-[clamp(20px,5vw,64px)] py-7 min-[760px]:flex-row min-[760px]:flex-wrap min-[760px]:justify-between">
         <div className="flex gap-5">
           {site.socials.map((social) => (
             <a

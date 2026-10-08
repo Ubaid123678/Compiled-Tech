@@ -16,8 +16,13 @@ export function TrustStrip() {
         <Reveal className="min-w-0" delay={0.12}>
           <SectionHeading eyebrow="INDUSTRIES" className="mb-6 text-left" />
           <ul className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-5" role="list">
-            {industries.map((industry) => (
-              <li key={industry} className="border-b border-line pb-3 text-sm text-mist">{industry}</li>
+            {industries.map((industry, index) => (
+              <li key={industry} className="group border-b border-line pb-3 transition-colors duration-300 hover:border-steel" >
+                <span className="mr-3 font-mono text-xs text-steel/60 transition-colors group-hover:text-frost">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="text-sm text-mist transition-colors group-hover:text-frost">{industry}</span>
+              </li>
             ))}
           </ul>
         </Reveal>

@@ -18,12 +18,12 @@ export function StackMotionRail({ items }: StackMotionRailProps) {
         {rows.map((row, index) => (
           <div key={index} className="overflow-hidden">
             <motion.div
-              className="flex w-max gap-8"
+              className="flex w-max gap-10 will-change-transform"
               animate={reduceMotion ? undefined : { x: ["0%", "-50%"] }}
               transition={reduceMotion ? undefined : { duration: 22 + index * 4, repeat: Infinity, ease: "linear" }}
             >
               {[...row, ...row].map((item, itemIndex) => (
-                <span key={`${item}-${itemIndex}`} className="whitespace-nowrap font-mono text-xs uppercase tracking-[0.12em] text-steel transition-colors duration-300 hover:text-frost">
+                <span key={`${item}-${itemIndex}`} className="whitespace-nowrap font-mono text-sm uppercase tracking-[0.14em] text-steel transition-colors duration-300 hover:text-frost">
                   {item}
                 </span>
               ))}

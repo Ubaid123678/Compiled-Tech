@@ -20,12 +20,12 @@ export function ServicesSection() {
             <Reveal key={service.title} delay={index * 0.05}>
             <article className="group border-t border-line py-7 transition-colors duration-300 hover:border-steel">
               <div className="mb-4 flex items-start justify-between gap-5">
-                <span className="font-mono text-xs text-steel">0{index + 1}</span>
-                <h3 className="max-w-sm text-right font-display text-[clamp(1rem,1.8vw,1.25rem)] font-semibold uppercase leading-[1.3] tracking-[0.02em] text-frost">
+                <span className="font-mono text-xs text-steel transition-colors group-hover:text-frost">0{index + 1}</span>
+                <h3 className="max-w-sm text-right font-display text-[clamp(1rem,1.8vw,1.25rem)] font-semibold uppercase leading-[1.3] tracking-[0.02em] text-frost transition-transform duration-300 group-hover:-translate-x-1">
                   {service.title}
                 </h3>
               </div>
-              <p className="ml-auto max-w-sm text-right text-base leading-[1.6] text-mist">
+              <p className="ml-auto max-w-sm text-right text-base leading-[1.6] text-mist transition-colors duration-300 group-hover:text-steel">
                 {service.description}
               </p>
             </article>
