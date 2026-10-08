@@ -12,6 +12,7 @@ export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const wasOpen = useRef(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
@@ -27,7 +28,8 @@ export function Header() {
     if (open) {
       document.body.style.overflow = "hidden";
       firstLinkRef.current?.focus();
-    } else {
+      wasOpen.current = true;
+    } else if (wasOpen.current) {
       document.body.style.overflow = previous;
       menuButtonRef.current?.focus();
     }

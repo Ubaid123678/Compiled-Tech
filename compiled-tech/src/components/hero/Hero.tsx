@@ -1,0 +1,72 @@
+import { ArrowUpRight } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { site } from "@/data/site";
+import { HeroMedia } from "./HeroMedia";
+
+export function Hero() {
+  return (
+    <section
+      id="hero"
+      data-hero-frame
+      className="relative isolate mx-4 mt-4 h-[680px] overflow-hidden rounded-[28px] border border-line bg-night min-[760px]:h-[clamp(620px,56vw,800px)]"
+    >
+      <HeroMedia />
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-ink/60 via-transparent to-ink/70" />
+      <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_at_center,transparent_35%,rgb(7_11_17_/_0.75)_100%)]" />
+
+      <h1 className="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between px-[clamp(20px,5vw,64px)] pb-[120px] pt-[110px] min-[760px]:grid min-[760px]:grid-cols-[1fr_minmax(200px,28%)_1fr] min-[760px]:items-center min-[760px]:pb-[6%] min-[760px]:pt-0">
+        <span className="sr-only">{site.heroSrText}</span>
+        <span
+          aria-hidden="true"
+          className="animate-[hero-in_600ms_var(--ease-out)_both] [--from:-24px]"
+        >
+          <span className="block font-display text-[clamp(1.8rem,9vw,2.6rem)] font-semibold uppercase leading-none text-frost [text-shadow:0_2px_30px_rgb(7_11_17_/_0.6)] min-[760px]:text-[clamp(1.8rem,4vw,3.7rem)]">
+            {site.heroLeft.big}
+          </span>
+          <span className="mt-2 block font-display text-[clamp(1rem,4.5vw,1.5rem)] font-medium uppercase tracking-[0.12em] text-steel min-[760px]:text-[clamp(1rem,2.15vw,2rem)]">
+            {site.heroLeft.small}
+          </span>
+        </span>
+        <span
+          aria-hidden="true"
+          className="animate-[hero-in_600ms_var(--ease-out)_80ms_both] [--from:24px] text-right"
+        >
+          <span className="block font-display text-[clamp(1.8rem,9vw,2.6rem)] font-semibold uppercase leading-none text-frost [text-shadow:0_2px_30px_rgb(7_11_17_/_0.6)] min-[760px]:text-[clamp(1.8rem,4vw,3.7rem)]">
+            {site.heroRight.big}
+          </span>
+          <span className="mt-2 block font-display text-[clamp(1rem,4.5vw,1.5rem)] font-medium uppercase tracking-[0.12em] text-steel min-[760px]:text-[clamp(1rem,2.15vw,2rem)]">
+            {site.heroRight.small}
+          </span>
+        </span>
+      </h1>
+
+      <div className="absolute inset-x-0 bottom-0 z-20 flex flex-col items-center gap-6 px-[clamp(20px,5vw,64px)] py-7 min-[760px]:flex-row min-[760px]:flex-wrap min-[760px]:justify-between">
+        <div className="flex gap-5">
+          {site.socials.map((social) => (
+            <a
+              key={social.short}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={social.name}
+              className="min-h-11 content-center font-display text-[0.8rem] tracking-[0.12em] text-steel transition-colors hover:text-frost focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel"
+            >
+              {social.short}
+            </a>
+          ))}
+        </div>
+        <p className="hidden font-body text-[0.82rem] uppercase tracking-[0.14em] text-mist min-[900px]:block">
+          {site.heroTagline}
+        </p>
+        <div className="flex w-full gap-3 min-[760px]:w-auto">
+          <Button href="/contact" size="lg" icon={<ArrowUpRight size={16} strokeWidth={1.7} />} className="flex-1 min-[760px]:flex-none">
+            Start a Project
+          </Button>
+          <Button href={site.secondaryCta.href} variant="ghost" size="lg" className="flex-1 min-[760px]:flex-none">
+            {site.secondaryCta.label}
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
