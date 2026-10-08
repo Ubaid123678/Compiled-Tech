@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { X, Mail, MessageSquare, MapPin, LucideIcon } from "lucide-react";
 import { Container } from "./Container";
 
