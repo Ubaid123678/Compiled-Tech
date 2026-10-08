@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { X, Mail, MessageSquare, MapPin, LucideIcon } from "lucide-react";
 import { Container } from "./Container";
 import { Reveal } from "@/components/motion/Reveal";
+import { NewsletterForm } from "@/components/forms/NewsletterForm";
 
 type SocialLink = {
   label: string;
@@ -136,19 +137,7 @@ export function Footer() {
               <span className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel mb-2 md:mb-0">
                 Newsletter
               </span>
-              <form className="flex flex-col sm:flex-row gap-2 w-full sm:w-[320px]" action="/api/newsletter" method="POST">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Enter your email"
-                  required
-                  className="flex-1 bg-night border border-line rounded-[12px] px-4 py-3 text-frost placeholder:text-mist/40 focus:outline-none focus:border-steel transition-colors text-sm"
-                  aria-label="Email address"
-                />
-                <Button type="submit" variant="primary" size="md" className="whitespace-nowrap">
-                  Subscribe
-                </Button>
-              </form>
+              <NewsletterForm />
             </div>
             <div className="border-t border-line pt-8 w-full md:w-auto md:border-t-0 md:border-l md:pl-8">
               <p className="text-mist/50 text-sm">

@@ -9,7 +9,7 @@ export const contactSchema = z.object({
   timeline: z.string().min(1, "Select a timeline"),
   details: z.string().min(20, "Tell us a little more (at least 20 characters)"),
   website: z.string().optional(), // honeypot
-  "cf-turnstile-response": z.string().min(1, "Verification failed"),
+  "cf-turnstile-response": z.string().optional(),
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;

@@ -3,10 +3,10 @@ import { Resend } from "resend";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+const getResend = () => new Resend(process.env.RESEND_API_KEY || "re_dummy");
+const getSupabase = () => createClient(
+  process.env.SUPABASE_URL || "http://localhost:54321",
+  process.env.SUPABASE_SERVICE_ROLE_KEY || "dummy"
 );
 
 const newsletterSchema = z.object({
@@ -15,7 +15,10 @@ const newsletterSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    const contentType = req.headers.get("content-type") || "";
+    const body = contentType.includes("application/json")
+      ? await req.json()
+      : Object.fromEntries((await req.formData()).entries());
     const parsed = newsletterSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
@@ -26,7 +29,7 @@ export async function POST(req: NextRequest) {
 
     const { email } = parsed.data;
 
-    const { error } = await supabase.from("newsletter").insert({
+    const { error } = await getSupabase().from("newsletter").insert({
       email,
       created_at: new Date().toISOString(),
     });
@@ -39,7 +42,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
     }
 
-    await resend.emails.send({
+    await getResend().emails.send({
       from: "Compiled Tech <onboarding@resend.dev>",
       to: email,
       subject: "Welcome to Compiled Tech insights",

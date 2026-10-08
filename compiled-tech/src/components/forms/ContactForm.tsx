@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import Script from "next/script";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle, AlertCircle } from "lucide-react";
@@ -13,18 +14,57 @@ export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef<HTMLDivElement>(null);
+  const turnstileWidgetId = useRef<string | null>(null);
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   const {
+    register,
     handleSubmit,
     control,
     reset,
-    setValue,
+    setError,
     formState: { errors },
   } = useForm<ContactInput>({
     resolver: zodResolver(contactSchema),
+    mode: "onBlur",
   });
 
+  useEffect(() => {
+    if (!siteKey || !turnstileRef.current) return;
+
+    const renderWidget = () => {
+      if (!turnstileRef.current || !window.turnstile || turnstileWidgetId.current) return;
+      turnstileWidgetId.current = window.turnstile.render(turnstileRef.current, {
+        sitekey: siteKey,
+        callback: setTurnstileToken,
+        "error-callback": () => setTurnstileToken(""),
+        "expired-callback": () => setTurnstileToken(""),
+      });
+    };
+
+    if (window.turnstile) {
+      renderWidget();
+    } else {
+      window.addEventListener("turnstile:ready", renderWidget);
+    }
+
+    return () => {
+      window.removeEventListener("turnstile:ready", renderWidget);
+      if (turnstileWidgetId.current && window.turnstile) {
+        window.turnstile.remove(turnstileWidgetId.current);
+        turnstileWidgetId.current = null;
+      }
+    };
+  }, [siteKey]);
+
   const onSubmit = async (data: ContactInput) => {
+    if (!turnstileToken) {
+      setStatus("error");
+      setMessage("Please complete the verification before sending.");
+      return;
+    }
+
     setStatus("submitting");
     setMessage("");
 
@@ -38,7 +78,15 @@ export function ContactForm() {
       const json = await res.json();
 
       if (!res.ok) {
-        throw new Error(json.error || "Something went wrong");
+        if (json.fieldErrors) {
+          Object.entries(json.fieldErrors).forEach(([field, messages]) => {
+            const message = Array.isArray(messages) ? messages[0] : undefined;
+            if (message && field in data) {
+              setError(field as keyof ContactInput, { type: "server", message });
+            }
+          });
+        }
+        throw new Error(json.error || "Something went wrong. Try again, or email us at " + data.email + ".");
       }
 
       setStatus("success");
@@ -47,7 +95,7 @@ export function ContactForm() {
       setTurnstileToken("");
     } catch (err) {
       setStatus("error");
-      setMessage(err instanceof Error ? err.message : "Something went wrong. Try again, or email us directly.");
+      setMessage(err instanceof Error ? err.message : `Something went wrong. Try again, or email us at ${data.email}.`);
     }
   };
 
@@ -56,7 +104,15 @@ export function ContactForm() {
   const timelineOptions = contactFields.timeline as unknown as string[];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
+    <>
+      {siteKey && (
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+          strategy="afterInteractive"
+          onLoad={() => window.dispatchEvent(new Event("turnstile:ready"))}
+        />
+      )}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
       <FormField
         control={control}
         name="name"
@@ -125,27 +181,28 @@ export function ContactForm() {
         rules={{ required: "Tell us a little more (at least 20 characters)" }}
       />
 
-      {/* Honeypot */}
-      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" {...register("website")} />
+      {/* Honeypot - hidden field, validated by API */}
+      <input type="text" {...register("website")} tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
 
       {/* Turnstile */}
-      <div
-        className="cf-turnstile"
-        data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-        data-callback={(token: string) => setTurnstileToken(token)}
-        data-error-callback={() => setTurnstileToken("")}
-      />
+      {siteKey ? (
+        <div ref={turnstileRef} aria-label="Security verification" />
+      ) : (
+        <p className="text-sm text-steel" role="status">
+          Verification is not configured yet. Add the Turnstile keys to enable submissions.
+        </p>
+      )}
 
       {status === "success" && (
         <div className="flex items-start gap-3 p-4 rounded-[12px] bg-green-900/30 border border-green-500/30" role="status">
-          <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <CheckCircle className="mt-0.5 size-5 shrink-0 text-green-400" aria-hidden="true" />
           <p className="text-green-300">{message}</p>
         </div>
       )}
 
       {status === "error" && (
         <div className="flex items-start gap-3 p-4 rounded-[12px] bg-red-900/30 border border-red-500/30" role="alert">
-          <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <AlertCircle className="mt-0.5 size-5 shrink-0 text-red-400" aria-hidden="true" />
           <p className="text-red-300">{message}</p>
         </div>
       )}
@@ -153,6 +210,21 @@ export function ContactForm() {
       <Button type="submit" size="lg" className="w-full sm:w-auto" loading={status === "submitting"}>
         {status === "submitting" ? "Sending..." : "Send Message"}
       </Button>
-    </form>
+      </form>
+    </>
   );
+}
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: HTMLElement, options: {
+        sitekey: string;
+        callback: (token: string) => void;
+        "error-callback": () => void;
+        "expired-callback": () => void;
+      }) => string;
+      remove: (widgetId: string) => void;
+    };
+  }
 }

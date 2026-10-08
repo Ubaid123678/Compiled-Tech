@@ -16,6 +16,27 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Contact form setup
+
+Copy `.env.example` to `.env.local` and fill in the following values before testing a
+submission:
+
+- `RESEND_API_KEY`: create an API key in the Resend dashboard.
+- `CONTACT_TO_EMAIL`: the inbox that should receive new project inquiries.
+- `SUPABASE_URL`: the project URL from Supabase project settings.
+- `SUPABASE_SERVICE_ROLE_KEY`: the server-only service role key from Supabase API settings.
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY`: the public site key from a Cloudflare Turnstile widget.
+- `TURNSTILE_SECRET_KEY`: the matching private Turnstile secret key.
+
+The service role key and Turnstile secret must only exist in server environment variables.
+Never expose them through `NEXT_PUBLIC_*` variables or commit `.env.local`.
+
+The contact route writes to a Supabase table named `leads` with columns for `name`,
+`email`, `company`, `service`, `budget`, `timeline`, `details`, and `created_at`.
+Create that table with appropriate text/timestamp columns before sending a live
+submission. Replace the placeholder contact details and Cal.com URL in
+`src/data/contact.ts` with your real email, WhatsApp link, location, and booking URL.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
