@@ -1,13 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export function HeroMedia() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoEnabled, setVideoEnabled] = useState(false);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 80, damping: 20 });
@@ -18,17 +17,12 @@ export function HeroMedia() {
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     if (media.matches || window.innerWidth < 900 || connection?.saveData) return;
 
-    const enableVideo = () => setVideoEnabled(true);
-    if (document.readyState === "complete") enableVideo();
-    else window.addEventListener("load", enableVideo, { once: true });
-
-    return () => window.removeEventListener("load", enableVideo);
+    const video = videoRef.current;
+    const startVideo = () => video?.play().catch(() => undefined);
+    startVideo();
+    window.addEventListener("load", startVideo, { once: true });
+    return () => window.removeEventListener("load", startVideo);
   }, []);
-
-  useEffect(() => {
-    if (!videoEnabled) return;
-    videoRef.current?.play().catch(() => undefined);
-  }, [videoEnabled]);
 
   useEffect(() => {
     const frame = wrapperRef.current?.closest<HTMLElement>("[data-hero-frame]");
@@ -69,20 +63,27 @@ export function HeroMedia() {
         sizes="100vw"
         className="object-cover"
       />
-      {videoEnabled && (
-        <video
-          ref={videoRef}
-          className="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-[600ms] [&.is-playing]:opacity-100"
-          muted
-          loop
-          playsInline
-          aria-hidden="true"
-          onPlaying={(event) => event.currentTarget.classList.add("is-playing")}
-          onError={(event) => event.currentTarget.classList.remove("is-playing")}
-        >
-          <source src="/hero/hero.mp4" type="video/mp4" />
-        </video>
-      )}
+      <video
+        ref={videoRef}
+        className="hero-video absolute inset-0 z-[1] size-full object-cover opacity-100 transition-opacity duration-200 [&.is-looping]:opacity-0"
+        autoPlay
+        muted
+        playsInline
+        preload="auto"
+        poster="/hero/poster.webp"
+        aria-hidden="true"
+        onError={(event) => event.currentTarget.classList.remove("is-playing")}
+        onEnded={(event) => {
+          const video = event.currentTarget;
+          video.classList.add("is-looping");
+          video.currentTime = 0;
+          void video.play().then(() => {
+            window.setTimeout(() => video.classList.remove("is-looping"), 180);
+          }).catch(() => video.classList.remove("is-looping"));
+        }}
+      >
+        <source src="/hero/hero.mp4" type="video/mp4" media="(min-width: 900px)" />
+      </video>
     </motion.div>
   );
 }

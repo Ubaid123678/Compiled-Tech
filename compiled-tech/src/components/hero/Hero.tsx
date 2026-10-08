@@ -8,17 +8,17 @@ export function Hero() {
     <section
       id="hero"
       data-hero-frame
-      className="relative isolate mx-4 mt-4 h-[680px] overflow-hidden rounded-[28px] border border-line bg-night min-[760px]:h-[clamp(620px,56vw,800px)]"
+      className="relative isolate mx-4 mt-4 h-[680px] overflow-hidden rounded-[28px] border border-line bg-night min-[760px]:h-[calc(100dvh-16px)] min-[760px]:min-h-[620px]"
     >
       <HeroMedia />
       <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-ink/60 via-transparent to-ink/70" />
       <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_at_center,transparent_35%,rgb(7_11_17_/_0.75)_100%)]" />
 
       <h1 className="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between px-[clamp(20px,5vw,64px)] pb-[120px] pt-[110px] min-[760px]:grid min-[760px]:grid-cols-[1fr_minmax(200px,28%)_1fr] min-[760px]:items-center min-[760px]:pb-[6%] min-[760px]:pt-0">
-        <span className="sr-only">{site.heroSrText}</span>
+        <span className="sr-only absolute">{site.heroSrText}</span>
         <span
           aria-hidden="true"
-          className="animate-[hero-in_600ms_var(--ease-out)_both] [--from:-24px]"
+          className="animate-[hero-in_600ms_var(--ease-out)_both] [--from:-24px] min-[760px]:col-start-1"
         >
           <span className="block font-display text-[clamp(1.8rem,9vw,2.6rem)] font-semibold uppercase leading-none text-frost [text-shadow:0_2px_30px_rgb(7_11_17_/_0.6)] min-[760px]:text-[clamp(1.8rem,4vw,3.7rem)]">
             {site.heroLeft.big}
@@ -29,7 +29,7 @@ export function Hero() {
         </span>
         <span
           aria-hidden="true"
-          className="animate-[hero-in_600ms_var(--ease-out)_80ms_both] [--from:24px] text-right"
+          className="animate-[hero-in_600ms_var(--ease-out)_80ms_both] [--from:24px] text-right min-[760px]:col-start-3"
         >
           <span className="block font-display text-[clamp(1.8rem,9vw,2.6rem)] font-semibold uppercase leading-none text-frost [text-shadow:0_2px_30px_rgb(7_11_17_/_0.6)] min-[760px]:text-[clamp(1.8rem,4vw,3.7rem)]">
             {site.heroRight.big}

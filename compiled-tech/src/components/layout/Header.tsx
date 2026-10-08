@@ -66,8 +66,10 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 h-[72px] transition-all duration-[250ms] ease-out ${
-          scrolled ? "h-[60px] border-b border-line bg-ink/80 backdrop-blur-[14px]" : "bg-transparent"
+        className={`fixed inset-x-0 z-50 h-[72px] transition-all duration-[250ms] ease-out ${
+          scrolled
+            ? "top-0 h-[60px] border-b border-line bg-ink/80 backdrop-blur-[14px]"
+            : "top-4 bg-transparent"
         }`}
       >
         <div className="mx-auto flex h-full items-center justify-between px-[calc(16px+clamp(20px,5vw,64px))]">
