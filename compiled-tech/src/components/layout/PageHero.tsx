@@ -11,16 +11,16 @@ type PageHeroProps = {
 
 export function PageHero({ title, lead, breadcrumbs, className, showHexagon = true }: PageHeroProps) {
   return (
-    <header className={cn("relative py-12 lg:py-16 bg-ink", className)}>
+    <header className={cn("relative pb-12 pt-28 lg:pb-16 lg:pt-32 bg-ink", className)}>
       {showHexagon && (
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[300px] h-[300px] max-w-[40vw] opacity-[0.03] pointer-events-none" aria-hidden="true">
-          <svg viewBox="0 0 32 32" fill="none" className="w-full h-full text-frost">
+        <div className="pointer-events-none absolute right-0 top-1/2 h-75 w-75 max-w-[40vw] -translate-y-1/2 opacity-[0.03]" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" className="h-full w-full text-frost">
             <rect width="32" height="32" rx="6" stroke="currentColor" strokeWidth="1.5" />
             <path d="M16 8 L16 24 M8 16 L24 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </div>
       )}
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16 relative z-10">
+      <div className="relative z-10 mx-auto max-w-300 px-4 sm:px-6 lg:px-16">
         {breadcrumbs && breadcrumbs.length > 0 && (
           <Breadcrumbs items={breadcrumbs} className="mb-6" />
         )}

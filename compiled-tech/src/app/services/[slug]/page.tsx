@@ -9,7 +9,9 @@ import { CTABand } from "@/components/sections/CTABand";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Chip } from "@/components/content/Chip";
+import { Footer } from "@/components/layout/Footer";
 import { pillars } from "@/data/services";
+import { Suspense } from "react";
 
 type ServiceDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -19,12 +21,11 @@ export async function generateStaticParams() {
   return pillars.map((p) => ({ slug: p.slug }));
 }
 
-export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {
-  const { slug } = await params;
+function ServiceDetailContent({ slug }: { slug: string }) {
   const pillar = pillars.find((p) => p.slug === slug);
 
   if (!pillar) {
-    return null; // will trigger 404
+    return null;
   }
 
   const howItWorks = [
@@ -34,8 +35,9 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
   ];
 
   const techWeUse = [
-    "Next.js", "React", "TypeScript", "Node.js", "Python",
-    "PostgreSQL", "Tailwind", "Docker", "Vercel", "AWS"
+    "React", "Next.js", "TypeScript", "Node.js", "Python",
+    "Flutter", "React Native", "Angular", "Laravel",
+    "MongoDB", "MySQL", "PostgreSQL"
   ];
 
   const relatedWork = ["saas-analytics", "service-marketplace", "document-extractor"].slice(0, 2);
@@ -142,6 +144,17 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
       </Section>
 
       <CTABand />
+      <Footer />
     </>
+  );
+}
+
+export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {
+  const { slug } = await params;
+
+  return (
+    <Suspense fallback={<div className="py-16 lg:py-26" />}>
+      <ServiceDetailContent slug={slug} />
+    </Suspense>
   );
 }

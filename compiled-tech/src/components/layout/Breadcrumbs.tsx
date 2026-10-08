@@ -20,7 +20,7 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
             {item.href ? (
               <Link
                 href={item.href}
-                className="font-display uppercase text-[0.72rem] tracking-[0.12em] text-mist/60 hover:text-frost transition-colors"
+                className="inline-flex min-h-9 items-center rounded-full border border-line px-3 font-display uppercase text-[0.72rem] tracking-[0.12em] text-mist/70 transition-[color,border-color,background-color,transform] hover:border-steel/60 hover:bg-slate/60 hover:text-frost active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-steel"
               >
                 {item.label}
               </Link>

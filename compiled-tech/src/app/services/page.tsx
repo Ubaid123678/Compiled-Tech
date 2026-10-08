@@ -7,6 +7,7 @@ import { pillars, plusStrip } from "@/data/services";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Reveal } from "@/components/motion/Reveal";
+import { Footer } from "@/components/layout/Footer";
 
 export default function ServicesPage() {
   return (
@@ -51,7 +52,7 @@ export default function ServicesPage() {
                           name={service.name}
                           line={service.line}
                           icon={getServiceIcon(service.name)}
-                          href={`/services/${pillar.slug}#${service.name.toLowerCase().replace(/\s+/g, "-")}`}
+                          href={`/services/${pillar.slug}`}
                         />
                       </Reveal>
                     ))}
@@ -66,6 +67,8 @@ export default function ServicesPage() {
           </Reveal>
         </Container>
       </Section>
+
+      <Footer />
     </>
   );
 }

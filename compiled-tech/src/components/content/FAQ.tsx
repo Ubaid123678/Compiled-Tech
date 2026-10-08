@@ -34,13 +34,10 @@ function FAQItemComponent({ item, index }: { item: FAQItem; index: number }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <details className="group rounded-[12px] border border-line bg-night overflow-hidden">
-      <summary
-        className="flex items-center justify-between w-full px-6 py-5 text-left cursor-pointer list-none focus-visible:outline-2 focus-visible:outline-steel focus-visible:outline-offset-3"
-        onClick={(e) => {
-          e.preventDefault();
-          setOpen(!open);
-        }}
+    <div className="group rounded-[12px] border border-line bg-night overflow-hidden">
+      <button
+        className="flex items-center justify-between w-full px-6 py-5 text-left focus-visible:outline-2 focus-visible:outline-steel focus-visible:outline-offset-3"
+        onClick={() => setOpen(!open)}
         aria-expanded={open}
       >
         <span className="font-display uppercase text-[0.78rem] tracking-[0.1em] text-steel pr-4">
@@ -54,7 +51,7 @@ function FAQItemComponent({ item, index }: { item: FAQItem; index: number }) {
         >
           <ChevronDown className="w-5 h-5" aria-hidden="true" />
         </motion.div>
-      </summary>
+      </button>
       <AnimatePresence>
         {open && (
           <motion.div
@@ -70,6 +67,6 @@ function FAQItemComponent({ item, index }: { item: FAQItem; index: number }) {
           </motion.div>
         )}
       </AnimatePresence>
-    </details>
+    </div>
   );
 }
