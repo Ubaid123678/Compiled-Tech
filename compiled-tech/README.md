@@ -18,6 +18,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Contact form setup
 
+For the complete setup walkthrough, see [CONTACT_SETUP.md](./CONTACT_SETUP.md).
+
 Copy `.env.example` to `.env.local` and fill in the following values before testing a
 submission:
 
