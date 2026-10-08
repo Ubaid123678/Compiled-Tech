@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 
@@ -9,7 +10,7 @@ type ServiceTileProps = {
 };
 
 export function ServiceTile({ name, line, icon, href }: ServiceTileProps) {
-  const content = (
+  return (
     <article className="group relative rounded-[20px] border border-line bg-night p-6 transition-all duration-300 ease-out hover:border-steel/40 hover:shadow-[0_10px_30px_rgb(185_198_212_/_0.25)] hover:-translate-y-1">
       <div className="text-steel mb-4" aria-hidden="true">
         {icon}
@@ -29,9 +30,4 @@ export function ServiceTile({ name, line, icon, href }: ServiceTileProps) {
       )}
     </article>
   );
-
-  if (href) {
-    return <Link href={href} className="block">{content}</Link>;
-  }
-  return content;
 }

@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { Mail, MessageSquare, MapPin } from "lucide-react";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { BookingEmbed } from "@/components/forms/BookingEmbed";
+import { Footer } from "@/components/layout/Footer";
 import { contactInfo } from "@/data/contact";
-import { CTABand } from "@/components/sections/CTABand";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -23,7 +23,7 @@ export default function ContactPage() {
   return (
     <>
       <section className="bg-linear-to-b from-ink via-night/50 to-ink py-16 lg:py-26">
-        <div className="mx-auto max-w-300 px-4 sm:px-6 lg:px-16">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16">
           <motion.div
             className="text-center max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 24 }}
@@ -41,7 +41,7 @@ export default function ContactPage() {
       </section>
 
       <section className="py-16 lg:py-26">
-        <div className="mx-auto max-w-300 px-4 sm:px-6 lg:px-16">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16">
           <div className="grid gap-12 lg:grid-cols-[3fr_2fr]">
             <motion.div
               variants={containerVariants}
@@ -59,7 +59,7 @@ export default function ContactPage() {
               className="block lg:sticky lg:top-24 lg:self-start"
             >
               <div className="space-y-8">
-                <div className="rounded-card border border-line bg-night p-6 lg:p-8">
+                <div className="rounded-[20px] border border-line bg-night p-6 lg:p-8">
                   <h3 className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel mb-6">
                     Get in touch
                   </h3>
@@ -100,7 +100,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <CTABand />
+      <Footer />
     </>
   );
 }
