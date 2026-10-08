@@ -11,7 +11,7 @@ type FAQItem = {
 };
 
 type FAQProps = {
-  items: FAQItem[];
+  items: readonly FAQItem[];
   className?: string;
 };
 

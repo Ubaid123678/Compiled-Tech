@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { X, Mail, MessageSquare, MapPin, LucideIcon } from "lucide-react";
 import { Container } from "./Container";
@@ -75,10 +76,13 @@ export function Footer() {
         <Reveal className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-16 mb-16">
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-3 mb-4" aria-label="Compiled Tech home">
-              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true" className="text-frost">
-                <rect width="32" height="32" rx="6" fill="currentColor" />
-                <path d="M16 8 L16 24 M8 16 L24 16" stroke="#070B11" strokeWidth="3" strokeLinecap="round" />
-              </svg>
+              <Image
+                src="/logo/compiled-tech-icon-for-dark-bg.svg"
+                alt=""
+                width={28}
+                height={28}
+                className="text-frost"
+              />
               <span className="font-display font-semibold text-[0.9rem] tracking-[0.16em] uppercase text-frost">
                 COMPILED TECH
               </span>
