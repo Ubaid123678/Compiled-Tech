@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { X, Mail, MessageSquare, MapPin, LucideIcon } from "lucide-react";
 import { Container } from "./Container";
+import { Reveal } from "@/components/motion/Reveal";
 
 type SocialLink = {
   label: string;
@@ -70,7 +71,7 @@ export function Footer() {
   return (
     <footer className="bg-night border-t border-line">
       <Container className="py-16 lg:py-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16 mb-16">
+        <Reveal className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-16 mb-16">
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-3 mb-4" aria-label="Compiled Tech home">
               <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true" className="text-frost">
@@ -127,7 +128,7 @@ export function Footer() {
               )}
             </div>
           ))}
-        </div>
+        </Reveal>
 
         <div className="border-t border-line pt-12">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 mb-12">

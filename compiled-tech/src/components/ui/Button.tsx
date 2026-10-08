@@ -31,7 +31,7 @@ export function Button({
     "group inline-flex min-h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full font-display text-[0.72rem] font-semibold uppercase tracking-[0.14em] transition-all duration-250 ease-out focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel active:translate-y-px disabled:pointer-events-none disabled:opacity-50",
     size === "lg" ? "h-12 px-6" : size === "icon-sm" ? "size-7 px-0" : "h-11 px-6",
     variant === "primary" &&
-      "bg-steel text-ink hover:-translate-y-0.5 hover:bg-frost hover:shadow-[0_10px_30px_rgb(185_198_212_/_0.25)]",
+      "bg-steel text-ink hover:-translate-y-0.5 hover:bg-frost hover:shadow-[0_10px_30px_rgb(185_198_212/0.25)]",
     variant === "ghost" &&
       "border border-line bg-transparent text-frost hover:-translate-y-0.5 hover:border-steel/50 hover:bg-slate",
     variant === "outline" &&

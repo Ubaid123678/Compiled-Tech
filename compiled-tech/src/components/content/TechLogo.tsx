@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import type { SimpleIcon } from "simple-icons";
 import {
   siReact,
   siNextdotjs,
@@ -13,7 +14,7 @@ import {
   siPostgresql,
 } from "simple-icons";
 
-const techLogos: Record<string, { icon: any; color?: string }> = {
+const techLogos: Record<string, { icon: SimpleIcon; color?: string }> = {
   React: { icon: siReact, color: "#61DAFB" },
   "Next.js": { icon: siNextdotjs, color: "#000000" },
   TypeScript: { icon: siTypescript, color: "#3178C6" },
@@ -39,10 +40,10 @@ export function TechLogo({ name, size = 32, className }: TechLogoProps) {
 
   return (
     <svg
-      className={cn("flex-shrink-0 text-steel transition-colors hover:text-frost", className)}
+      className={cn("shrink-0 text-steel transition-colors hover:text-frost", className)}
       width={size}
       height={size}
-      viewBox={icon.viewBox}
+      viewBox="0 0 24 24"
       fill={color || "currentColor"}
       aria-hidden="true"
     >

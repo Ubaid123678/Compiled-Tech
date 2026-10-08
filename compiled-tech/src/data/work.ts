@@ -5,7 +5,7 @@ export const featuredWork = [
     title: "Service marketplace app",
     line: "Customers book local services and track them in real time.",
     stack: ["React Native", "Node.js", "MongoDB"],
-    image: "/work/service-marketplace.webp",
+    image: "/hero/poster.svg",
     sample: true,
   },
   {
@@ -14,7 +14,7 @@ export const featuredWork = [
     title: "Document extractor",
     line: "Turns invoices and forms into structured data.",
     stack: ["Python", "FastAPI", "Next.js"],
-    image: "/work/document-extractor.webp",
+    image: "/hero/poster.svg",
     sample: true,
   },
   {
@@ -23,7 +23,7 @@ export const featuredWork = [
     title: "SaaS analytics dashboard",
     line: "Live charts and reports for a subscription product.",
     stack: ["Next.js", "PostgreSQL", "Tailwind"],
-    image: "/work/saas-analytics.webp",
+    image: "/hero/poster.svg",
     sample: true,
   },
 ] as const;

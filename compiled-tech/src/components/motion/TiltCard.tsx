@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { cn } from "@/lib/utils";
 
 type TiltCardProps = {
@@ -21,21 +21,22 @@ export function TiltCard({
 }: TiltCardProps) {
   const ref = useRef<HTMLElement>(null);
   const [isTouch, setIsTouch] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const prefersReducedMotion = useSyncExternalStore(
+    (onStoreChange) => {
+      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      mediaQuery.addEventListener("change", onStoreChange);
+      return () => mediaQuery.removeEventListener("change", onStoreChange);
+    },
+    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    () => false,
+  );
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
   const rotateX = useSpring(useTransform(y, [-1, 1], [maxTilt, -maxTilt]), { stiffness: 150, damping: 15 });
   const rotateY = useSpring(useTransform(x, [-1, 1], [-maxTilt, maxTilt]), { stiffness: 150, damping: 15 });
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
+  const glareOpacity = useSpring(useTransform(rotateY, [-maxTilt, maxTilt], [0, 0.15]), { stiffness: 150, damping: 15 });
 
   useEffect(() => {
     const handler = () => setIsTouch(true);
@@ -63,7 +64,7 @@ export function TiltCard({
     <Component
       ref={ref}
       className={cn(
-        "relative rounded-[20px] border border-line bg-night overflow-hidden transition-all duration-250 ease-out hover:border-steel/40 hover:shadow-[0_10px_30px_rgb(185_198_212_/_0.25)]",
+        "relative rounded-card border border-line bg-night overflow-hidden transition-all duration-250 ease-out hover:border-steel/40 hover:shadow-[0_10px_30px_rgb(185_198_212/0.25)]",
         className
       )}
       onMouseMove={onMouseMove}
@@ -74,9 +75,9 @@ export function TiltCard({
     >
       {glare && (
         <motion.div
-          className="absolute inset-0 pointer-events-none bg-gradient-to-br from-transparent via-white/5 to-transparent"
+          className="absolute inset-0 pointer-events-none bg-linear-to-br from-transparent via-white/5 to-transparent"
           style={{
-            opacity: prefersReducedMotion ? 0 : useSpring(useTransform(rotateY, [-maxTilt, maxTilt], [0, 0.15]), { stiffness: 150, damping: 15 }),
+            opacity: prefersReducedMotion ? 0 : glareOpacity,
           }}
         />
       )}

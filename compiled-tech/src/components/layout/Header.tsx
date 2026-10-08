@@ -66,9 +66,9 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 z-50 h-[72px] transition-all duration-[250ms] ease-out ${
+        className={`animate-[header-in_700ms_var(--ease-out)_both] fixed inset-x-0 z-50 h-18 transition-all duration-250 ease-out ${
           scrolled
-            ? "top-0 h-[60px] border-b border-line bg-ink/80 backdrop-blur-[14px]"
+            ? "top-0 h-15 border-b border-line bg-ink/80 backdrop-blur-[14px]"
             : "top-4 bg-transparent"
         }`}
       >
@@ -87,7 +87,7 @@ export function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative font-body text-[0.92rem] tracking-[0.04em] transition-colors after:absolute after:bottom-[-5px] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-frost after:transition-transform after:duration-150 hover:text-frost hover:after:scale-x-100 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel ${
+                  className={`relative font-body text-[0.92rem] tracking-[0.04em] transition-colors after:absolute after:-bottom-1.25 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-frost after:transition-transform after:duration-150 hover:text-frost hover:after:scale-x-100 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel ${
                     active ? "text-frost after:scale-x-100" : "text-mist/88"
                   }`}
                 >
@@ -141,7 +141,7 @@ export function Header() {
                     ref={index === 0 ? firstLinkRef : undefined}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="font-display text-[clamp(1.4rem,4vw,2rem)] uppercase tracking-[0.1em] text-frost focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-steel"
+                    className="font-display text-[clamp(1.4rem,4vw,2rem)] uppercase tracking-widest text-frost focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-steel"
                   >
                     {item.label}
                   </Link>

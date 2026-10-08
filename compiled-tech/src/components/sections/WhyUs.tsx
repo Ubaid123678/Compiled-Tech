@@ -1,6 +1,7 @@
 import { SectionHeading } from "@/components/content/SectionHeading";
 import { WhyItem } from "@/components/cards/WhyItem";
 import { Check, Users, FileText, Shield } from "lucide-react";
+import { Reveal } from "@/components/motion/Reveal";
 
 const whyItems = [
   {
@@ -28,15 +29,19 @@ const whyItems = [
 export function WhyUs() {
   return (
     <section id="why" aria-labelledby="why-heading">
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16 py-16 lg:py-26">
-        <SectionHeading
-          id="why-heading"
-          h2="Why Compiled Tech"
-          className="mb-12 lg:mb-16"
-        />
+      <div className="mx-auto max-w-300 px-4 sm:px-6 lg:px-16 py-16 lg:py-26">
+        <Reveal>
+          <SectionHeading
+            id="why-heading"
+            h2="Why CompileTech"
+            className="mb-12 lg:mb-16"
+          />
+        </Reveal>
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {whyItems.map((item, i) => (
-            <WhyItem key={i} {...item} />
+            <Reveal key={i} delay={i * 0.08}>
+              <WhyItem {...item} />
+            </Reveal>
           ))}
         </div>
         {/* Testimonial slot - hidden until real quotes exist */}

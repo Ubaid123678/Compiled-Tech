@@ -33,7 +33,7 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
   return (
     <html suppressHydrationWarning lang="en" className={`${orbitron.variable} ${exo.variable} ${jetbrains.variable} h-full antialiased`}>
       <body suppressHydrationWarning className="min-h-full bg-ink font-body text-mist antialiased">
-        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-steel focus:px-4 focus:py-3 focus:font-display focus:text-xs focus:text-ink">
+        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-full focus:bg-steel focus:px-4 focus:py-3 focus:font-display focus:text-xs focus:text-ink">
           Skip to content
         </a>
         <Header />

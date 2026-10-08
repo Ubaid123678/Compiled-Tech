@@ -25,6 +25,40 @@
     transform: translateX(var(--from, 0px));
   }
 
+  @keyframes page-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes header-in {
+    from {
+      opacity: 0;
+      transform: translateY(-18px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes hero-bottom-in {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -39,6 +73,7 @@ body {
   background: var(--color-ink);
   color: var(--color-mist);
   font-family: var(--font-body);
+  animation: page-in 700ms var(--ease-out) both;
 }
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -52,5 +87,9 @@ body {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  body {
+    animation: none;
   }
 }

@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
+import { Reveal } from "@/components/motion/Reveal";
 
 type CTABandProps = {
   title?: string;
@@ -23,9 +23,9 @@ export function CTABand({
   className,
 }: CTABandProps) {
   return (
-    <section className={cn("relative isolate overflow-hidden rounded-[28px] border border-line bg-gradient-to-b from-ink via-night/50 to-ink py-16 lg:py-24 px-6 lg:px-12 text-center", className)}>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(185_198_212_/_0.03)_0%,transparent_70%)]" aria-hidden="true" />
-      <div className="relative z-10 max-w-3xl mx-auto">
+    <section className={cn("relative isolate overflow-hidden rounded-frame border border-line bg-linear-to-b from-ink via-night/50 to-ink px-6 py-16 text-center lg:px-12 lg:py-24", className)}>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(185_198_212/0.03)_0%,transparent_70%)]" aria-hidden="true" />
+      <Reveal className="relative z-10 mx-auto max-w-3xl">
         <h2 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.5rem,3.2vw,2.4rem)] leading-[1.15] mb-4">
           {title}
         </h2>
@@ -40,7 +40,7 @@ export function CTABand({
             {secondaryLabel}
           </Button>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

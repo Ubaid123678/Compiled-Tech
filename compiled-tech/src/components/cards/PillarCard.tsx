@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { TiltCard } from "@/components/motion/TiltCard";
-import { cn } from "@/lib/utils";
 import { pillars } from "@/data/services";
 
 type PillarCardProps = {
@@ -23,7 +22,7 @@ export function PillarCard({ index, href }: PillarCardProps) {
         <p className="text-mist text-base leading-[1.6] mb-6 flex-1">{pillar.line}</p>
         <ul className="space-y-2 mb-6" role="list">
           {pillar.items.map((item, i) => (
-            <li key={i} className="flex items-start gap-2 text-mist/80 text-sm leading-[1.5]">
+            <li key={i} className="flex items-start gap-2 text-sm leading-normal text-mist/80">
               <span className="font-mono text-steel mt-1">–</span>
               <span>{item}</span>
             </li>

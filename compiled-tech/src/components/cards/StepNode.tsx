@@ -14,7 +14,7 @@ export function StepNode({ number, title, active, className }: StepNodeProps) {
         className={cn(
           "flex size-16 shrink-0 items-center justify-center rounded-full border-2 font-display font-semibold uppercase text-[1.2rem] tracking-[0.02em] transition-all duration-400 ease-out",
           active
-            ? "border-frost bg-frost text-ink shadow-[0_0_30px_rgb(233_239_246_/_0.4)]"
+            ? "border-frost bg-frost text-ink shadow-[0_0_30px_rgb(233_239_246/0.4)]"
             : "border-line text-mist/60 hover:border-steel/50"
         )}
         aria-current={active ? "step" : undefined}
