@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { CheckCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { FormField } from "@/components/forms/FormField";
 import { contactSchema, type ContactInput } from "@/lib/validation";
@@ -12,12 +12,13 @@ import { contactFields } from "@/data/contact";
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   const {
-    register,
     handleSubmit,
     control,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<ContactInput>({
     resolver: zodResolver(contactSchema),
@@ -31,31 +32,28 @@ export function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, "cf-turnstile-response": turnstileToken }),
       });
 
       const json = await res.json();
 
       if (!res.ok) {
-        if (json.error && typeof json.error === "object") {
-          // Field errors
-          Object.entries(json.error).forEach(([key, val]) => {
-            if (Array.isArray(val)) {
-              // Trigger field error display via setError
-            }
-          });
-        }
         throw new Error(json.error || "Something went wrong");
       }
 
       setStatus("success");
       setMessage(`Thanks, ${data.name}. We got your message and will reply within one working day. A copy is on its way to your email.`);
       reset();
+      setTurnstileToken("");
     } catch (err) {
       setStatus("error");
       setMessage(err instanceof Error ? err.message : "Something went wrong. Try again, or email us directly.");
     }
   };
+
+  const serviceOptions = contactFields.service as unknown as string[];
+  const budgetOptions = contactFields.budget as unknown as string[];
+  const timelineOptions = contactFields.timeline as unknown as string[];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
@@ -92,7 +90,7 @@ export function ContactForm() {
         name="service"
         label="Service"
         type="select"
-        options={contactFields.service}
+        options={serviceOptions}
         error={errors.service?.message}
         rules={{ required: "Select a service" }}
       />
@@ -102,7 +100,7 @@ export function ContactForm() {
         name="budget"
         label="Budget (USD)"
         type="select"
-        options={contactFields.budget}
+        options={budgetOptions}
         error={errors.budget?.message}
         rules={{ required: "Select a budget range" }}
       />
@@ -112,7 +110,7 @@ export function ContactForm() {
         name="timeline"
         label="Timeline"
         type="select"
-        options={contactFields.timeline}
+        options={timelineOptions}
         error={errors.timeline?.message}
         rules={{ required: "Select a timeline" }}
       />
@@ -131,7 +129,12 @@ export function ContactForm() {
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" {...register("website")} />
 
       {/* Turnstile */}
-      <div className="cf-turnstile" data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!} data-callback={(token: string) => {}} data-error-callback={() => {}} />
+      <div
+        className="cf-turnstile"
+        data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+        data-callback={(token: string) => setTurnstileToken(token)}
+        data-error-callback={() => setTurnstileToken("")}
+      />
 
       {status === "success" && (
         <div className="flex items-start gap-3 p-4 rounded-[12px] bg-green-900/30 border border-green-500/30" role="status">

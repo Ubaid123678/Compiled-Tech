@@ -10,10 +10,11 @@ import { Controller, ControllerProps, FieldPath, FieldValues } from "react-hook-
 type FormFieldProps<T extends FieldValues> = ControllerProps<T> & {
   label: string;
   type?: "text" | "email" | "textarea" | "select";
-  options?: string[];
+  options?: readonly string[];
   hint?: string;
   error?: string;
   className?: string;
+  placeholder?: string;
 };
 
 export function FormField<T extends FieldValues>({

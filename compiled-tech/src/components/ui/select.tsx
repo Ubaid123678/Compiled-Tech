@@ -12,26 +12,28 @@ const SelectValue = SelectPrimitive.Value;
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & { error?: boolean }
->(({ className, children, error, ...props }, ref) => (
-  <SelectPrimitive.Trigger
-    ref={ref}
-    className={cn(
-      "flex h-11 w-full items-center justify-between rounded-[12px] border bg-night bg-background px-4 py-3 text-frost text-sm",
-      "focus:outline-none focus:ring-2 focus:ring-steel focus:ring-offset-2 focus:ring-offset-ink",
-      "disabled:cursor-not-allowed disabled:opacity-50",
-      "transition-colors duration-200",
-      "data-[placeholder]:text-mist/40",
-      error && "border-red",
-      className
-    )}
-    {...props}
-  >
-    {children}
-    <SelectPrimitive.Icon className="text-mist/50">
-      <ChevronDown className="h-4 w-4" />
-    </SelectPrimitive.Icon>
-  </SelectPrimitive.Trigger>
-);
+>(({ className, children, error, ...props }, ref) => {
+  return (
+    <SelectPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        "flex h-11 w-full items-center justify-between rounded-[12px] border bg-night bg-background px-4 py-3 text-frost text-sm",
+        "focus:outline-none focus:ring-2 focus:ring-steel focus:ring-offset-2 focus:ring-offset-ink",
+        "disabled:cursor-not-allowed disabled:opacity-50",
+        "transition-colors duration-200",
+        "data-[placeholder]:text-mist/40",
+        error && "border-red",
+        className
+      )}
+      {...props}
+    >
+      {children}
+      <SelectPrimitive.Icon className="text-mist/50">
+        <ChevronDown className="h-4 w-4" />
+      </SelectPrimitive.Icon>
+    </SelectPrimitive.Trigger>
+  );
+});
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
 const SelectScrollUpButton = React.forwardRef<
