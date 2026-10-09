@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Orbitron, Exo_2, JetBrains_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
+import { Suspense } from "react";
 import "./globals.css";
 
 const orbitron = Orbitron({
@@ -36,7 +37,9 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-full focus:bg-steel focus:px-4 focus:py-3 focus:font-display focus:text-xs focus:text-ink">
           Skip to content
         </a>
-        <Header />
+        <Suspense fallback={null}>
+          <Header />
+        </Suspense>
         {children}
       </body>
     </html>
