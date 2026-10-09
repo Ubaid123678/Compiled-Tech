@@ -60,8 +60,8 @@ const footerNav: Record<string, NavLink[]> = {
   ],
   Contact: [
     { label: "hello@compiled.tech", href: "mailto:hello@compiled.tech", icon: Mail },
-    { label: "+1 555 000 0000", href: "https://wa.me/15550000000", icon: MessageSquare, target: "_blank" },
-    { label: "San Francisco, USA", href: "#", icon: MapPin },
+    { label: "+1 555 000 0000", href: "https://wa.me/923107349552", icon: MessageSquare, target: "_blank" },
+    { label: "Hasilpur, Punjab, Pakistan", href: "#", icon: MapPin },
   ],
 };
 
@@ -151,10 +151,10 @@ export function Footer() {
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <Link href="/privacy" className="text-mist/60 hover:text-frost transition-colors text-sm">
-              Privacy
+              Privacy Policy
             </Link>
             <Link href="/terms" className="text-mist/60 hover:text-frost transition-colors text-sm">
-              Terms
+              Terms & Conditions
             </Link>
           </div>
         </div>

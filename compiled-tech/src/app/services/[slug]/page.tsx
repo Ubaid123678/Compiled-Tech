@@ -12,6 +12,9 @@ import { Chip } from "@/components/content/Chip";
 import { Footer } from "@/components/layout/Footer";
 import { pillars } from "@/data/services";
 import { Suspense } from "react";
+import Script from "next/script";
+import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
+import { getWorkProject } from "@/lib/work";
 
 type ServiceDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -21,7 +24,14 @@ export async function generateStaticParams() {
   return pillars.map((p) => ({ slug: p.slug }));
 }
 
-function ServiceDetailContent({ slug }: { slug: string }) {
+async function getRelatedWork(workSlugs: string[]) {
+  const projects = await Promise.all(
+    workSlugs.map((slug) => getWorkProject(slug).catch(() => null))
+  );
+  return projects.filter((p): p is NonNullable<typeof p> => p !== null);
+}
+
+async function ServiceDetailContent({ slug }: { slug: string }) {
   const pillar = pillars.find((p) => p.slug === slug);
 
   if (!pillar) {
@@ -40,7 +50,8 @@ function ServiceDetailContent({ slug }: { slug: string }) {
     "MongoDB", "MySQL", "PostgreSQL"
   ];
 
-  const relatedWork = ["saas-analytics", "service-marketplace", "document-extractor"].slice(0, 2);
+  const relatedWorkSlugs = ["saas-analytics", "service-marketplace", "document-extractor"].slice(0, 2);
+  const relatedProjects = await getRelatedWork(relatedWorkSlugs);
 
   const faq = [
     {
@@ -61,8 +72,30 @@ function ServiceDetailContent({ slug }: { slug: string }) {
     },
   ];
 
+  const servicesJsonLd = pillar.services.map((service) =>
+    generateJsonLd({
+      type: "Service",
+      name: service.name,
+      description: service.line,
+      url: `${siteConfig.url}/services/${pillar.slug}#${service.name.toLowerCase().replace(/\s+/g, "-")}`,
+      telephone: siteConfig.phone,
+    })
+  );
+
+  const breadcrumbJsonLd = generateJsonLd({
+    type: "BreadcrumbList",
+    name: "Breadcrumb",
+    description: "Breadcrumb navigation",
+    url: `${siteConfig.url}/services/${pillar.slug}`,
+  });
+
   return (
     <>
+      <Script
+        id="json-ld-services"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [...servicesJsonLd, breadcrumbJsonLd] }) }}
+      />
       <PageHero
         title={pillar.title}
         lead={pillar.line}
@@ -128,8 +161,18 @@ function ServiceDetailContent({ slug }: { slug: string }) {
                 className="mb-8"
               />
               <div className="grid gap-6 sm:grid-cols-2">
-                {relatedWork.map((workSlug) => (
-                  <CaseCard key={workSlug} slug={workSlug} />
+                {relatedProjects.map((project) => (
+                  <CaseCard
+                    key={project.slug}
+                    slug={project.slug}
+                    title={project.title}
+                    category={project.category}
+                    excerpt={project.excerpt}
+                    year={project.year}
+                    role={project.role}
+                    image={project.image}
+                    thumbnail={project.thumbnail}
+                  />
                 ))}
               </div>
             </div>
@@ -147,6 +190,26 @@ function ServiceDetailContent({ slug }: { slug: string }) {
       <Footer />
     </>
   );
+}
+
+export async function generateMetadata({ params }: ServiceDetailPageProps) {
+  const { slug } = await params;
+  const pillar = pillars.find((p) => p.slug === slug);
+
+  if (!pillar) {
+    return generatePageMetadata({
+      title: "Service Not Found",
+      description: "The requested service could not be found.",
+      path: `/services/${slug}`,
+    });
+  }
+
+  return generatePageMetadata({
+    title: pillar.title,
+    description: pillar.line,
+    path: `/services/${slug}`,
+    type: "website",
+  });
 }
 
 export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {

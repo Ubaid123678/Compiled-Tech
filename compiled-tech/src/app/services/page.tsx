@@ -8,10 +8,36 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { Footer } from "@/components/layout/Footer";
+import Script from "next/script";
+import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
+
+export const metadata = generatePageMetadata({
+  title: "Services",
+  description: "Software and AI services grouped into four pillars: Build, AI and ML, Automate and Analyze, Advise and Support.",
+  path: "/services",
+  type: "website",
+});
 
 export default function ServicesPage() {
+  const servicesJsonLd = pillars.flatMap((pillar) =>
+    pillar.services.map((service) =>
+      generateJsonLd({
+        type: "Service",
+        name: service.name,
+        description: service.line,
+        url: `${siteConfig.url}/services/${pillar.slug}`,
+        telephone: siteConfig.phone,
+      })
+    )
+  );
+
   return (
     <>
+      <Script
+        id="json-ld-services"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": servicesJsonLd }) }}
+      />
       <PageHero
         title="Services"
         lead="Software and AI, grouped into four pillars."

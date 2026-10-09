@@ -6,17 +6,53 @@ import { FeaturedWork } from "@/components/sections/FeaturedWork";
 import { WhyUs } from "@/components/sections/WhyUs";
 import { CTABand } from "@/components/sections/CTABand";
 import { Footer } from "@/components/layout/Footer";
+import Script from "next/script";
+import { Suspense } from "react";
+import { generateJsonLd, siteConfig } from "@/lib/seo";
+
+export const metadata = {
+  title: "Compiled Tech | Software and AI Studio",
+  description: "Compiled Tech builds web apps, mobile apps, SaaS and AI solutions for startups and growing teams.",
+};
 
 export default function Home() {
+  const servicesJsonLd = [
+    "Web & Mobile App Development",
+    "SaaS & Custom Software Development",
+    "E-commerce Development",
+    "Custom AI & Machine Learning",
+    "AI Chatbots & Virtual Assistants",
+    "AI Data & Document Processing",
+    "AI Automation & AI Agents",
+    "AI Consulting",
+    "Training Workshops",
+    "Maintenance and Support",
+  ].map((serviceName) => 
+    generateJsonLd({
+      type: "Service",
+      name: serviceName,
+      description: `Professional ${serviceName.toLowerCase()} services by Compiled Tech.`,
+      url: `${siteConfig.url}/services`,
+      telephone: siteConfig.phone,
+    })
+  );
+
   return (
     <>
+      <Script
+        id="json-ld-services"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": servicesJsonLd }) }}
+      />
       <main id="main">
         <Hero />
         <TrustStrip />
         <WhyUs />
         <ServicesSection />
         <ProcessTimeline />
-        <FeaturedWork />
+        <Suspense fallback={<div className="py-16 lg:py-26 animate-pulse"><div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16"><div className="h-80 bg-slate/50 rounded-[20px]" /><div className="h-80 bg-slate/50 rounded-[20px]" /><div className="h-80 bg-slate/50 rounded-[20px]" /></div></div>}>
+          <FeaturedWork />
+        </Suspense>
         <CTABand />
       </main>
       <Footer />

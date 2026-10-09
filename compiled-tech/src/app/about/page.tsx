@@ -8,6 +8,15 @@ import { Section } from "@/components/layout/Section";
 import { Footer } from "@/components/layout/Footer";
 import { Reveal } from "@/components/motion/Reveal";
 import { aboutData } from "@/data/about";
+import Script from "next/script";
+import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
+
+export const metadata = generatePageMetadata({
+  title: "About Compiled Tech",
+  description: "Three co-founders from Hasilpur, Punjab, building software you can trust. Learn about our story, mission, values, approach, and team.",
+  path: "/about",
+  type: "website",
+});
 
 export default function AboutPage() {
   const valueIcons = {
@@ -17,8 +26,42 @@ export default function AboutPage() {
     "Stay after launch": "wrench",
   } as const;
 
+  const teamJsonLd = aboutData.team.map((member) =>
+    generateJsonLd({
+      type: "Article",
+      name: member.name,
+      description: member.line,
+      url: `${siteConfig.url}/about`,
+      author: member.name,
+      headline: `${member.name} - ${member.role}`,
+      articleSection: "Team",
+    })
+  );
+
+  const aboutJsonLd = generateJsonLd({
+    type: "Organization",
+    name: `${siteConfig.name} - About Us`,
+    description: aboutData.hero.lead,
+    url: `${siteConfig.url}/about`,
+    address: siteConfig.location,
+    telephone: siteConfig.phone,
+    email: siteConfig.email,
+  });
+
+  const breadcrumbJsonLd = generateJsonLd({
+    type: "BreadcrumbList",
+    name: "Breadcrumb",
+    description: "Breadcrumb navigation",
+    url: `${siteConfig.url}/about`,
+  });
+
   return (
     <>
+      <Script
+        id="json-ld-about"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [...teamJsonLd, aboutJsonLd] }) }}
+      />
       <PageHero
         title={aboutData.hero.title}
         lead={aboutData.hero.lead}

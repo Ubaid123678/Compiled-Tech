@@ -10,6 +10,8 @@ import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Suspense } from "react";
+import Script from "next/script";
+import { generateJsonLd, siteConfig } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -72,6 +74,21 @@ export default function BlogPage() {
   const featuredPost = posts.find((p) => p.featured);
   const regularPosts = posts.filter((p) => !p.featured);
 
+  const blogPostsJsonLd = posts.map((post) =>
+    generateJsonLd({
+      type: "Article",
+      name: post.title,
+      description: post.excerpt,
+      url: `${siteConfig.url}/blog/${post.slug}`,
+      author: post.author,
+      datePublished: post.date,
+      dateModified: post.date,
+      headline: post.title,
+      articleSection: post.category,
+      keywords: [post.category],
+    })
+  );
+
   if (loading) {
     return (
       <>
@@ -103,6 +120,11 @@ export default function BlogPage() {
 
   return (
     <>
+      <Script
+        id="json-ld-blog"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": blogPostsJsonLd }) }}
+      />
       <PageHero
         title="Insights"
         lead="Notes on software and AI from the Compiled Tech team."

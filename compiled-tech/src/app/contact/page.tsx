@@ -6,6 +6,8 @@ import { ContactForm } from "@/components/forms/ContactForm";
 import { BookingEmbed } from "@/components/forms/BookingEmbed";
 import { Footer } from "@/components/layout/Footer";
 import { contactInfo } from "@/data/contact";
+import Script from "next/script";
+import { generateJsonLd, siteConfig } from "@/lib/seo";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -19,9 +21,24 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easeOut } },
 };
 
+const contactJsonLd = generateJsonLd({
+  type: "Organization",
+  name: "Compiled Tech - Contact",
+  description: "Start a project with Compiled Tech. We reply within one working day.",
+  url: "https://compiled.tech/contact",
+  address: "Hasilpur, Punjab, Pakistan",
+  telephone: "+1 555 000 0000",
+  email: "hello@compiled.tech",
+});
+
 export default function ContactPage() {
   return (
     <>
+      <Script
+        id="json-ld-contact"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [contactJsonLd] }) }}
+      />
       <section className="bg-linear-to-b from-ink via-night/50 to-ink py-16 lg:py-26">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16">
           <motion.div

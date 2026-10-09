@@ -1,4 +1,4 @@
-export const blogCategories = ["All", "AI", "Web", "Mobile", "Engineering"] as const;
+export const blogCategories = ["All", "AI", "Web", "Mobile", "Engineering", "SEO"] as const;
 
 export const blogPosts = [
   {

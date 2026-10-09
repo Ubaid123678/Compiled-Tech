@@ -5,42 +5,59 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || "dummy"
 );
 
+function handleError(error: any, fallback: any) {
+  console.error("Blog API error:", error?.message || error);
+  return fallback;
+}
+
 export async function getBlogPosts(category?: string) {
-  let query = supabase
-    .from("blog_posts")
-    .select("*")
-    .eq("published", true)
-    .order("date", { ascending: false });
+  try {
+    let query = supabase
+      .from("blog_posts")
+      .select("*")
+      .eq("published", true)
+      .order("date", { ascending: false });
 
-  if (category && category !== "All") {
-    query = query.eq("category", category);
+    if (category && category !== "All") {
+      query = query.eq("category", category);
+    }
+
+    const { data, error } = await query;
+    if (error) return handleError(error, []);
+    return data || [];
+  } catch (error) {
+    return handleError(error, []);
   }
-
-  const { data, error } = await query;
-  if (error) throw error;
-  return data || [];
 }
 
 export async function getBlogPost(slug: string) {
-  const { data, error } = await supabase
-    .from("blog_posts")
-    .select("*")
-    .eq("slug", slug)
-    .eq("published", true)
-    .single();
+  try {
+    const { data, error } = await supabase
+      .from("blog_posts")
+      .select("*")
+      .eq("slug", slug)
+      .eq("published", true)
+      .single();
 
-  if (error) throw error;
-  return data;
+    if (error) return handleError(error, null);
+    return data;
+  } catch (error) {
+    return handleError(error, null);
+  }
 }
 
 export async function getBlogCategories() {
-  const { data, error } = await supabase
-    .from("blog_posts")
-    .select("category")
-    .eq("published", true);
+  try {
+    const { data, error } = await supabase
+      .from("blog_posts")
+      .select("category")
+      .eq("published", true);
 
-  if (error) throw error;
-  
-  const categories = [...new Set(data?.map((p) => p.category) || [])];
-  return ["All", ...categories.sort()];
+    if (error) return handleError(error, ["All"]);
+    
+    const categories = [...new Set(data?.map((p) => p.category) || [])];
+    return ["All", ...categories.sort()];
+  } catch (error) {
+    return handleError(error, ["All"]);
+  }
 }

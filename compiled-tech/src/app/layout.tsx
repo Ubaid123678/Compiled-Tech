@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Orbitron, Exo_2, JetBrains_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Suspense } from "react";
+import Script from "next/script";
+import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 import "./globals.css";
 
 const orbitron = Orbitron({
@@ -25,14 +27,49 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Compiled Tech | Software and AI studio",
-  description: "Compiled Tech builds web apps, mobile apps, SaaS and AI solutions for startups and growing teams.",
-};
+export const metadata = generatePageMetadata({
+  title: "Compiled Tech | Software and AI Studio",
+  description: "Compiled Tech builds web apps, mobile apps, SaaS and AI solutions for startups and growing teams. Technical SEO, Core Web Vitals optimization, and search visibility that drives qualified traffic.",
+  path: "/",
+  type: "website",
+});
+
+export const metadataBase = new URL("https://compiled.tech");
 
 export default function RootLayout({ children }: React.PropsWithChildren) {
+  const organizationJsonLd = generateJsonLd({
+    type: "Organization",
+    name: siteConfig.name,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    address: siteConfig.location,
+    telephone: siteConfig.phone,
+    email: siteConfig.email,
+  });
+
+  const websiteJsonLd = generateJsonLd({
+    type: "WebSite",
+    name: siteConfig.name,
+    description: siteConfig.description,
+    url: siteConfig.url,
+  });
+
   return (
     <html suppressHydrationWarning lang="en" data-scroll-behavior="smooth" className={`${orbitron.variable} ${exo.variable} ${jetbrains.variable} h-full antialiased`}>
+      <head>
+        <Script
+          id="json-ld-organization"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <Script
+          id="json-ld-website"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <link rel="sitemap" href="/sitemap.xml" />
+        <link rel="robots" href="/robots.txt" />
+      </head>
       <body suppressHydrationWarning className="min-h-full bg-ink font-body text-mist antialiased">
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-full focus:bg-steel focus:px-4 focus:py-3 focus:font-display focus:text-xs focus:text-ink">
           Skip to content

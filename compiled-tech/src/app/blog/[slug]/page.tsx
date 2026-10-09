@@ -9,6 +9,8 @@ import { Section } from "@/components/layout/Section";
 import { MDXComponents } from "@/components/mdx/MDXComponents";
 import { getBlogPost } from "@/lib/blog";
 import { notFound } from "next/navigation";
+import Script from "next/script";
+import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -62,6 +64,36 @@ async function getRelatedPosts(currentSlug: string, currentCategory: string, lim
   return data || [];
 }
 
+export async function generateMetadata({ params }: BlogPostPageProps) {
+  const { slug } = await params;
+  
+  try {
+    const post = await getBlogPost(slug);
+    if (!post) {
+      return {
+        title: "Post Not Found | Compiled Tech",
+        description: "The requested blog post could not be found.",
+      };
+    }
+
+    return generatePageMetadata({
+      title: post.title,
+      description: post.excerpt,
+      path: `/blog/${slug}`,
+      type: "article",
+      publishedTime: post.date,
+      modifiedTime: post.date,
+      authors: [post.author],
+      tags: [post.category],
+    });
+  } catch {
+    return {
+      title: "Post Not Found | Compiled Tech",
+      description: "The requested blog post could not be found.",
+    };
+  }
+}
+
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
 
@@ -85,8 +117,33 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const headings = extractHeadings(post.content);
   const relatedPosts = await getRelatedPosts(slug, post.category);
 
+  const articleJsonLd = generateJsonLd({
+    type: "Article",
+    name: post.title,
+    description: post.excerpt,
+    url: `${siteConfig.url}/blog/${slug}`,
+    author: post.author,
+    datePublished: post.date,
+    dateModified: post.date,
+    headline: post.title,
+    articleSection: post.category,
+    keywords: [post.category],
+  });
+
+  const breadcrumbJsonLd = generateJsonLd({
+    type: "BreadcrumbList",
+    name: "Breadcrumb",
+    description: "Breadcrumb navigation",
+    url: `${siteConfig.url}/blog/${slug}`,
+  });
+
   return (
     <>
+      <Script
+        id="json-ld-article"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [articleJsonLd, breadcrumbJsonLd] }) }}
+      />
       <PageHero
         title={post.title}
         lead={`${post.date} · ${post.readTime} · ${post.author}`}

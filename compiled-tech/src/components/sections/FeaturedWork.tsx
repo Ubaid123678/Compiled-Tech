@@ -2,26 +2,40 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "@/components/content/SectionHeading";
 import { CaseCard } from "@/components/cards/CaseCard";
-import { featuredWork } from "@/data/work";
+import { getFeaturedWorkProjects } from "@/lib/work";
 import { Reveal } from "@/components/motion/Reveal";
 
-export function FeaturedWork() {
+import { WorkProject } from "@/lib/work";
+
+export async function FeaturedWork() {
+  const projects: WorkProject[] = await getFeaturedWorkProjects(3);
+
   return (
     <section id="work" aria-labelledby="work-heading">
-      <div className="mx-auto max-w-300 px-4 py-16 sm:px-6 lg:px-16 lg:py-26">
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16 py-16 lg:py-26">
         <Reveal>
           <SectionHeading
-          id="work-heading"
-          eyebrow="WORK"
-          h2="Selected projects"
-          lead="Sample projects are shown until client work is published."
-          className="mb-12 lg:mb-16"
+            id="work-heading"
+            eyebrow="WORK"
+            h2="Selected projects"
+            lead="Sample projects are shown until client work is published."
+            className="mb-12 lg:mb-16"
           />
         </Reveal>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-10">
-          {featuredWork.map((project, index) => (
+          {projects.map((project, index) => (
             <Reveal key={project.slug} delay={index * 0.08}>
-              <CaseCard slug={project.slug} />
+              <CaseCard
+                slug={project.slug}
+                title={project.title}
+                category={project.category}
+                excerpt={project.excerpt}
+                year={project.year}
+                role={project.role}
+                image={project.image}
+                thumbnail={project.thumbnail}
+                featured={index === 0}
+              />
             </Reveal>
           ))}
         </div>
