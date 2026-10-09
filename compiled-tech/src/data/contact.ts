@@ -28,5 +28,5 @@ export const contactInfo = {
   email: "hello@compiled.tech",
   whatsapp: "https://wa.me/923107349552",
   location: "Hasilpur, Punjab, Pakistan",
-  calComUrl: "https://cal.com/project-discovery-call-ad7m", // Replace with your Cal.com link
+  calComUrl: process.env.NEXT_PUBLIC_CALCOM_URL ?? "",
 } as const;

@@ -1,20 +1,30 @@
 import { contactInfo } from "@/data/contact";
 
 export function BookingEmbed() {
+  const bookingUrl = contactInfo.calComUrl.trim();
+
   return (
     <div id="book" className="w-full">
       <h3 className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel mb-4">
         Prefer a call?
       </h3>
-      <div className="aspect-4/3 w-full overflow-hidden rounded-[12px] border border-line bg-night">
-        <iframe
-          src={contactInfo.calComUrl}
-          title="Book a call with Compiled Tech"
-          className="w-full h-full border-0"
-          allow="camera; microphone; fullscreen"
-          loading="lazy"
-        />
-      </div>
+      {bookingUrl ? (
+        <div className="aspect-4/3 w-full overflow-hidden rounded-[12px] border border-line bg-night">
+          <iframe
+            src={bookingUrl}
+            title="Book a call with Compiled Tech"
+            className="h-full w-full border-0"
+            allow="camera; microphone; fullscreen"
+            loading="lazy"
+          />
+        </div>
+      ) : (
+        <div className="rounded-[12px] border border-line bg-night p-6">
+          <p className="text-base leading-[1.6] text-mist">
+            Booking is temporarily unavailable. Please email us and we will arrange a time.
+          </p>
+        </div>
+      )}
       <p className="mt-3 text-sm text-mist/60">
         Or email us at{" "}
         <a href={`mailto:${contactInfo.email}`} className="text-steel hover:text-frost underline">
