@@ -11,7 +11,7 @@ type PageHeroProps = {
 
 export function PageHero({ title, lead, breadcrumbs, className, showHexagon = true }: PageHeroProps) {
   return (
-    <header className={cn("relative pb-12 pt-28 lg:pb-16 lg:pt-32 bg-ink", className)}>
+    <header suppressHydrationWarning className={cn("relative pb-12 pt-28 lg:pb-16 lg:pt-32 bg-ink", className)}>
       {showHexagon && (
         <div className="pointer-events-none absolute right-0 top-1/2 h-75 w-75 max-w-[40vw] -translate-y-1/2 opacity-[0.03]" aria-hidden="true">
           <svg viewBox="0 0 32 32" fill="none" className="h-full w-full text-frost">

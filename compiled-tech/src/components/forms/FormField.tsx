@@ -45,7 +45,7 @@ function renderInput<T extends FieldValues>({
         ref={field.ref}
         id={name}
         type={type}
-        value={field.value as string}
+        value={field.value ?? ""}
         onChange={field.onChange}
         onBlur={field.onBlur}
         placeholder={placeholder}
@@ -87,7 +87,7 @@ function renderTextarea<T extends FieldValues>({
       <Textarea
         ref={field.ref}
         id={name}
-        value={field.value as string}
+        value={field.value ?? ""}
         onChange={field.onChange}
         onBlur={field.onBlur}
         placeholder={placeholder}
@@ -129,7 +129,7 @@ function renderSelect<T extends FieldValues>({
     <>
       <Select
         onValueChange={field.onChange as (v: string) => void}
-        defaultValue={field.value as string}
+        defaultValue={field.value ?? ""}
       >
         <SelectTrigger
           ref={field.ref}

@@ -71,7 +71,7 @@ function IconWrapper({ Icon, className }: { Icon: React.ReactNode; className?: s
 
 export function Footer() {
   return (
-    <footer className="bg-night border-t border-line">
+    <footer suppressHydrationWarning className="bg-night border-t border-line">
       <Container className="py-16 lg:py-24">
         <Reveal className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-16 mb-16">
           <div className="lg:col-span-1">
