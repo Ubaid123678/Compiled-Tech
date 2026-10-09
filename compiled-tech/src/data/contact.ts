@@ -1,12 +1,12 @@
 export const contactFields = {
   service: [
-    "Web development",
-    "App development",
-    "SaaS",
-    "AI and ML",
-    "Chatbot or RAG",
-    "Automation",
-    "UI/UX design",
+    "Web & Mobile App Development",
+    "E-commerce Development",
+    "SaaS & Custom Software Development",
+    "AI Automation & AI Agents",
+    "AI Chatbots & Virtual Assistants",
+    "AI Data & Document Processing",
+    "UI/UX 5. Custom AI & Machine Learning",
     "Not sure",
   ] as const,
   budget: [
@@ -26,7 +26,7 @@ export const contactFields = {
 
 export const contactInfo = {
   email: "hello@compiled.tech",
-  whatsapp: "https://wa.me/15550000000",
-  location: "San Francisco, USA",
-  calComUrl: "https://cal.com/compiled-tech", // Replace with your Cal.com link
+  whatsapp: "https://wa.me/923107349552",
+  location: "Hasilpur, Punjab, Pakistan",
+  calComUrl: "https://cal.com/project-discovery-call-ad7m", // Replace with your Cal.com link
 } as const;
