@@ -29,8 +29,8 @@ export default function PrivacyPage() {
             </h2>
             <p className="text-mist text-[1.125rem] leading-[1.65]">
               Compiled Tech (&quot;we&quot;, &quot;us&quot;) is a software and AI studio run by three co-founders in Hasilpur, Punjab, Pakistan. You can reach us at{" "}
-              <a href="mailto:hello@compiled.tech" className="text-steel hover:text-frost underline">
-                hello@compiled.tech
+              <a href="mailto:hello@compiledtech.io" className="text-steel hover:text-frost underline">
+                hello@compiledtech.io
               </a>
               .
             </p>
@@ -185,8 +185,8 @@ export default function PrivacyPage() {
             </h2>
             <p className="text-mist text-base leading-[1.65] mb-4">
               You can ask us to show you the personal information we hold about you, correct it, delete it, limit how we use it, or send it to you in a common format. You can also object to our use of it and withdraw your consent at any time. To do any of this, email
-              <a href="mailto:hello@compiled.tech" className="text-steel hover:text-frost underline">
-                hello@compiled.tech
+              <a href="mailto:hello@compiledtech.io" className="text-steel hover:text-frost underline">
+                hello@compiledtech.io
               </a>
               . We reply within 30 days, and we may ask you to confirm your identity first. If you are in the EU or UK, you can also complain to your local data protection authority.
             </p>
@@ -234,8 +234,8 @@ export default function PrivacyPage() {
             </h2>
             <p className="text-mist text-base leading-[1.65]">
               Compiled Tech, Hasilpur, Punjab, Pakistan. Email:{" "}
-              <a href="mailto:hello@compiled.tech" className="text-steel hover:text-frost underline">
-                hello@compiled.tech
+              <a href="mailto:hello@compiledtech.io" className="text-steel hover:text-frost underline">
+                hello@compiledtech.io
               </a>
             </p>
           </section>

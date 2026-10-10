@@ -28,7 +28,7 @@ const contactJsonLd = generateJsonLd({
   url: "https://compiled.tech/contact",
   address: "Hasilpur, Punjab, Pakistan",
   telephone: "+1 555 000 0000",
-  email: "hello@compiled.tech",
+  email: "hello@compiledtech.io",
 });
 
 export default function ContactPage() {

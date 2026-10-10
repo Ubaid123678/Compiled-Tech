@@ -36,8 +36,8 @@ export default function TermsPage() {
                 </h3>
                 <p className="text-mist text-base leading-[1.65]">
                   Compiled Tech (&quot;we&quot;, &quot;us&quot;) is a software and AI studio run by three co-founders in Hasilpur, Punjab, Pakistan. Contact:{" "}
-                  <a href="mailto:hello@compiled.tech" className="text-steel hover:text-frost underline">
-                    hello@compiled.tech
+                  <a href="mailto:hello@compiledtech.io" className="text-steel hover:text-frost underline">
+                    hello@compiledtech.io
                   </a>
                   . By using this site, you agree to Part A.
                 </p>
@@ -267,8 +267,8 @@ export default function TermsPage() {
                 </h3>
                 <p className="text-mist text-base leading-[1.65]">
                   Compiled Tech, Hasilpur, Punjab, Pakistan. Email:{" "}
-                  <a href="mailto:hello@compiled.tech" className="text-steel hover:text-frost underline">
-                    hello@compiled.tech
+                  <a href="mailto:hello@compiledtech.io" className="text-steel hover:text-frost underline">
+                    hello@compiledtech.io
                   </a>
                 </p>
               </section>

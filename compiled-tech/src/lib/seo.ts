@@ -7,7 +7,7 @@ export const siteConfig = {
   ogImage: "/og.png",
   twitterHandle: "@compiledtech",
   location: "Hasilpur, Punjab, Pakistan",
-  email: "hello@compiled.tech",
+  email: "hello@compiledtech.io",
   phone: "+1 555 000 0000",
 };
 
