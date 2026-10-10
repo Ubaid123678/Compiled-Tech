@@ -44,7 +44,7 @@ export const aboutData = {
       role: "Founder & CEO, Full Stack Developer",
       line: "Leads product and engineering. Builds web, mobile, and AI systems + Machine Learning.",
       image: "/team/ubaid.jpeg",
-      linkedin: "https://linkedin.com/in/ubaidullahakram",
+      linkedin: "https://www.linkedin.com/in/ubaid1525/",
       github: "https://github.com/Ubaid123678",
     },
     {
@@ -67,7 +67,7 @@ export const aboutData = {
       role: "Client Relations & E-commerce Lead",
       line: "Guides clients from first conversation to delivery and leads WordPress e-commerce work.",
       image: "/team/tania.jpeg ",
-      linkedin: "https://www.linkedin.com/in/tania-mishtaq-0a1b4b1b9/",
+      linkedin: "https://www.linkedin.com/in/taniamushtaq9",
     },
   ],
   closing: "Four people. One promise: your project gets finished.",

@@ -83,6 +83,7 @@ body {
 
 .blog-prose {
   color: var(--color-mist);
+  overflow-wrap: anywhere;
 }
 
 .blog-prose p {

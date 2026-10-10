@@ -67,7 +67,7 @@ export function ProcessTimeline() {
           className="mb-12 text-center lg:mb-16"
         />
         <div className="grid gap-10 lg:grid-cols-[220px_1fr] lg:gap-16">
-          <nav className="flex gap-5 overflow-x-auto pb-2 lg:sticky lg:top-24 lg:block lg:h-fit" aria-label="Process steps">
+          <nav className="hidden gap-5 overflow-x-auto pb-2 lg:sticky lg:top-24 lg:block lg:h-fit" aria-label="Process steps">
             {processSteps.map((step, index) => (
               <button
                 key={step.number}
@@ -99,8 +99,8 @@ export function ProcessTimeline() {
                   panelRefs.current[index] = element;
                 }}
                 className={cn(
-                  "flex min-h-[62vh] scroll-mt-24 items-center border-t border-line py-16 transition-opacity duration-500 lg:min-h-[72vh]",
-                  activeIndex === index ? "opacity-100" : "opacity-45",
+                  "flex min-h-0 scroll-mt-24 items-center border-t border-line py-12 transition-opacity duration-500 lg:min-h-[72vh] lg:py-16",
+                  activeIndex === index ? "opacity-100" : "opacity-100 lg:opacity-45",
                 )}
                 aria-labelledby={`step-${step.number}-title`}
               >

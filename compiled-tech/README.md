@@ -52,6 +52,39 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Production deployment on Hostinger
+
+This project uses server-rendered pages and API routes, so it must run as a
+**Node.js application** on Hostinger. Do not use a static HTML deployment.
+
+1. In Hostinger, create a Node.js application using the Node version supported by
+   the current hosting plan.
+2. Add every variable from `.env.example` in Hostinger's environment-variable
+   settings. Keep secrets server-side and set `NEXT_PUBLIC_CALCOM_URL` to the
+   public Cal.com URL.
+3. Deploy the repository without `.env.local` and without `node_modules`.
+4. Run:
+
+   ```bash
+   npm ci
+   npm run build
+   ```
+
+5. Set the application startup file to:
+
+   ```text
+   .next/standalone/server.js
+   ```
+
+6. Set the application port to the port provided by Hostinger. The standalone
+   server reads the `PORT` and `HOSTNAME` environment variables.
+7. Point the domain to the Node.js application, enable SSL, and submit a real
+   contact form after configuring Resend, Supabase, and Turnstile.
+
+The production build creates a self-contained `.next/standalone` directory.
+When deploying manually, keep the `public` and `.next/static` directories
+available beside the standalone server.
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.

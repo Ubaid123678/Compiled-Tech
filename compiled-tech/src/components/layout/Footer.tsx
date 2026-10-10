@@ -33,7 +33,7 @@ const socialLinks: SocialLink[] = [
   },
   {
     label: "X",
-    href: "https://x.com/compiledtech",
+    href: "https://x.com/compiledtech15",
     icon: <X className="w-5 h-5" aria-hidden="true" />,
   },
   {

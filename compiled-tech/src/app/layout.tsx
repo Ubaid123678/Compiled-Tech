@@ -33,8 +33,6 @@ export const metadata = generatePageMetadata({
   type: "website",
 });
 
-export const metadataBase = new URL("https://compiled.tech");
-
 export default function RootLayout({ children }: React.PropsWithChildren) {
   const organizationJsonLd = generateJsonLd({
     type: "Organization",

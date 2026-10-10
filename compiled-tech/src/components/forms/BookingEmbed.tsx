@@ -9,7 +9,7 @@ export function BookingEmbed() {
         Prefer a call?
       </h3>
       {bookingUrl ? (
-        <div className="aspect-4/3 w-full overflow-hidden rounded-[12px] border border-line bg-night">
+        <div className="h-[680px] w-full overflow-hidden rounded-[12px] border border-line bg-night sm:h-[720px] lg:h-[760px]">
           <iframe
             src={bookingUrl}
             title="Book a call with Compiled Tech"

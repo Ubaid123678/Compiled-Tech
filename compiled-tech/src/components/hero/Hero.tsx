@@ -58,11 +58,11 @@ export function Hero() {
         <p className="hidden font-body text-[0.82rem] uppercase tracking-[0.14em] text-mist min-[900px]:block">
           {site.heroTagline}
         </p>
-        <div className="flex w-full gap-3 min-[760px]:w-auto">
-          <Button href="/contact" size="lg" icon={<ArrowUpRight size={16} strokeWidth={1.7} />} className="flex-1 min-[760px]:flex-none">
+        <div className="flex w-full gap-2 min-[760px]:w-auto min-[760px]:gap-3">
+          <Button href="/contact" size="lg" icon={<ArrowUpRight size={16} strokeWidth={1.7} />} className="min-w-0 shrink px-3 text-[0.62rem] tracking-[0.08em] min-[760px]:flex-none min-[760px]:px-6 min-[760px]:text-[0.72rem] min-[760px]:tracking-[0.14em]">
             Start a Project
           </Button>
-          <Button href={site.secondaryCta.href} variant="ghost" size="lg" className="flex-1 min-[760px]:flex-none">
+          <Button href={site.secondaryCta.href} variant="ghost" size="lg" className="min-w-0 shrink px-3 text-[0.62rem] tracking-[0.08em] min-[760px]:flex-none min-[760px]:px-6 min-[760px]:text-[0.72rem] min-[760px]:tracking-[0.14em]">
             {site.secondaryCta.label}
           </Button>
         </div>

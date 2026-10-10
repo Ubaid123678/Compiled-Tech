@@ -37,6 +37,7 @@ export function generatePageMetadata({
   const fullImage = image || siteConfig.ogImage;
 
   return {
+    metadataBase: new URL(siteConfig.url),
     title: fullTitle,
     description,
     keywords: tags?.join(", "),
