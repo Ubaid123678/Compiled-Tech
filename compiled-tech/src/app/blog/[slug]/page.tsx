@@ -184,7 +184,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
               )}
 
-              <div className="text-mist text-[1.125rem] leading-[1.65]">
+              <div className="blog-prose text-mist text-[1.125rem] leading-[1.65]">
                 {content}
               </div>
             </article>

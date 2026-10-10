@@ -1,5 +1,6 @@
 import { PageHero } from "@/components/layout/PageHero";
 import { CaseCard } from "@/components/cards/CaseCard";
+import Image from "next/image";
 import { CTABand } from "@/components/sections/CTABand";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/layout/Container";
@@ -74,6 +75,9 @@ export default async function WorkProjectPage({ params }: WorkProjectPageProps) 
   }
 
   const relatedProjects = await getRelatedProjects(slug, project.category);
+  const galleryImages = (project.gallery_images || []).filter(
+    (image: unknown): image is string => typeof image === "string" && image.length > 0
+  );
 
   const projectJsonLd = generateJsonLd({
     type: "Service",
@@ -137,7 +141,7 @@ export default async function WorkProjectPage({ params }: WorkProjectPageProps) 
                 )}
               </div>
 
-              <div className="prose prose-invert max-w-none mt-8">
+              <div className="blog-prose max-w-none mt-8">
                 <h2 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[1.5rem] leading-[1.15] mb-3">The Problem</h2>
                 <p className="text-mist text-[1.125rem] leading-[1.65] mb-8">{project.problem}</p>
 
@@ -149,8 +153,8 @@ export default async function WorkProjectPage({ params }: WorkProjectPageProps) 
 
                 <h2 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[1.5rem] leading-[1.15] mb-3">Stack</h2>
                 <div className="flex flex-wrap gap-3">
-                  {project.tech_stack.map((tech: string) => (
-                    <span key={tech} className="inline-flex items-center font-body text-[0.8rem] leading-[1.5] px-3 py-1 rounded-[12px] border border-line bg-night text-mist/80">
+                  {project.tech_stack.map((tech: string, index: number) => (
+                    <span key={`${tech}-${index}`} className="inline-flex items-center font-body text-[0.8rem] leading-[1.5] px-3 py-1 rounded-[12px] border border-line bg-night text-mist/80">
                       {tech}
                     </span>
                   ))}
@@ -180,6 +184,39 @@ export default async function WorkProjectPage({ params }: WorkProjectPageProps) 
           </div>
         </Container>
       </Section>
+
+      {galleryImages.length > 0 && (
+        <Section id="project-gallery" className="bg-night/50 py-16 lg:py-26">
+          <Container>
+            <div className="mb-8 flex items-end justify-between gap-6">
+              <div>
+                <span className="font-display text-[0.72rem] uppercase tracking-[0.22em] text-steel">Project gallery</span>
+                <h2 className="mt-3 font-display text-[clamp(1.5rem,3.2vw,2.4rem)] font-semibold uppercase leading-[1.15] tracking-[0.02em] text-frost">
+                  Inside the build
+                </h2>
+              </div>
+              <span className="text-sm text-mist/60">{galleryImages.length} images</span>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              {galleryImages.map((image, index) => (
+                <figure
+                  key={`${image}-${index}`}
+                  className={index === 0 ? "relative aspect-[16/9] overflow-hidden rounded-[20px] border border-line md:col-span-2" : "relative aspect-[16/10] overflow-hidden rounded-[20px] border border-line"}
+                >
+                  <Image
+                    src={image}
+                    alt={`${project.title} project image ${index + 1}`}
+                    fill
+                    loading={index === 0 ? "eager" : "lazy"}
+                    className="object-cover transition-transform duration-500 hover:scale-[1.02]"
+                    sizes={index === 0 ? "(max-width: 768px) 100vw, 900px" : "(max-width: 768px) 100vw, 50vw"}
+                  />
+                </figure>
+              ))}
+            </div>
+          </Container>
+        </Section>
+      )}
 
       {relatedProjects.length > 0 && (
         <Section id="related-work" className="bg-night/50 py-16 lg:py-26">

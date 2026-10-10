@@ -74,7 +74,7 @@ export function Header() {
       >
         <div className="mx-auto flex h-full items-center justify-between px-[calc(16px+clamp(20px,5vw,64px))]">
           <Link href="/" className="flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel" aria-label="Compiled Tech home">
-            <Image src="/logo/compiled-tech-icon-for-dark-bg.svg" alt="" width={32} height={32} />
+            <Image src="/logo/compiled-tech-icon-for-dark-bg.svg" alt="" width={32} height={32} priority />
             <span className="font-display text-[0.95rem] font-semibold uppercase tracking-[0.16em] text-frost">
               Compiled Tech
             </span>

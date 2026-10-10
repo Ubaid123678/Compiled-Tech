@@ -129,7 +129,7 @@ export default function WorkPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <CaseCard {...project} />
+                  <CaseCard {...project} featured={false} />
                 </motion.article>
               ))}
             </div>

@@ -2,13 +2,13 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "@/components/content/SectionHeading";
 import { CaseCard } from "@/components/cards/CaseCard";
-import { getFeaturedWorkProjects } from "@/lib/work";
+import { getWorkProjects } from "@/lib/work";
 import { Reveal } from "@/components/motion/Reveal";
 
 import { WorkProject } from "@/lib/work";
 
 export async function FeaturedWork() {
-  const projects: WorkProject[] = await getFeaturedWorkProjects(3);
+  const projects: WorkProject[] = (await getWorkProjects()).slice(0, 3);
 
   return (
     <section id="work" aria-labelledby="work-heading">
@@ -18,13 +18,13 @@ export async function FeaturedWork() {
             id="work-heading"
             eyebrow="WORK"
             h2="Selected projects"
-            lead="Sample projects are shown until client work is published."
+            lead="Selected projects we have built and shipped."
             className="mb-12 lg:mb-16"
           />
         </Reveal>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-10">
-          {projects.map((project, index) => (
-            <Reveal key={project.slug} delay={index * 0.08}>
+          {projects.map((project) => (
+            <Reveal key={project.slug}>
               <CaseCard
                 slug={project.slug}
                 title={project.title}
@@ -34,7 +34,7 @@ export async function FeaturedWork() {
                 role={project.role}
                 image={project.image}
                 thumbnail={project.thumbnail}
-                featured={index === 0}
+                featured={false}
               />
             </Reveal>
           ))}

@@ -14,7 +14,7 @@ import { pillars } from "@/data/services";
 import { Suspense } from "react";
 import Script from "next/script";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
-import { getWorkProject } from "@/lib/work";
+import { getWorkProjects } from "@/lib/work";
 
 type ServiceDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -24,11 +24,21 @@ export async function generateStaticParams() {
   return pillars.map((p) => ({ slug: p.slug }));
 }
 
-async function getRelatedWork(workSlugs: string[]) {
-  const projects = await Promise.all(
-    workSlugs.map((slug) => getWorkProject(slug).catch(() => null))
-  );
-  return projects.filter((p): p is NonNullable<typeof p> => p !== null);
+async function getRelatedWork(serviceSlug: string) {
+  const projects = await getWorkProjects();
+  const categoryMap: Record<string, Array<"Web" | "Mobile" | "AI">> = {
+    build: ["Web", "Mobile"],
+    "ai-ml": ["AI"],
+    "automate-analyze": ["AI", "Web"],
+    "advise-support": ["Web", "Mobile", "AI"],
+  };
+  const categories = categoryMap[serviceSlug] || ["Web", "Mobile", "AI"];
+  const related = projects.filter((project) => categories.includes(project.category));
+  return (related.length > 0 ? related : projects).slice(0, 2);
+}
+
+function serviceAnchor(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
 async function ServiceDetailContent({ slug }: { slug: string }) {
@@ -50,8 +60,7 @@ async function ServiceDetailContent({ slug }: { slug: string }) {
     "MongoDB", "MySQL", "PostgreSQL"
   ];
 
-  const relatedWorkSlugs = ["saas-analytics", "service-marketplace", "document-extractor"].slice(0, 2);
-  const relatedProjects = await getRelatedWork(relatedWorkSlugs);
+  const relatedProjects = await getRelatedWork(slug);
 
   const faq = [
     {
@@ -110,7 +119,7 @@ async function ServiceDetailContent({ slug }: { slug: string }) {
         <Container>
           <div className="space-y-16 lg:space-y-20">
             {pillar.services.map((service) => (
-              <article key={service.name} id={service.name.toLowerCase().replace(/\s+/g, "-")}>
+                <article key={service.name} id={serviceAnchor(service.name)}>
                 <ServiceTile
                   name={service.name}
                   line={service.line}

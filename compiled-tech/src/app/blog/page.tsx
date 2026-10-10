@@ -9,6 +9,7 @@ import { CTABand } from "@/components/sections/CTABand";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
+import { blogCategories } from "@/data/blog";
 import Script from "next/script";
 import { generateJsonLd, siteConfig } from "@/lib/seo";
 
@@ -28,23 +29,14 @@ type BlogPost = {
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [categories, setCategories] = useState<string[]>(["All"]);
   const [activeFilter, setActiveFilter] = useState("All");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [postsRes, catsRes] = await Promise.all([
-          fetch("/api/blog"),
-          fetch("/api/blog?category=All"),
-        ]);
-        const [postsData, catsData] = await Promise.all([
-          postsRes.json(),
-          catsRes.json(),
-        ]);
+        const postsData = await (await fetch("/api/blog?category=All")).json();
         setPosts(postsData.posts || []);
-        setCategories(catsData.categories || ["All"]);
       } catch (err) {
         console.error("Failed to fetch blog data:", err);
       } finally {
@@ -136,7 +128,7 @@ export default function BlogPage() {
       <Section id="blog" className="py-16 lg:py-26">
         <Container>
           <FilterChips
-            filters={categories}
+            filters={blogCategories}
             activeFilter={activeFilter}
             onChange={setActiveFilter}
           />

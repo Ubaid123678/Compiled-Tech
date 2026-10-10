@@ -130,6 +130,23 @@ export default function EditProjectPage() {
     }
   };
 
+  const handleGalleryUpload = async (file: File, index: number) => {
+    setUploading(true);
+    setError("");
+    try {
+      const url = await uploadAdminImage(file, "projects");
+      setForm((prev) => {
+        const galleryImages = [...prev.gallery_images];
+        galleryImages[index] = url;
+        return { ...prev, gallery_images: galleryImages };
+      });
+    } catch (uploadError) {
+      setError(uploadError instanceof Error ? uploadError.message : "Image upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleDelete = async () => {
     if (!confirm("Delete this project permanently?")) return;
 
@@ -381,6 +398,7 @@ export default function EditProjectPage() {
                     className="flex-1 bg-night border border-line rounded-[12px] px-4 py-3 text-frost placeholder:text-mist/40 focus:outline-none focus:border-steel focus:ring-2 focus:ring-steel/50 transition-colors"
                     placeholder={`Image ${i + 1} URL (Supabase Storage)`}
                   />
+                  <input type="file" accept="image/*" disabled={uploading} onChange={(e) => e.target.files?.[0] && handleGalleryUpload(e.target.files[0], i)} className="self-center max-w-48 text-sm text-mist" />
                   <button
                     type="button"
                     onClick={() => {

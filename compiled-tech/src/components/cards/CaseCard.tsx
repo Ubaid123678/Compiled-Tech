@@ -17,40 +17,51 @@ type CaseCardProps = {
 };
 
 export function CaseCard({ slug, title, category, excerpt, year, role, image, thumbnail, featured }: CaseCardProps) {
+  const imageSrc = featured ? image || thumbnail : thumbnail || image;
+
   return (
-    <article className={cn("group relative rounded-[20px] border border-line bg-night overflow-hidden transition-all duration-400 ease-out hover:border-steel/40 hover:shadow-[0_10px_30px_rgb(185_198_212/0.25)]", featured && "lg:grid lg:grid-cols-[1fr_1fr]")}>
+    <article className={cn(
+      "group overflow-hidden rounded-[20px] border border-line bg-night transition-all duration-300 ease-out hover:-translate-y-1 hover:border-steel/40 hover:shadow-[0_18px_42px_rgb(0_0_0_/_0.28)]",
+      featured && "lg:grid lg:grid-cols-[1.1fr_0.9fr]"
+    )}>
       <Link
         href={`/work/${slug}`}
-        className={cn("relative block aspect-[16/10] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel", featured && "lg:aspect-auto lg:h-full")}
+        className={cn("relative block aspect-[16/10] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel", featured && "lg:aspect-auto lg:min-h-96")}
         aria-label={`View ${title} case study`}
       >
-        <Image
-          src={featured ? image : thumbnail}
-          alt=""
-          fill
-          className="object-cover transition-transform duration-400 ease-out group-hover:scale-[1.02]"
-          sizes={featured ? "(max-width: 1024px) 100vw, 50vw" : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
-          priority={featured}
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-ink/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute top-4 left-4 flex flex-col gap-2">
-          <Chip variant="category">{category}</Chip>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
-          <h3 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[1.15rem] leading-[1.3] mb-2 flex items-center gap-2">
-            <span className={featured ? "text-[clamp(1.25rem,2vw,1.75rem)]" : ""}>{title}</span>
-            <ArrowUpRight size={16} strokeWidth={1.7} className="opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
-          </h3>
-          <p className={cn("text-mist/80 leading-normal", featured ? "text-base" : "text-sm line-clamp-2")}>{excerpt}</p>
-        </div>
+        {imageSrc ? (
+          <Image
+            src={imageSrc}
+            alt={`${title} project preview`}
+            fill
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+            sizes={featured ? "(max-width: 1024px) 100vw, 55vw" : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
+            priority={featured}
+            loading={featured ? "eager" : "lazy"}
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-slate text-center font-display text-sm uppercase tracking-[0.14em] text-mist/70">
+            {title}
+          </div>
+        )}
       </Link>
-      {!featured && (
-        <div className="p-6 pt-0 flex flex-wrap gap-2" role="list" aria-label="Tech stack">
-          <span className="text-mist/60 text-sm">{year}</span>
-          <span className="text-mist/60 text-sm">·</span>
-          <span className="text-mist/60 text-sm">{role}</span>
+
+      <div className={cn("flex flex-col p-6", featured && "lg:p-8") }>
+        <div className="mb-5 flex items-center justify-between gap-4">
+          <Chip variant="category">{category}</Chip>
+          <span className="text-sm text-mist/60">{year}</span>
         </div>
-      )}
+        <Link href={`/work/${slug}`} className="group/title focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel">
+          <h3 className={cn("mb-3 flex items-start justify-between gap-3 font-display text-[1.15rem] font-semibold uppercase leading-[1.3] tracking-[0.02em] text-frost", featured && "text-[clamp(1.35rem,2vw,1.8rem)]")}>
+            {title}
+            <ArrowUpRight size={18} strokeWidth={1.7} className="mt-0.5 shrink-0 text-steel transition-transform duration-300 group-hover/title:translate-x-1 group-hover/title:-translate-y-1" aria-hidden="true" />
+          </h3>
+        </Link>
+        <p className={cn("text-mist/80 leading-[1.6]", featured ? "text-base" : "line-clamp-3 text-sm")}>{excerpt}</p>
+        <div className="mt-auto flex flex-wrap gap-2 pt-6 text-sm text-mist/60" aria-label="Project role">
+          <span>{role}</span>
+        </div>
+      </div>
     </article>
   );
 }

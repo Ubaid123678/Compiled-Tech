@@ -1,4 +1,4 @@
-export const blogCategories = ["All", "AI", "Web", "Mobile", "Engineering", "SEO"] as const;
+export const blogCategories = ["All", "AI", "Mobile", "Web", "Automation", "Guides"] as const;
 
 export const blogPosts = [
   {
@@ -81,7 +81,7 @@ For most SaaS products, Next.js gets you to market faster with better web SEO. F
   {
     slug: "how-to-scope-a-software-project",
     title: "How to scope a software project",
-    category: "Engineering",
+    category: "Guides",
     excerpt: "A framework for defining scope, timeline, and budget before writing code. Avoid the most common traps.",
     date: "2026-08-10",
     readTime: "10 min",
@@ -186,7 +186,7 @@ A working chatbot is a system, not a prompt. Invest in the plumbing.`,
   {
     slug: "typescript-best-practices",
     title: "TypeScript patterns that scale",
-    category: "Engineering",
+    category: "Guides",
     excerpt: "Practical types, generics, and architecture patterns for maintainable codebases.",
     date: "2026-06-15",
     readTime: "9 min",

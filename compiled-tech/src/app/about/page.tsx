@@ -13,7 +13,7 @@ import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 
 export const metadata = generatePageMetadata({
   title: "About Compiled Tech",
-  description: "Three co-founders from Hasilpur, Punjab, building software you can trust. Learn about our story, mission, values, approach, and team.",
+  description: "A four-person team from Hasilpur, Punjab, building software you can trust. Learn about our story, mission, values, approach, and team.",
   path: "/about",
   type: "website",
 });
@@ -156,7 +156,7 @@ export default function AboutPage() {
               className="mb-12 lg:mb-16"
             />
           </Reveal>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
             {aboutData.team.map((member, i) => (
               <Reveal key={member.name} delay={i * 0.1}>
                 <TeamCard
@@ -164,8 +164,8 @@ export default function AboutPage() {
                   role={member.role}
                   line={member.line}
                   image={member.image}
-                  linkedin={member.linkedin}
-                  github={member.github}
+                  linkedin={"linkedin" in member ? member.linkedin : undefined}
+                  github={"github" in member ? member.github : undefined}
                 />
               </Reveal>
             ))}

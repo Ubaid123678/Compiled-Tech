@@ -1,9 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
+import { blogCategories } from "@/data/blog";
 
 const supabase = createClient(
   process.env.SUPABASE_URL || "http://localhost:54321",
   process.env.SUPABASE_SERVICE_ROLE_KEY || "dummy"
 );
+
+const allowedCategories = blogCategories.filter((category) => category !== "All");
 
 function handleError<T>(error: unknown, fallback: T): T {
   console.error("Blog API error:", error instanceof Error ? error.message : error);
@@ -16,6 +19,7 @@ export async function getBlogPosts(category?: string) {
       .from("blog_posts")
       .select("*")
       .eq("published", true)
+      .in("category", allowedCategories)
       .order("date", { ascending: false });
 
     if (category && category !== "All") {
@@ -51,12 +55,13 @@ export async function getBlogCategories() {
     const { data, error } = await supabase
       .from("blog_posts")
       .select("category")
-      .eq("published", true);
+      .eq("published", true)
+      .in("category", allowedCategories);
 
     if (error) return handleError(error, ["All"]);
     
-    const categories = [...new Set(data?.map((p) => p.category) || [])];
-    return ["All", ...categories.sort()];
+    const categories = new Set(data?.map((p) => p.category) || []);
+    return ["All", ...allowedCategories.filter((category) => categories.has(category))];
   } catch (error) {
     return handleError(error, ["All"]);
   }

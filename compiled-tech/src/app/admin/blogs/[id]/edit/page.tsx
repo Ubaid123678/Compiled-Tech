@@ -6,7 +6,7 @@ import { useRouter, useParams } from "next/navigation";
 import { createBrowserClient } from "@supabase/auth-helpers-nextjs";
 import { uploadAdminImage } from "@/lib/admin-upload";
 
-const categories = ["AI", "Web", "Mobile", "Engineering", "SEO"];
+const categories = ["AI", "Mobile", "Web", "Automation", "Guides"];
 
 export default function EditBlogPage() {
   const router = useRouter();

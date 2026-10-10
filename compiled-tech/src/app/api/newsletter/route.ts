@@ -42,17 +42,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
     }
 
-    await getResend().emails.send({
-      from: "Compiled Tech <onboarding@resend.dev>",
-      to: email,
-      subject: "Welcome to Compiled Tech insights",
-      html: `
-        <p>Thanks for subscribing!</p>
-        <p>You'll get notes on software and AI from our team.</p>
-        <hr>
-        <p>— Compiled Tech</p>
-      `,
-    });
+    try {
+      await getResend().emails.send({
+        from: "Compiled Tech <onboarding@resend.dev>",
+        to: email,
+        subject: "Welcome to Compiled Tech insights",
+        html: `
+          <p>Thanks for subscribing!</p>
+          <p>You'll get notes on software and AI from our team.</p>
+          <hr>
+          <p>— Compiled Tech</p>
+        `,
+      });
+    } catch (emailError) {
+      console.error("Newsletter welcome email error:", emailError);
+    }
 
     return NextResponse.json({ success: true });
   } catch (err) {

@@ -44,7 +44,8 @@ export function TeamCard({ name, role, line, image, linkedin, github }: TeamCard
           src={image}
           alt={name}
           fill
-          className="object-cover grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-[1.05]"
+          loading="eager"
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
