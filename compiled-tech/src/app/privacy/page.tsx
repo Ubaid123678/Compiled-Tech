@@ -28,7 +28,7 @@ export default function PrivacyPage() {
               1. Who we are
             </h2>
             <p className="text-mist text-[1.125rem] leading-[1.65]">
-              Compiled Tech ("we", "us") is a software and AI studio run by three co-founders in Hasilpur, Punjab, Pakistan. You can reach us at{" "}
+              Compiled Tech (&quot;we&quot;, &quot;us&quot;) is a software and AI studio run by three co-founders in Hasilpur, Punjab, Pakistan. You can reach us at{" "}
               <a href="mailto:hello@compiled.tech" className="text-steel hover:text-frost underline">
                 hello@compiled.tech
               </a>

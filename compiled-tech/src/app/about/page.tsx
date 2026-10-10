@@ -48,13 +48,6 @@ export default function AboutPage() {
     email: siteConfig.email,
   });
 
-  const breadcrumbJsonLd = generateJsonLd({
-    type: "BreadcrumbList",
-    name: "Breadcrumb",
-    description: "Breadcrumb navigation",
-    url: `${siteConfig.url}/about`,
-  });
-
   return (
     <>
       <Script

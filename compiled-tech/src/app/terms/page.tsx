@@ -35,7 +35,7 @@ export default function TermsPage() {
                   1. Who we are
                 </h3>
                 <p className="text-mist text-base leading-[1.65]">
-                  Compiled Tech ("we", "us") is a software and AI studio run by three co-founders in Hasilpur, Punjab, Pakistan. Contact:{" "}
+                  Compiled Tech (&quot;we&quot;, &quot;us&quot;) is a software and AI studio run by three co-founders in Hasilpur, Punjab, Pakistan. Contact:{" "}
                   <a href="mailto:hello@compiled.tech" className="text-steel hover:text-frost underline">
                     hello@compiled.tech
                   </a>
@@ -75,7 +75,7 @@ export default function TermsPage() {
                   5. No guarantee about the site
                 </h3>
                 <p className="text-mist text-base leading-[1.65]">
-                  We work to keep the site accurate and available, but we provide it "as is". We do not promise that it will always be available, error free, or free from harmful components.
+                  We work to keep the site accurate and available, but we provide it &quot;as is&quot;. We do not promise that it will always be available, error free, or free from harmful components.
                 </p>
               </section>
 
@@ -185,7 +185,7 @@ export default function TermsPage() {
                   15. Confidentiality
                 </h3>
                 <p className="text-mist text-base leading-[1.65]">
-                  Each side will keep the other side's confidential information private, use it only for the project, and not share it without permission. This does not apply to information that is public, already known to us, or required by law to be disclosed. This duty continues for 2 years after the project ends.
+                  Each side will keep the other side&apos;s confidential information private, use it only for the project, and not share it without permission. This does not apply to information that is public, already known to us, or required by law to be disclosed. This duty continues for 2 years after the project ends.
                 </p>
               </section>
 

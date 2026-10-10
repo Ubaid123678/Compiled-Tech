@@ -3,7 +3,7 @@ import { SectionHeading } from "@/components/content/SectionHeading";
 import { PlusStrip } from "@/components/content/PlusStrip";
 import { ServiceTile } from "@/components/cards/ServiceTile";
 import { getServiceIcon } from "@/components/content/ServiceIcons";
-import { pillars, plusStrip } from "@/data/services";
+import { pillars } from "@/data/services";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Reveal } from "@/components/motion/Reveal";

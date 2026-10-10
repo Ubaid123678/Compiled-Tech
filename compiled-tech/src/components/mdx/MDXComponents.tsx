@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { cn } from "@/lib/utils";
 import { Copy, Check, Info } from "lucide-react";
 
 export const MDXComponents = {
@@ -43,6 +42,8 @@ export const MDXComponents = {
   ),
   img: ({ src, alt, title }: { src: string; alt: string; title?: string }) => (
     <Figure>
+      {/* MDX image URLs are dynamic and may be remote; Next Image cannot optimize them without configured domains. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt={alt} className="w-full rounded-[12px] border border-line" />
       {title && <figcaption className="text-center text-sm text-mist/60 mt-2">{title}</figcaption>}
     </Figure>

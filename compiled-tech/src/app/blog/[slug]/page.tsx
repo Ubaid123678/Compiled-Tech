@@ -1,4 +1,5 @@
 import { compileMDX } from "next-mdx-remote/rsc";
+import Image from "next/image";
 import { PageHero } from "@/components/layout/PageHero";
 import { TableOfContents } from "@/components/content/TableOfContents";
 import { ArticleCard } from "@/components/cards/ArticleCard";
@@ -146,7 +147,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       />
       <PageHero
         title={post.title}
-        lead={`${post.date} · ${post.readTime} · ${post.author}`}
+        lead={`${post.date} · ${post.read_time || ""} · ${post.author}`}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Blog", href: "/blog" },
@@ -170,12 +171,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   <span>·</span>
                   <span className="flex items-center gap-1">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                    {post.readTime}
+                    {post.read_time}
                   </span>
                   <span>·</span>
                   <span>{post.author}</span>
                 </div>
               </div>
+
+              {post.image && (
+                <div className="relative mb-10 aspect-[16/9] overflow-hidden rounded-[20px] border border-line">
+                  <Image src={post.image} alt="" fill priority className="object-cover" sizes="(max-width: 1024px) 100vw, 760px" />
+                </div>
+              )}
 
               <div className="text-mist text-[1.125rem] leading-[1.65]">
                 {content}
@@ -197,7 +204,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {relatedPosts.map((related) => (
-                <ArticleCard key={related.slug} {...related} />
+                <ArticleCard key={related.slug} {...related} readTime={related.read_time} />
               ))}
             </div>
           </Container>

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Orbitron, Exo_2, JetBrains_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Suspense } from "react";

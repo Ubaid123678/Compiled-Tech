@@ -7,7 +7,7 @@ import { BookingEmbed } from "@/components/forms/BookingEmbed";
 import { Footer } from "@/components/layout/Footer";
 import { contactInfo } from "@/data/contact";
 import Script from "next/script";
-import { generateJsonLd, siteConfig } from "@/lib/seo";
+import { generateJsonLd } from "@/lib/seo";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 

@@ -9,7 +9,6 @@ import { CTABand } from "@/components/sections/CTABand";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { Suspense } from "react";
 import Script from "next/script";
 import { generateJsonLd, siteConfig } from "@/lib/seo";
 

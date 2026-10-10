@@ -5,8 +5,8 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || "dummy"
 );
 
-function handleError(error: any, fallback: any) {
-  console.error("Blog API error:", error?.message || error);
+function handleError<T>(error: unknown, fallback: T): T {
+  console.error("Blog API error:", error instanceof Error ? error.message : error);
   return fallback;
 }
 

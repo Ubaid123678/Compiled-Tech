@@ -91,8 +91,6 @@ export function generateJsonLd({
   email,
   priceRange,
   openingHours,
-  aggregateRating,
-  review,
   author,
   datePublished,
   dateModified,
@@ -110,8 +108,6 @@ export function generateJsonLd({
   email?: string;
   priceRange?: string;
   openingHours?: string[];
-  aggregateRating?: { ratingValue: number; reviewCount: number };
-  review?: { author: string; datePublished: string; reviewBody: string; ratingValue: number }[];
   author?: string;
   datePublished?: string;
   dateModified?: string;

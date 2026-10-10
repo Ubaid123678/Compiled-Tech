@@ -13,7 +13,7 @@ type FilterChipsProps = {
 export function FilterChips({ filters, activeFilter, onChange, className }: FilterChipsProps) {
   return (
     <div className={cn("flex flex-wrap gap-3 mb-10", className)} role="group" aria-label="Filter articles">
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {filters.map((filter) => (
           <motion.button
             key={filter}

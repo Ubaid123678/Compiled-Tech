@@ -1,4 +1,3 @@
-import { compileMDX } from "next-mdx-remote/rsc";
 import { PageHero } from "@/components/layout/PageHero";
 import { CaseCard } from "@/components/cards/CaseCard";
 import { CTABand } from "@/components/sections/CTABand";

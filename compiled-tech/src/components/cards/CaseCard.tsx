@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { Chip } from "@/components/content/Chip";
-import { Badge } from "@/components/content/Badge";
 import { cn } from "@/lib/utils";
 
 type CaseCardProps = {

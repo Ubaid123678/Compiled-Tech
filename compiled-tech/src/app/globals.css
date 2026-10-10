@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+body:has(.admin-shell) > header,
+body:has(.admin-shell) > #mobile-menu {
+  display: none;
+}
+
 @theme {
   --color-ink: #070B11;
   --color-night: #0D141D;
