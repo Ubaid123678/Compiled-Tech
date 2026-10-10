@@ -29,7 +29,7 @@ const whyItems = [
 export function WhyUs() {
   return (
     <section id="why" aria-labelledby="why-heading">
-      <div className="mx-auto max-w-300 px-4 sm:px-6 lg:px-16 py-16 lg:py-26">
+      <div className="mx-auto max-w-300 px-4 sm:px-6 lg:px-16 py-12 lg:py-20">
         <Reveal>
           <SectionHeading
             id="why-heading"

@@ -91,7 +91,7 @@ export default function BlogPage() {
             { label: "Blog" },
           ]}
         />
-        <Section className="py-16 lg:py-26">
+        <Section className="pb-12 pt-8 lg:pb-20 lg:pt-12">
           <Container>
             <div className="animate-pulse space-y-12">
               <div className="h-64 bg-slate/50 rounded-[20px]" />
@@ -125,7 +125,7 @@ export default function BlogPage() {
         ]}
       />
 
-      <Section id="blog" className="py-16 lg:py-26">
+      <Section id="blog" className="pb-12 pt-8 lg:pb-20 lg:pt-12">
         <Container>
           <FilterChips
             filters={blogCategories}

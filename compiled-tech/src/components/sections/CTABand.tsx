@@ -23,7 +23,7 @@ export function CTABand({
   className,
 }: CTABandProps) {
   return (
-    <section className={cn("relative isolate overflow-hidden rounded-frame border border-line bg-linear-to-b from-ink via-night/50 to-ink px-6 py-16 text-center lg:px-12 lg:py-24", className)}>
+    <section className={cn("relative isolate overflow-hidden rounded-frame border border-line bg-linear-to-b from-ink via-night/50 to-ink px-6 py-12 text-center lg:px-12 lg:py-16", className)}>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(185_198_212/0.03)_0%,transparent_70%)]" aria-hidden="true" />
       <Reveal className="relative z-10 mx-auto max-w-3xl">
         <h2 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.5rem,3.2vw,2.4rem)] leading-[1.15] mb-4">

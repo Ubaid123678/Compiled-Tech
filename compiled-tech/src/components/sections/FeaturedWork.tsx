@@ -12,7 +12,7 @@ export async function FeaturedWork() {
 
   return (
     <section id="work" aria-labelledby="work-heading">
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16 py-16 lg:py-26">
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16 py-12 lg:py-20">
         <Reveal>
           <SectionHeading
             id="work-heading"

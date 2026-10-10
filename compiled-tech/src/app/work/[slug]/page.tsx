@@ -113,7 +113,7 @@ export default async function WorkProjectPage({ params }: WorkProjectPageProps) 
         showHexagon={false}
       />
 
-      <Section id="work-detail" className="py-16 lg:py-26">
+      <Section id="work-detail" className="pb-12 pt-8 lg:pb-20 lg:pt-12">
         <Container>
           <div className="grid lg:grid-cols-[1fr_280px] gap-12">
             <article>
@@ -186,7 +186,7 @@ export default async function WorkProjectPage({ params }: WorkProjectPageProps) 
       </Section>
 
       {galleryImages.length > 0 && (
-        <Section id="project-gallery" className="bg-night/50 py-16 lg:py-26">
+        <Section id="project-gallery" className="bg-night/50 pb-12 pt-8 lg:pb-20 lg:pt-12">
           <Container>
             <div className="mb-8 flex items-end justify-between gap-6">
               <div>
@@ -219,7 +219,7 @@ export default async function WorkProjectPage({ params }: WorkProjectPageProps) 
       )}
 
       {relatedProjects.length > 0 && (
-        <Section id="related-work" className="bg-night/50 py-16 lg:py-26">
+        <Section id="related-work" className="bg-night/50 pb-12 pt-8 lg:pb-20 lg:pt-12">
           <Container>
             <h2 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.5rem,3.2vw,2.4rem)] leading-[1.15] mb-8 text-center">
               Related projects

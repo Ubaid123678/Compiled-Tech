@@ -79,7 +79,7 @@ export default function WorkPage() {
             { label: "Work" },
           ]}
         />
-        <Section className="py-16 lg:py-26">
+        <Section className="pb-12 pt-8 lg:pb-20 lg:pt-12">
           <Container>
             <div className="animate-pulse space-y-8">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -107,7 +107,7 @@ export default function WorkPage() {
         ]}
       />
 
-      <Section id="work" className="py-16 lg:py-26">
+      <Section id="work" className="pb-12 pt-8 lg:pb-20 lg:pt-12">
         <Container>
           <FilterChips
             filters={categories}

@@ -57,7 +57,7 @@ export const aboutData = {
     {
       name: "Muhammad Faraz",
       role: "Co-founder, Full Stack Developer",
-      line: "Architects backend and infrastructure. Scales SaaS and platforms.",
+      line: "Architects frontend, backend and infrastructure. Scales SaaS and platforms.",
       image: "/team/faraz.jpeg",
       linkedin: "https://www.linkedin.com/in/muhammad-faraz58/",
       github: "https://github.com/sf5836",

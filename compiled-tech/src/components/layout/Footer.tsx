@@ -74,8 +74,8 @@ function IconWrapper({ Icon, className }: { Icon: React.ReactNode; className?: s
 export function Footer() {
   return (
     <footer suppressHydrationWarning className="bg-night border-t border-line">
-      <Container className="py-16 lg:py-24">
-        <Reveal className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-16 mb-16">
+      <Container className="py-10 lg:py-14">
+        <Reveal className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12 mb-10">
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-3 mb-4" aria-label="Compiled Tech home">
               <Image
@@ -89,7 +89,7 @@ export function Footer() {
                 COMPILED TECH
               </span>
             </Link>
-            <p className="text-mist text-sm leading-relaxed mb-6 max-w-xs">
+            <p className="text-mist text-sm leading-relaxed mb-4 max-w-xs">
               We compile ideas into intelligent software.
             </p>
             <div className="flex gap-4">
@@ -110,10 +110,10 @@ export function Footer() {
 
           {Object.entries(footerNav).map(([title, links]) => (
             <div key={title}>
-              <h3 className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel mb-4">
+              <h3 className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel mb-3">
                 {title}
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.href}>
                     <Link
@@ -137,21 +137,17 @@ export function Footer() {
           ))}
         </Reveal>
 
-        <div className="border-t border-line pt-12">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 mb-12">
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-              <span className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel mb-2 md:mb-0">
-                Newsletter
-              </span>
-              <NewsletterForm />
-            </div>
-            <div className="border-t border-line pt-8 w-full md:w-auto md:border-t-0 md:border-l md:pl-8">
-              <p className="text-mist/50 text-sm">
-                © 2026 Compiled Tech. Software only.
-              </p>
-            </div>
+        <div className="flex flex-col gap-6 border-t border-line pt-8 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <span className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel">
+              Newsletter
+            </span>
+            <NewsletterForm />
           </div>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col gap-3 text-sm sm:flex-row sm:items-center sm:gap-5 lg:shrink-0">
+            <p className="text-mist/50">
+              © 2026 Compiled Tech. All rights reserved.
+            </p>
             <Link href="/privacy" className="text-mist/60 hover:text-frost transition-colors text-sm">
               Privacy Policy
             </Link>

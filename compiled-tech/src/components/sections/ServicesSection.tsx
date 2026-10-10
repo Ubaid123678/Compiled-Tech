@@ -5,7 +5,7 @@ import { coreServices } from "@/data/services";
 export function ServicesSection() {
   return (
     <section id="services" aria-labelledby="services-heading">
-      <div className="mx-auto max-w-300 px-4 py-16 sm:px-6 lg:px-16 lg:py-26">
+      <div className="mx-auto max-w-300 px-4 py-12 sm:px-6 lg:px-16 lg:py-20">
         <Reveal>
           <SectionHeading
             id="services-heading"

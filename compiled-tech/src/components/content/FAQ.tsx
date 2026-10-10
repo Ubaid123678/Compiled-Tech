@@ -36,7 +36,7 @@ function FAQItemComponent({ item, index }: { item: FAQItem; index: number }) {
   return (
     <div className="group rounded-[12px] border border-line bg-night overflow-hidden">
       <button
-        className="flex items-center justify-between w-full px-6 py-5 text-left focus-visible:outline-2 focus-visible:outline-steel focus-visible:outline-offset-3"
+        className="flex items-center justify-between w-full px-5 py-4 text-left focus-visible:outline-2 focus-visible:outline-steel focus-visible:outline-offset-3"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
       >
@@ -61,7 +61,7 @@ function FAQItemComponent({ item, index }: { item: FAQItem; index: number }) {
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <div className="px-6 pb-6 border-t border-line">
+            <div className="px-5 pb-4 pt-4 border-t border-line">
               <p className="text-mist text-base leading-[1.65]">{item.a}</p>
             </div>
           </motion.div>

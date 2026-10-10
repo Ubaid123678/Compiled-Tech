@@ -1,7 +1,5 @@
-"use client";
-
-import React, { useState } from "react";
-import { Copy, Check, Info } from "lucide-react";
+import React from "react";
+import { Info } from "lucide-react";
 
 export const MDXComponents = {
   h2: ({ children, id }: { children: React.ReactNode; id?: string }) => (
@@ -62,33 +60,8 @@ export const MDXComponents = {
 };
 
 function CodeBlock({ children }: { children: React.ReactNode }) {
-  const [copied, setCopied] = useState(false);
-
-  // Extract code text from children
-  const codeText = (() => {
-    if (typeof children === "string") return children;
-    const child = children as React.ReactElement<{ children?: string }>;
-    if (React.isValidElement(child) && typeof child.props.children === "string") {
-      return child.props.children;
-    }
-    return "";
-  })();
-
-  const handleCopy = async () => {
-    if (!codeText) return;
-    await navigator.clipboard.writeText(codeText);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
-    <div className="relative group rounded-[12px] border border-line bg-night overflow-hidden">
-      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button onClick={handleCopy} className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-mist/60 hover:text-frost transition-colors rounded-[6px] border border-line bg-night/80" aria-label="Copy code">
-          {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-          <span>{copied ? "Copied" : "Copy"}</span>
-        </button>
-      </div>
+    <div className="rounded-[12px] border border-line bg-night overflow-hidden">
       <pre className="p-5 overflow-x-auto"><code className="font-mono text-[0.875rem] text-frost">{children}</code></pre>
     </div>
   );

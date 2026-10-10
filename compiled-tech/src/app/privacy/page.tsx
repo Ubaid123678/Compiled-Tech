@@ -21,7 +21,7 @@ export default function PrivacyPage() {
         showHexagon={false}
       />
 
-      <Section id="privacy" className="py-16 lg:py-26">
+      <Section id="privacy" className="pb-12 pt-8 lg:pb-20 lg:pt-12">
         <Container className="max-w-3xl space-y-12">
           <section>
             <h2 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.5rem,3.2vw,2.4rem)] leading-[1.15] mb-4">

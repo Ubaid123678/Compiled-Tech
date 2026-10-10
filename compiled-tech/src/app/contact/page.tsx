@@ -39,7 +39,7 @@ export default function ContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [contactJsonLd] }) }}
       />
-      <section className="bg-linear-to-b from-ink via-night/50 to-ink py-16 lg:py-26">
+      <section className="bg-linear-to-b from-ink via-night/50 to-ink py-10 lg:py-16">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16">
           <motion.div
             className="text-center max-w-3xl mx-auto"
@@ -57,7 +57,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="py-16 lg:py-26">
+      <section className="py-10 lg:py-16">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16">
           <div className="grid gap-12 lg:grid-cols-[3fr_2fr]">
             <motion.div

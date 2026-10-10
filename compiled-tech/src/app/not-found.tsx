@@ -17,7 +17,7 @@ export default function NotFound() {
         showHexagon={false}
       />
 
-      <Section className="py-16 lg:py-26">
+      <Section className="pb-12 pt-8 lg:pb-20 lg:pt-12">
         <Container className="max-w-md text-center">
           <div className="space-y-6">
             <Button href="/" size="lg" icon={<span className="w-5 h-5">←</span>}>

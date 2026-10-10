@@ -48,21 +48,31 @@ function extractHeadings(content: string) {
 }
 
 async function getRelatedPosts(currentSlug: string, currentCategory: string, limit = 3) {
-  const supabase = (await import("@supabase/supabase-js")).createClient(
-    process.env.SUPABASE_URL || "http://localhost:54321",
-    process.env.SUPABASE_SERVICE_ROLE_KEY || "dummy"
-  );
+  try {
+    const supabase = (await import("@supabase/supabase-js")).createClient(
+      process.env.SUPABASE_URL || "http://localhost:54321",
+      process.env.SUPABASE_SERVICE_ROLE_KEY || "dummy"
+    );
 
-  const { data } = await supabase
-    .from("blog_posts")
-    .select("*")
-    .eq("published", true)
-    .eq("category", currentCategory)
-    .neq("slug", currentSlug)
-    .order("date", { ascending: false })
-    .limit(limit);
+    const { data, error } = await supabase
+      .from("blog_posts")
+      .select("*")
+      .eq("published", true)
+      .eq("category", currentCategory)
+      .neq("slug", currentSlug)
+      .order("date", { ascending: false })
+      .limit(limit);
 
-  return data || [];
+    if (error) {
+      console.error("Blog related-posts query failed:", error);
+      return [];
+    }
+
+    return data || [];
+  } catch (error) {
+    console.error("Blog related-posts lookup failed:", error);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
@@ -109,11 +119,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const { content } = await compileMDX({
-    source: post.content,
-    components: MDXComponents,
-    options: { parseFrontmatter: true },
-  });
+  let content;
+  try {
+    ({ content } = await compileMDX({
+      source: post.content,
+      components: MDXComponents,
+      options: { parseFrontmatter: true },
+    }));
+  } catch (error) {
+    console.error(`Blog post MDX compilation failed for "${slug}":`, error);
+    notFound();
+  }
 
   const headings = extractHeadings(post.content);
   const relatedPosts = await getRelatedPosts(slug, post.category);
@@ -157,7 +173,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         showHexagon={false}
       />
 
-      <Section id="blog-post" className="py-16 lg:py-26">
+      <Section id="blog-post" className="pb-12 pt-8 lg:pb-20 lg:pt-12">
         <Container>
           <div className="grid lg:grid-cols-[1fr_280px] gap-12">
             <article>
@@ -197,7 +213,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       </Section>
 
       {relatedPosts.length > 0 && (
-        <Section id="related-posts" className="bg-night/50 py-16 lg:py-26">
+        <Section id="related-posts" className="bg-night/50 pb-12 pt-8 lg:pb-20 lg:pt-12">
           <Container>
             <h2 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.5rem,3.2vw,2.4rem)] leading-[1.15] mb-8 text-center">
               Related posts

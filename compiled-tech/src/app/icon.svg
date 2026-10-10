@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Compiled Tech">
   <title>Compiled Tech</title>
-  <path d="M85.7 26.5 L64 14 L20.7 39 V89 L64 114 L85.7 101.5" fill="none" stroke="#E9EFF6" stroke-width="14" stroke-linejoin="miter" stroke-miterlimit="10"/>
-  <path d="M38 54 L46 40 H110 L102 54 H80 V88 H66 V54 Z" fill="#E9EFF6"/>
+  <path d="M85.7 26.5 L64 14 L20.7 39 V89 L64 114 L85.7 101.5" fill="none" stroke="#070B11" stroke-width="14" stroke-linejoin="miter" stroke-miterlimit="10"/>
+  <path d="M38 54 L46 40 H110 L102 54 H80 V88 H66 V54 Z" fill="#070B11"/>
 </svg>

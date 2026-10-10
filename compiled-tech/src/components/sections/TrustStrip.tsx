@@ -6,7 +6,7 @@ import { StackMotionRail } from "@/components/motion/StackMotionRail";
 
 export function TrustStrip() {
   return (
-    <section className="border-y border-line py-16 lg:py-20" aria-labelledby="trust-heading">
+    <section className="border-y border-line py-12 lg:py-16" aria-labelledby="trust-heading">
       <div className="mx-auto grid max-w-300 gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1fr] lg:px-16">
         <Reveal className="min-w-0">
           <SectionHeading id="trust-heading" eyebrow="STACK WE BUILD ON" className="mb-6 text-left" />

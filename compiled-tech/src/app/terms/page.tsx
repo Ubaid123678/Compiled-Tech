@@ -21,7 +21,7 @@ export default function TermsPage() {
         showHexagon={false}
       />
 
-      <Section id="terms" className="py-16 lg:py-26">
+      <Section id="terms" className="pb-12 pt-8 lg:pb-20 lg:pt-12">
         <Container className="max-w-3xl space-y-12">
           {/* Part A */}
           <section>

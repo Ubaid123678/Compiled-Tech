@@ -59,7 +59,7 @@ export function ProcessTimeline() {
 
   return (
     <section ref={sectionRef} id="process" className="relative" aria-labelledby="process-heading">
-      <div className="mx-auto max-w-300 px-4 py-16 sm:px-6 lg:px-16 lg:py-26">
+      <div className="mx-auto max-w-300 px-4 pb-12 pt-8 sm:px-6 lg:px-16 lg:pb-20 lg:pt-12">
         <SectionHeading
           id="process-heading"
           eyebrow="HOW WE WORK"
