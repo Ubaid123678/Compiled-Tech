@@ -61,7 +61,7 @@ const footerNav: Record<string, NavLink[]> = {
   ],
   Pages: nav.map((item) => ({ label: item.label, href: item.href })),
   Contact: [
-    { label: "hello@compiled.tech", href: "mailto:hello@compiled.tech", icon: Mail },
+    { label: "hello@compiledtech.io", href: "mailto:hello@compiledtech.io", icon: Mail },
     { label: "+92 310 734 9552", href: contactInfo.whatsapp, icon: MessageSquare, target: "_blank" },
     { label: "Hasilpur, Punjab, Pakistan", href: "#", icon: MapPin },
   ],
