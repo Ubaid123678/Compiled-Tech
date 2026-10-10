@@ -18,13 +18,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Contact form setup
 
-For the complete setup walkthrough, see [CONTACT_SETUP.md](./CONTACT_SETUP.md).
+For the complete setup walkthrough, see [CONTACT_SETUP.md](../doc/CONTACT_SETUP.md).
 
 Copy `.env.example` to `.env.local` and fill in the following values before testing a
 submission:
 
 - `RESEND_API_KEY`: create an API key in the Resend dashboard.
 - `CONTACT_TO_EMAIL`: the inbox that should receive new project inquiries.
+- `RESEND_FROM_EMAIL`: a sender using a verified Resend domain, for example
+  `Compiled Tech <hello@compiled.tech>`.
 - `SUPABASE_URL`: the project URL from Supabase project settings.
 - `SUPABASE_SERVICE_ROLE_KEY`: the server-only service role key from Supabase API settings.
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`: the public site key from a Cloudflare Turnstile widget.
@@ -32,6 +34,9 @@ submission:
 
 The service role key and Turnstile secret must only exist in server environment variables.
 Never expose them through `NEXT_PUBLIC_*` variables or commit `.env.local`.
+
+For the complete GitHub and Hostinger deployment sequence, see
+[HOSTINGER_DEPLOYMENT.md](./HOSTINGER_DEPLOYMENT.md).
 
 The contact route writes to a Supabase table named `leads` with columns for `name`,
 `email`, `company`, `service`, `budget`, `timeline`, `details`, and `created_at`.

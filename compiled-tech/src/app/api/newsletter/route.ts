@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
 
     try {
       await getResend().emails.send({
-        from: "Compiled Tech <onboarding@resend.dev>",
+        from: process.env.RESEND_FROM_EMAIL || "Compiled Tech <onboarding@resend.dev>",
         to: email,
         subject: "Welcome to Compiled Tech insights",
         html: `

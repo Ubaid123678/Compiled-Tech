@@ -13,7 +13,14 @@ function escapeHtml(value: string) {
 }
 
 function requireEnvironment() {
-  const required = ["RESEND_API_KEY", "CONTACT_TO_EMAIL", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "TURNSTILE_SECRET_KEY"];
+  const required = [
+    "RESEND_API_KEY",
+    "CONTACT_TO_EMAIL",
+    "RESEND_FROM_EMAIL",
+    "SUPABASE_URL",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "TURNSTILE_SECRET_KEY",
+  ];
   const missing = required.filter((key) => !process.env[key]);
   if (missing.length) throw new Error(`Missing server environment variables: ${missing.join(", ")}`);
 }
@@ -77,7 +84,7 @@ export async function POST(req: NextRequest) {
 
     // Send email to you
     await getResend().emails.send({
-      from: "Compiled Tech <onboarding@resend.dev>",
+      from: process.env.RESEND_FROM_EMAIL!,
       to: process.env.CONTACT_TO_EMAIL!,
       subject: `New project inquiry: ${data.service}`,
       html: `
@@ -94,7 +101,7 @@ export async function POST(req: NextRequest) {
 
     // Auto-reply to user
     await getResend().emails.send({
-      from: "Compiled Tech <onboarding@resend.dev>",
+      from: process.env.RESEND_FROM_EMAIL!,
       to: data.email,
       subject: "We received your message - Compiled Tech",
       html: `

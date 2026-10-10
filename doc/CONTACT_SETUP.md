@@ -12,6 +12,7 @@ that file. Do not commit it or share it.
 # Resend
 RESEND_API_KEY=
 CONTACT_TO_EMAIL=
+RESEND_FROM_EMAIL=Compiled Tech <hello@yourdomain.com>
 
 # Supabase
 SUPABASE_URL=
@@ -42,17 +43,23 @@ automatic reply to the person who submitted the form.
 4. Copy the key immediately and put it in `RESEND_API_KEY`.
 5. Set `CONTACT_TO_EMAIL` to the inbox that should receive new inquiries.
 6. Open **Domains** in Resend and verify the domain used by the sender address.
+7. Set `RESEND_FROM_EMAIL` to an address on that verified domain.
 
-For initial testing, the route currently sends from
-`onboarding@resend.dev`. For production, update the `from` address in
-`src/app/api/contact/route.ts` after verifying your own domain in Resend.
+The application reads the sender from `RESEND_FROM_EMAIL`; no source-code
+change is needed after the domain is verified. The sender domain must match a
+domain verified in Resend.
 
 Example:
 
 ```env
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxxx
 CONTACT_TO_EMAIL=you@yourdomain.com
+RESEND_FROM_EMAIL=Compiled Tech <hello@yourdomain.com>
 ```
+
+For Hostinger, add these values in the protected Node.js application
+environment settings rather than committing them to GitHub. Add the DNS
+records shown by Resend in Hostinger before testing production email.
 
 ## 3. Create the Supabase database
 
