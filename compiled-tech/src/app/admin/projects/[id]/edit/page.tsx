@@ -8,6 +8,13 @@ import { uploadAdminImage } from "@/lib/admin-upload";
 
 const categories = ["Web", "Mobile", "AI"];
 
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
 export default function EditProjectPage() {
   const router = useRouter();
   const params = useParams();
@@ -81,6 +88,11 @@ export default function EditProjectPage() {
 
     fetchProject();
   }, [params.id, router, supabase]);
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const title = e.target.value;
+    setForm((prev) => ({ ...prev, title, slug: slugify(title) }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -184,7 +196,7 @@ export default function EditProjectPage() {
               id="title"
               name="title"
               value={form.title}
-              onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
+              onChange={handleTitleChange}
               required
               className="w-full bg-night border border-line rounded-[12px] px-4 py-3 text-frost placeholder:text-mist/40 focus:outline-none focus:border-steel focus:ring-2 focus:ring-steel/50 transition-colors"
             />
