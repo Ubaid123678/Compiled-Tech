@@ -1,21 +1,33 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type PostgrestError } from "@supabase/supabase-js";
 import { blogCategories } from "@/data/blog";
 
-const supabase = createClient(
-  process.env.SUPABASE_URL || "http://localhost:54321",
-  process.env.SUPABASE_SERVICE_ROLE_KEY || "dummy"
-);
+function getSupabase() {
+  const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !key) {
+    throw new Error("Supabase blog configuration is missing.");
+  }
+
+  return createClient(url, key);
+}
 
 const allowedCategories = blogCategories.filter((category) => category !== "All");
 
 function handleError<T>(error: unknown, fallback: T): T {
-  console.error("Blog API error:", error instanceof Error ? error.message : error);
+  const details = error as Partial<PostgrestError> & { message?: string };
+  console.error("Blog API error:", {
+    message: details.message || (error instanceof Error ? error.message : "Unknown blog query error"),
+    code: details.code,
+    details: details.details,
+    hint: details.hint,
+  });
   return fallback;
 }
 
 export async function getBlogPosts(category?: string) {
   try {
-    let query = supabase
+    let query = getSupabase()
       .from("blog_posts")
       .select("*")
       .eq("published", true)
@@ -36,12 +48,12 @@ export async function getBlogPosts(category?: string) {
 
 export async function getBlogPost(slug: string) {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from("blog_posts")
       .select("*")
       .eq("slug", slug)
       .eq("published", true)
-      .single();
+      .maybeSingle();
 
     if (error) return handleError(error, null);
     return data;
@@ -52,7 +64,7 @@ export async function getBlogPost(slug: string) {
 
 export async function getBlogCategories() {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from("blog_posts")
       .select("category")
       .eq("published", true)

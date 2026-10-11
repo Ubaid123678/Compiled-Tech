@@ -49,10 +49,14 @@ function extractHeadings(content: string) {
 
 async function getRelatedPosts(currentSlug: string, currentCategory: string, limit = 3) {
   try {
-    const supabase = (await import("@supabase/supabase-js")).createClient(
-      process.env.SUPABASE_URL || "http://localhost:54321",
-      process.env.SUPABASE_SERVICE_ROLE_KEY || "dummy"
-    );
+    const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!url || !key) {
+      throw new Error("Supabase blog configuration is missing.");
+    }
+
+    const supabase = (await import("@supabase/supabase-js")).createClient(url, key);
 
     const { data, error } = await supabase
       .from("blog_posts")
