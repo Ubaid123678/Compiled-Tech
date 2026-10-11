@@ -116,7 +116,7 @@ export function Header() {
             <button
               ref={menuButtonRef}
               type="button"
-              className="flex size-11 items-center justify-center text-mist transition-colors hover:text-frost focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel min-[900px]:hidden"
+              className="flex size-10 items-center justify-center text-mist transition-colors hover:text-frost focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel min-[900px]:hidden"
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}
@@ -132,13 +132,13 @@ export function Header() {
         {open && (
           <motion.div
             id="mobile-menu"
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-ink/90 px-6 backdrop-blur-[14px] min-[900px]:hidden"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-start bg-ink/90 px-6 pt-28 backdrop-blur-[14px] min-[900px]:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <nav className="flex flex-col items-center gap-6" aria-label="Mobile navigation">
+            <nav className="flex flex-col items-center gap-4" aria-label="Mobile navigation">
               {nav.map((item, index) => (
                 <motion.div
                   key={item.href}
@@ -151,15 +151,21 @@ export function Header() {
                     ref={index === 0 ? firstLinkRef : undefined}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="font-display text-[clamp(1.4rem,4vw,2rem)] uppercase tracking-widest text-frost focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-steel"
+                    className="font-display text-[clamp(1.15rem,3.5vw,1.6rem)] uppercase tracking-[0.16em] text-frost focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-steel"
                   >
                     {item.label}
                   </Link>
                 </motion.div>
               ))}
             </nav>
-            <div className="absolute inset-x-6 bottom-8 flex justify-center">
-              <Button href={cta.href} size="lg" icon={<ArrowUpRight size={16} strokeWidth={1.7} />} onClick={() => setOpen(false)}>
+            <div className="absolute inset-x-6 bottom-100 flex justify-center">
+              <Button
+                href={cta.href}
+                size="md"
+                className="px-5 text-[0.64rem]"
+                icon={<ArrowUpRight size={15} strokeWidth={1.7} />}
+                onClick={() => setOpen(false)}
+              >
                 {cta.label}
               </Button>
             </div>
