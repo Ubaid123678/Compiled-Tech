@@ -7,7 +7,6 @@ export const contactFields = {
     "AI Chatbots & Virtual Assistants",
     "AI Data & Document Processing",
     "Custom AI & Machine Learning",
-    "UI/UX Design",
     "Not sure",
   ] as const,
   budget: [
