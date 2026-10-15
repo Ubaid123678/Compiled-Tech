@@ -26,6 +26,20 @@ const C = {
 
 const FONT = "font-family:Arial,Helvetica,sans-serif;";
 
+/**
+ * Logo cell: real <img> when EMAIL_LOGO_URL is set, else the bordered text mark.
+ * ponytail: SVG isn't rendered by Gmail/Outlook — host a PNG/WebP and set
+ * EMAIL_LOGO_URL (Supabase storage public URL works); the text mark stays as
+ * the always-renders fallback so a broken env var can't blank the header.
+ */
+function logocell() {
+  const logoUrl = process.env.EMAIL_LOGO_URL;
+  if (logoUrl) {
+    return `<td style="padding-right:12px;vertical-align:middle;"><img src="${logoUrl}" alt="Compiled Tech" width="36" height="36" style="display:block;width:36px;height:36px;border:none;border-radius:8px;outline:none;text-decoration:none;"/></td>`;
+  }
+  return `<td style="${FONT}width:36px;height:36px;border:2px solid ${C.steel};border-radius:8px;text-align:center;vertical-align:middle;font-size:15px;font-weight:bold;color:${C.frost};" align="center">&lt;/&gt;</td>`;
+}
+
 /** One label/value pair inside the slate detail box. */
 function row(label: string, value: string, href?: string) {
   return `
@@ -64,7 +78,7 @@ function shell(header: string, body: string, footer: string, preheader: string) 
             <td style="padding:32px 32px 0 32px;">
               <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="${FONT}width:36px;height:36px;border:2px solid ${C.steel};border-radius:8px;text-align:center;vertical-align:middle;font-size:15px;font-weight:bold;color:${C.frost};" align="center">&lt;/&gt;</td>
+                  ${logocell()}
                   <td style="${FONT}padding-left:12px;font-size:16px;font-weight:bold;letter-spacing:3px;text-transform:uppercase;color:${C.frost};">Compiled Tech</td>
                 </tr>
               </table>
