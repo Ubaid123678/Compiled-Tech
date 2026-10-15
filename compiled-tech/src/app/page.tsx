@@ -8,12 +8,28 @@ import { CTABand } from "@/components/sections/CTABand";
 import { Footer } from "@/components/layout/Footer";
 import Script from "next/script";
 import { Suspense } from "react";
-import { generateJsonLd, siteConfig } from "@/lib/seo";
+import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 
-export const metadata = {
-  title: "Compiled Tech | Software and AI Studio",
-  description: "Compiled Tech builds web apps, mobile apps, SaaS and AI solutions for startups and growing teams.",
-};
+// Reuse generatePageMetadata so home gets the same canonical/OG/Twitter tags every other page gets.
+// ponytail: visible page copy (hero, services list) is what actually ranks for these
+// keywords; the tags below just point Google at it consistently.
+export const metadata = generatePageMetadata({
+  title: "Software, Web & AI Development Company",
+  description:
+    "Custom web apps, mobile apps, SaaS platforms, and AI automation for startups and growing teams. Hire a four-person team that ships. Get a quote today.",
+  path: "/",
+  type: "website",
+  tags: [
+    "software development company",
+    "web app development",
+    "mobile app development",
+    "AI automation agency",
+    "SaaS development company",
+    "custom software development",
+    "AI chatbot development",
+    "e-commerce development",
+  ],
+});
 
 export default function Home() {
   const servicesJsonLd = [

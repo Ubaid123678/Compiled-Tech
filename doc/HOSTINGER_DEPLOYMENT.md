@@ -40,7 +40,7 @@ Do this before testing the production contact form:
 
 1. Sign in at [resend.com](https://resend.com).
 2. Open **Domains** and add the domain you will use in the sender address,
-   such as `compiled.tech`.
+   such as `compiledtech.io`.
 3. Add the DNS records Resend provides in Hostinger's DNS zone.
 4. Wait for Resend to show the domain as verified.
 5. Create a Resend API key with permission to send email.
@@ -48,7 +48,7 @@ Do this before testing the production contact form:
 The sender must use the verified domain. For example:
 
 ```text
-Compiled Tech <hello@compiled.tech>
+Compiled Tech <hello@compiledtech.io>
 ```
 
 You do **not** need to change the source code after this guide. The code reads
@@ -93,8 +93,8 @@ GitHub or commit `.env.local`.
 
 ```env
 RESEND_API_KEY=re_...
-CONTACT_TO_EMAIL=hello@compiled.tech
-RESEND_FROM_EMAIL=Compiled Tech <hello@compiled.tech>
+CONTACT_TO_EMAIL=hello@compiledtech.io
+RESEND_FROM_EMAIL=Compiled Tech <hello@compiledtech.io>
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=...
 TURNSTILE_SECRET_KEY=...
@@ -102,7 +102,15 @@ TURNSTILE_SECRET_KEY=...
 
 ### Public variables
 
+These are embedded in the browser bundle during the build, so they must be set
+before building. The two `NEXT_PUBLIC_SUPABASE_*` values are required for the
+`/admin` login; `NEXT_PUBLIC_SITE_URL` sets the canonical origin used by SEO,
+the sitemap, and the admin sign-out redirect.
+
 ```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+NEXT_PUBLIC_SITE_URL=https://compiledtech.io
 NEXT_PUBLIC_TURNSTILE_SITE_KEY=...
 NEXT_PUBLIC_CALCOM_URL=https://cal.com/compiled-tech
 ```

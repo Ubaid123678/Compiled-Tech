@@ -1,8 +1,12 @@
 import type { MetadataRoute } from "next";
 
-import { blogPosts } from "@/data/blog";
-import { featuredWork } from "@/data/work";
+import { getBlogPosts } from "@/lib/blog";
+import { getWorkProjects } from "@/lib/work";
 import { siteConfig } from "@/lib/seo";
+
+// Rebuild hourly so posts/projects published via /admin appear without a redeploy.
+// ponytail: 1h staleness window; lower it if new pages must surface faster.
+export const revalidate = 3600;
 
 const staticRoutes = [
   "",
@@ -20,7 +24,7 @@ const staticRoutes = [
   "/services/advise-support",
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routes = staticRoutes.map((path) => ({
     url: `${siteConfig.url}${path}`,
     lastModified: new Date(),
@@ -28,14 +32,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === "" ? 1 : 0.7,
   }));
 
-  const blogRoutes = blogPosts.map((post) => ({
+  // Live content, not the static seed files, so anything published in /admin is indexed.
+  const [posts, projects] = await Promise.all([
+    getBlogPosts().catch(() => []),
+    getWorkProjects().catch(() => []),
+  ]);
+
+  const blogRoutes = posts.map((post) => ({
     url: `${siteConfig.url}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
+    lastModified: post.date ? new Date(post.date) : new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
-  const workRoutes = featuredWork.map((project) => ({
+  const workRoutes = projects.map((project) => ({
     url: `${siteConfig.url}/work/${project.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,

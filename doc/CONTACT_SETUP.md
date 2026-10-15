@@ -104,7 +104,7 @@ Turnstile protects the form from automated submissions.
 1. Open [Cloudflare Turnstile](https://dash.cloudflare.com/?to=/:account/turnstile).
 2. Choose **Add site**.
 3. Give the widget a name such as `Compiled Tech contact form`.
-4. Add the production hostname, for example `compiled.tech`.
+4. Add the production hostname, for example `compiledtech.io`.
 5. Add `localhost` while testing locally.
 6. Choose the managed widget mode.
 7. Copy the **site key** to `NEXT_PUBLIC_TURNSTILE_SITE_KEY`.

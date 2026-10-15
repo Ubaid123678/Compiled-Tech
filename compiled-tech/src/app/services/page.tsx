@@ -12,10 +12,20 @@ import Script from "next/script";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 
 export const metadata = generatePageMetadata({
-  title: "Services",
-  description: "Software and AI services grouped into four pillars: Build, AI and ML, Automate and Analyze, Advise and Support.",
+  title: "Web, Mobile, SaaS & AI Development Services",
+  description:
+    "Web and mobile app development, e-commerce builds, SaaS and custom software, AI chatbots, AI agents, and automation services. See what we build and get a quote.",
   path: "/services",
   type: "website",
+  tags: [
+    "web development services",
+    "mobile app development services",
+    "SaaS development services",
+    "AI automation services",
+    "AI chatbot development services",
+    "e-commerce development services",
+    "custom software development services",
+  ],
 });
 
 export default function ServicesPage() {

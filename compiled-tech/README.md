@@ -29,11 +29,15 @@ submission:
   `Compiled Tech <hello@compiledtech.io>`.
 - `SUPABASE_URL`: the project URL from Supabase project settings.
 - `SUPABASE_SERVICE_ROLE_KEY`: the server-only service role key from Supabase API settings.
+- `NEXT_PUBLIC_SUPABASE_URL`: the same project URL, exposed to the browser for `/admin` auth.
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: the public anon key from Supabase API settings, used by the admin login.
+- `NEXT_PUBLIC_SITE_URL`: the canonical origin (for example `https://compiledtech.io`), used by SEO, the sitemap, and the admin sign-out redirect.
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`: the public site key from a Cloudflare Turnstile widget.
 - `TURNSTILE_SECRET_KEY`: the matching private Turnstile secret key.
 
 The service role key and Turnstile secret must only exist in server environment variables.
-Never expose them through `NEXT_PUBLIC_*` variables or commit `.env.local`.
+Never expose them through `NEXT_PUBLIC_*` variables or commit `.env.local`. The anon key is
+safe to expose; the service role key is not.
 
 For the complete GitHub and Hostinger deployment sequence, see
 [HOSTINGER_DEPLOYMENT.md](./HOSTINGER_DEPLOYMENT.md).

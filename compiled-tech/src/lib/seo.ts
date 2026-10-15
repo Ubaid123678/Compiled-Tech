@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 export const siteConfig = {
   name: "Compiled Tech",
   description: "Compiled Tech builds web apps, mobile apps, SaaS and AI solutions for startups and growing teams.",
-  url: "https://compiled.tech",
+  // Set NEXT_PUBLIC_SITE_URL at deploy time to the real origin; this fallback keeps canonical/OG URLs valid.
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://compiledtech.io",
   ogImage: "/og.png",
   twitterHandle: "@compiledtech",
   location: "Hasilpur, Punjab, Pakistan",

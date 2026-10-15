@@ -7,7 +7,7 @@ import { BookingEmbed } from "@/components/forms/BookingEmbed";
 import { Footer } from "@/components/layout/Footer";
 import { contactInfo } from "@/data/contact";
 import Script from "next/script";
-import { generateJsonLd } from "@/lib/seo";
+import { generateJsonLd, siteConfig } from "@/lib/seo";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -25,10 +25,10 @@ const contactJsonLd = generateJsonLd({
   type: "Organization",
   name: "Compiled Tech - Contact",
   description: "Start a project with Compiled Tech. We reply within one working day.",
-  url: "https://compiled.tech/contact",
-  address: "Hasilpur, Punjab, Pakistan",
-  telephone: "+1 555 000 0000",
-  email: "hello@compiledtech.io",
+  url: `${siteConfig.url}/contact`,
+  address: siteConfig.location,
+  telephone: siteConfig.phone,
+  email: siteConfig.email,
 });
 
 export default function ContactPage() {
