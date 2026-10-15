@@ -5,8 +5,9 @@ import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { createBrowserClient } from "@supabase/auth-helpers-nextjs";
 import { uploadAdminImage } from "@/lib/admin-upload";
+import { workCategories } from "@/data/work";
 
-const categories = ["Web", "Mobile", "AI"];
+const categories: string[] = [...workCategories];
 
 function slugify(value: string) {
   return value

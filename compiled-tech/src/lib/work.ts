@@ -1,5 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
+import { workCategories } from "@/data/work";
+
 const supabase = createClient(
   process.env.SUPABASE_URL || "http://localhost:54321",
   process.env.SUPABASE_SERVICE_ROLE_KEY || "dummy"
@@ -121,8 +123,7 @@ function getFallbackProject(slug: string): WorkProject | null {
 }
 
 function getFallbackCategories(): string[] {
-  const cats = [...new Set(fallbackProjects.map(p => p.category))];
-  return ["All", ...cats.sort()];
+  return ["All", ...workCategories];
 }
 
 export async function getWorkProjects(category?: string) {
@@ -180,15 +181,16 @@ export async function getWorkProject(slug: string) {
 
 export async function getWorkCategories() {
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("work_projects")
       .select("category")
       .eq("published", true);
 
     if (error) return getFallbackCategories();
-    
-    const categories = [...new Set(data?.map((p) => p.category) || [])];
-    return ["All", ...categories.sort()];
+
+    // Always show the full canonical list with "All" first — empty categories are
+    // valid (nothing published yet), the chips are navigation not a fallback.
+    return ["All", ...workCategories];
   } catch {
     return getFallbackCategories();
   }

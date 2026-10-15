@@ -1,31 +1,7 @@
-export const featuredWork = [
-  {
-    slug: "service-marketplace",
-    category: "Mobile",
-    title: "Service marketplace app",
-    line: "Customers book local services and track them in real time.",
-    stack: ["React Native", "Node.js", "MongoDB"],
-    image: "/hero/poster.svg",
-    sample: true,
-  },
-  {
-    slug: "document-extractor",
-    category: "AI",
-    title: "Document extractor",
-    line: "Turns invoices and forms into structured data.",
-    stack: ["Python", "FastAPI", "Next.js"],
-    image: "/hero/poster.svg",
-    sample: true,
-  },
-  {
-    slug: "saas-analytics",
-    category: "Web",
-    title: "SaaS analytics dashboard",
-    line: "Live charts and reports for a subscription product.",
-    stack: ["Next.js", "PostgreSQL", "Tailwind"],
-    image: "/hero/poster.svg",
-    sample: true,
-  },
-] as const;
-
-export const workFilters = ["All", "Web", "Mobile", "AI"] as const;
+// Canonical portfolio categories — one per sellable service line (see data/services.ts):
+// Build → Web / Mobile / E-commerce, SaaS & Custom Software, AI pillar → AI.
+// Single source for the admin "New/Edit Project" forms and the Work page filter chips.
+// ponytail: one flat list; AI sub-services (chatbots, agents, doc processing) all file
+// under "AI" — split only if filtering that finely is ever actually wanted.
+export const workCategories = ["Web", "Mobile", "E-commerce", "SaaS", "AI"] as const;
+export type WorkCategory = (typeof workCategories)[number];

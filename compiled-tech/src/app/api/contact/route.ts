@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { createClient } from "@supabase/supabase-js";
 import { contactSchema } from "@/lib/validation";
+import { inquiryAdminEmail, inquiryReceivedEmail } from "@/lib/email-template";
 
 const getResend = () => new Resend(process.env.RESEND_API_KEY);
 const getSupabase = () => createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
@@ -86,37 +87,31 @@ export async function POST(req: NextRequest) {
     await getResend().emails.send({
       from: process.env.RESEND_FROM_EMAIL!,
       to: process.env.CONTACT_TO_EMAIL!,
+      replyTo: data.email,
       subject: `New project inquiry: ${data.service}`,
-      html: `
-        <h2>New inquiry from ${safeName}</h2>
-        <p><strong>Email:</strong> ${safeEmail}</p>
-        <p><strong>Company:</strong> ${safeCompany}</p>
-        <p><strong>Service:</strong> ${data.service}</p>
-        <p><strong>Budget:</strong> ${data.budget}</p>
-        <p><strong>Timeline:</strong> ${data.timeline}</p>
-        <p><strong>Details:</strong></p>
-        <p>${safeDetails}</p>
-      `,
+      html: inquiryAdminEmail({
+        name: safeName,
+        email: safeEmail,
+        company: safeCompany,
+        service: data.service,
+        budget: data.budget,
+        timeline: data.timeline,
+        details: safeDetails,
+      }),
     });
 
     // Auto-reply to user
     await getResend().emails.send({
       from: process.env.RESEND_FROM_EMAIL!,
       to: data.email,
-      subject: "We received your message - Compiled Tech",
-      html: `
-        <p>Thanks, ${safeName}.</p>
-        <p>We got your message and will reply within one working day.</p>
-        <p>A copy of your inquiry is below:</p>
-        <hr>
-        <p><strong>Service:</strong> ${data.service}</p>
-        <p><strong>Budget:</strong> ${data.budget}</p>
-        <p><strong>Timeline:</strong> ${data.timeline}</p>
-        <p><strong>Details:</strong></p>
-        <p>${safeDetails}</p>
-        <hr>
-        <p>The Compiled Tech team</p>
-      `,
+      subject: "We received your message — Compiled Tech",
+      html: inquiryReceivedEmail({
+        name: safeName,
+        service: data.service,
+        budget: data.budget,
+        timeline: data.timeline,
+        details: safeDetails,
+      }),
     });
 
     return NextResponse.json({ success: true });
