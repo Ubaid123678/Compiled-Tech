@@ -29,5 +29,8 @@ export async function POST(req: Request, context: { params: Promise<{ id: string
   const response = await DELETE(req, context);
   if (!response.ok) return response;
 
-  return NextResponse.redirect(new URL("/admin/projects", req.url));
+  // Relative Location: resolves against the browser's current origin, so the
+  // app's internal host (0.0.0.0:3000 behind Hostinger's proxy) never leaks.
+  // ponytail: 303 not 307 so the browser turns POST into GET for the list page.
+  return new NextResponse(null, { status: 303, headers: { Location: "/admin/projects" } });
 }

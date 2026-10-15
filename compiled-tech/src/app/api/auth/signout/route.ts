@@ -13,5 +13,8 @@ export async function POST() {
 
   await supabase.auth.signOut();
 
-  return NextResponse.redirect(new URL("/admin/login", process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"));
+  // Relative Location: resolves against the browser origin, so the fallback
+  // host (localhost:3000) can never leak when NEXT_PUBLIC_SITE_URL is unset.
+  // ponytail: 303 not 307 — POST is answered with "go look there", not "repeat POST".
+  return new NextResponse(null, { status: 303, headers: { Location: "/admin/login" } });
 }

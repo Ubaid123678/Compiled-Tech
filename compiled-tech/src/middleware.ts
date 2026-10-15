@@ -28,15 +28,11 @@ export async function middleware(request: NextRequest) {
   const isLoginPath = request.nextUrl.pathname === "/admin/login";
 
   if (isAdminPath && !isLoginPath && !user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/admin/login";
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
   if (isLoginPath && user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/admin";
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(new URL("/admin", request.url));
   }
 
   return supabaseResponse;
