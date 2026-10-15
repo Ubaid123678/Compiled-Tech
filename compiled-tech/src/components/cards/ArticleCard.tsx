@@ -28,7 +28,7 @@ export function ArticleCard({ slug, title, category, excerpt, date, readTime, au
             fill
             className="object-cover transition-transform duration-400 ease-out group-hover:scale-[1.02]"
             sizes="(max-width: 1024px) 100vw, 50vw"
-            priority
+            loading="eager"
           />
         </Link>
         <div className="p-6 lg:p-8 flex flex-col justify-between">

@@ -1,69 +1,33 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { PageHero } from "@/components/layout/PageHero";
-import { FilterChips } from "@/components/content/FilterChips";
-import { ArticleCard } from "@/components/cards/ArticleCard";
 import { CTABand } from "@/components/sections/CTABand";
 import { Footer } from "@/components/layout/Footer";
-import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { blogCategories } from "@/data/blog";
+import { BlogGrid } from "@/components/blog/BlogGrid";
+import { getBlogPosts, getBlogCategories } from "@/lib/blog";
+import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 import Script from "next/script";
-import { generateJsonLd, siteConfig } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-type BlogPost = {
-  slug: string;
-  title: string;
-  category: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  author: string;
-  image: string;
-  featured: boolean;
-};
+// Was missing entirely: the page inherited the layout default and rendered
+// "<default title> | Compiled Tech" — duplicated brand name, generic description.
+export const metadata = generatePageMetadata({
+  title: "Blog — Software, AI & Development Guides",
+  description:
+    "Practical notes from the Compiled Tech team: AI chatbots, RAG, Next.js, TypeScript, and how to scope and ship software projects without surprises.",
+  path: "/blog",
+  type: "website",
+  tags: [
+    "software development blog",
+    "AI development guides",
+    "Next.js tutorials",
+    "hire software developer tips",
+    "AI chatbot development guide",
+  ],
+});
 
-export default function BlogPage() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const postsData = await (await fetch("/api/blog?category=All")).json();
-        setPosts(postsData.posts || []);
-      } catch (err) {
-        console.error("Failed to fetch blog data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchFiltered = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(`/api/blog?category=${encodeURIComponent(activeFilter)}`);
-        const data = await res.json();
-        setPosts(data.posts || []);
-      } catch (err) {
-        console.error("Failed to fetch filtered posts:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchFiltered();
-  }, [activeFilter]);
-
-  const featuredPost = posts.find((p) => p.featured);
-  const regularPosts = posts.filter((p) => !p.featured);
+export default async function BlogPage() {
+  const [posts, categories] = await Promise.all([getBlogPosts(), getBlogCategories()]);
 
   const blogPostsJsonLd = posts.map((post) =>
     generateJsonLd({
@@ -79,35 +43,6 @@ export default function BlogPage() {
       keywords: [post.category],
     })
   );
-
-  if (loading) {
-    return (
-      <>
-        <PageHero
-          title="Insights"
-          lead="Notes on software and AI from the Compiled Tech team."
-          breadcrumbs={[
-            { label: "Home", href: "/" },
-            { label: "Blog" },
-          ]}
-        />
-        <Section className="pb-12 pt-8 lg:pb-20 lg:pt-12">
-          <Container>
-            <div className="animate-pulse space-y-12">
-              <div className="h-64 bg-slate/50 rounded-[20px]" />
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {[...Array(6)].map((_, i) => (
-                  <div key={i} className="h-80 bg-slate/50 rounded-[20px]" />
-                ))}
-              </div>
-            </div>
-          </Container>
-        </Section>
-        <CTABand />
-        <Footer />
-      </>
-    );
-  }
 
   return (
     <>
@@ -126,51 +61,7 @@ export default function BlogPage() {
       />
 
       <Section id="blog" className="pb-12 pt-8 lg:pb-20 lg:pt-12">
-        <Container>
-          <FilterChips
-            filters={blogCategories}
-            activeFilter={activeFilter}
-            onChange={setActiveFilter}
-          />
-
-          <div className="space-y-12">
-            {featuredPost && (
-              <motion.article
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <ArticleCard {...featuredPost} featured />
-              </motion.article>
-            )}
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              layout
-            >
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {regularPosts.map((post, index) => (
-                  <motion.article
-                    key={post.slug}
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <ArticleCard {...post} />
-                  </motion.article>
-                ))}
-              </div>
-
-              {regularPosts.length === 0 && (
-                <p className="text-center text-mist/60 text-[1.125rem] leading-[1.65] py-12">
-                  No projects in this category yet.
-                </p>
-              )}
-            </motion.div>
-          </div>
-        </Container>
+        <BlogGrid posts={posts} categories={categories} />
       </Section>
 
       <CTABand />

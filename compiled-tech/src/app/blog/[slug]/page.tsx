@@ -200,7 +200,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
               {post.image && (
                 <div className="relative mb-10 aspect-[16/9] overflow-hidden rounded-[20px] border border-line">
-                  <Image src={post.image} alt="" fill priority className="object-cover" sizes="(max-width: 1024px) 100vw, 760px" />
+                  <Image src={post.image} alt="" fill loading="eager" className="object-cover" sizes="(max-width: 1024px) 100vw, 760px" />
                 </div>
               )}
 

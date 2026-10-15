@@ -84,7 +84,7 @@ export function Header() {
               setOpen(false);
             }}
           >
-            <Image src="/logo/compiled-tech-icon-for-dark-bg.svg" alt="" width={28} height={28} priority className="min-[900px]:size-8" />
+            <Image src="/logo/compiled-tech-icon-for-dark-bg.svg" alt="" width={28} height={28} loading="eager" className="min-[900px]:size-8" />
             <span className="font-display text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-frost min-[900px]:text-[0.95rem] min-[900px]:tracking-[0.16em]">
               Compiled Tech
             </span>
