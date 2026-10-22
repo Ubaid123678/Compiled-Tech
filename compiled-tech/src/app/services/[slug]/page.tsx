@@ -186,6 +186,7 @@ async function ServiceDetailContent({ slug }: { slug: string }) {
                     role={project.role}
                     image={project.image}
                     thumbnail={project.thumbnail}
+                    featured={false}
                   />
                 ))}
               </div>

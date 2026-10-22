@@ -230,7 +230,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {relatedPosts.map((related) => (
-                <ArticleCard key={related.slug} {...related} readTime={related.read_time} />
+                // featured={false}: the DB flag would switch ArticleCard to the
+                // full-width layout and break this 3-column grid.
+                <ArticleCard key={related.slug} {...related} readTime={related.read_time} featured={false} />
               ))}
             </div>
           </Container>

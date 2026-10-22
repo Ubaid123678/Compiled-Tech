@@ -216,7 +216,9 @@ export default async function WorkProjectPage({ params }: WorkProjectPageProps) 
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {relatedProjects.map((related) => (
-                <CaseCard key={related.slug} {...related} />
+                // Never let the featured flag through: it switches CaseCard to the
+                // full-width layout, which breaks inside this 3-column grid.
+                <CaseCard key={related.slug} {...related} featured={false} />
               ))}
             </div>
           </Container>
