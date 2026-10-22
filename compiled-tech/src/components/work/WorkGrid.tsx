@@ -25,11 +25,11 @@ export function WorkGrid({ projects, categories }: { projects: CaseStudy[]; cate
   const visible =
     activeFilter === "All" ? projects : projects.filter((p) => p.category === activeFilter);
 
-  // Same treatment as the blog list: the featured project gets the full-width
-  // two-column CaseCard at the top; everything else fills the grid below.
+  // Admin drag order is the source of truth: the first project in the list gets
+  // the full-width two-column card; the rest fill the grid below.
   // ponytail: only in the "All" view — with one project per category the
-  // full-width card IS the grid, so featuring inside a category adds nothing.
-  const featured = activeFilter === "All" ? visible.find((p) => p.featured) : undefined;
+  // full-width card IS the grid, so promoting inside a category adds nothing.
+  const featured = activeFilter === "All" ? visible[0] : undefined;
   const regular = featured ? visible.filter((p) => p.slug !== featured.slug) : visible;
 
   return (

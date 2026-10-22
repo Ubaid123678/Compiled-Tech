@@ -128,17 +128,27 @@ function getFallbackCategories(): string[] {
 
 export async function getWorkProjects(category?: string) {
   try {
-    let query = supabase
-      .from("work_projects")
-      .select("*")
-      .eq("published", true)
-      .order("year", { ascending: false });
+    const run = (orderBy: "sort_order" | "year") => {
+      let query = supabase
+        .from("work_projects")
+        .select("*")
+        .eq("published", true)
+        .order(orderBy, { ascending: orderBy === "sort_order" })
+        .order("year", { ascending: false });
+      if (category && category !== "All") {
+        query = query.eq("category", category);
+      }
+      return query;
+    };
 
-    if (category && category !== "All") {
-      query = query.eq("category", category);
+    let { data, error } = await run("sort_order");
+
+    // Deploy-order safety: sort_order comes from a SQL migration. If the code
+    // ships first, fall back to year ordering rather than fake demo projects.
+    if (error?.code === "42703") {
+      ({ data, error } = await run("year"));
     }
 
-    const { data, error } = await query;
     if (error) return getFallbackProjects().filter(p => !category || category === "All" || p.category === category);
     return (data || []) as WorkProject[];
   } catch {
@@ -153,6 +163,7 @@ export async function getFeaturedWorkProjects(limit = 3) {
       .select("*")
       .eq("published", true)
       .eq("featured", true)
+      .order("sort_order", { ascending: true })
       .order("year", { ascending: false })
       .limit(limit);
 

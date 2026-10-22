@@ -27,10 +27,12 @@ export function BlogGrid({ posts, categories }: { posts: Post[]; categories: str
   const visible =
     activeFilter === "All" ? posts : posts.filter((p) => p.category === activeFilter);
 
-  // First featured post wins the hero slot (matches the blog list behavior);
+  // Admin drag order is the source of truth: whatever sits first in the list
+  // gets the hero slot. The `featured` flag no longer picks the hero — drag the
+  // post to the top instead.
   // ponytail: only in the "All" view — inside a single category the full-width
   // card would BE the grid, so promoting adds nothing there.
-  const featured = activeFilter === "All" ? visible.find((p) => p.featured) : undefined;
+  const featured = activeFilter === "All" ? visible[0] : undefined;
   const regular = featured ? visible.filter((p) => p.slug !== featured.slug) : visible;
 
   return (

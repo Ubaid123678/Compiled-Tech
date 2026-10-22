@@ -27,18 +27,29 @@ function handleError<T>(error: unknown, fallback: T): T {
 
 export async function getBlogPosts(category?: string) {
   try {
-    let query = getSupabase()
-      .from("blog_posts")
-      .select("*")
-      .eq("published", true)
-      .in("category", allowedCategories)
-      .order("date", { ascending: false });
+    const run = (orderBy: "sort_order" | "date") => {
+      let query = getSupabase()
+        .from("blog_posts")
+        .select("*")
+        .eq("published", true)
+        .in("category", allowedCategories)
+        .order(orderBy, { ascending: orderBy === "sort_order" })
+        .order("date", { ascending: false });
+      if (category && category !== "All") {
+        query = query.eq("category", category);
+      }
+      return query;
+    };
 
-    if (category && category !== "All") {
-      query = query.eq("category", category);
+    let { data, error } = await run("sort_order");
+
+    // Deploy-order safety: the sort_order column is added by a SQL migration.
+    // If the code ships before the migration, fall back to date ordering
+    // instead of silently showing an empty blog.
+    if (error?.code === "42703") {
+      ({ data, error } = await run("date"));
     }
 
-    const { data, error } = await query;
     if (error) return handleError(error, []);
     return data || [];
   } catch (error) {

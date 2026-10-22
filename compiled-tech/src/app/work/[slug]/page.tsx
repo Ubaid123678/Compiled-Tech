@@ -1,6 +1,6 @@
 import { PageHero } from "@/components/layout/PageHero";
 import { CaseCard } from "@/components/cards/CaseCard";
-import Image from "next/image";
+import { GalleryLightbox } from "@/components/work/GalleryLightbox";
 import { CTABand } from "@/components/sections/CTABand";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/layout/Container";
@@ -203,23 +203,7 @@ export default async function WorkProjectPage({ params }: WorkProjectPageProps) 
               </div>
               <span className="text-sm text-mist/60">{galleryImages.length} images</span>
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              {galleryImages.map((image, index) => (
-                <figure
-                  key={`${image}-${index}`}
-                  className={index === 0 ? "relative aspect-[16/9] overflow-hidden rounded-[20px] border border-line md:col-span-2" : "relative aspect-[16/10] overflow-hidden rounded-[20px] border border-line"}
-                >
-                  <Image
-                    src={image}
-                    alt={`${project.title} project image ${index + 1}`}
-                    fill
-                    loading={index === 0 ? "eager" : "lazy"}
-                    className="object-cover transition-transform duration-500 hover:scale-[1.02]"
-                    sizes={index === 0 ? "(max-width: 768px) 100vw, 900px" : "(max-width: 768px) 100vw, 50vw"}
-                  />
-                </figure>
-              ))}
-            </div>
+            <GalleryLightbox images={galleryImages} title={project.title} />
           </Container>
         </Section>
       )}

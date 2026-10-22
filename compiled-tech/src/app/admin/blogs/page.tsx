@@ -4,13 +4,22 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
+import { ReorderList } from "@/components/admin/ReorderList";
 
 async function getBlogs() {
   const supabaseAdmin = getSupabaseAdmin();
-  const { data, error } = await supabaseAdmin
-    .from("blog_posts")
-    .select("*")
-    .order("created_at", { ascending: false });
+  const run = (orderBy: "sort_order" | "created_at") =>
+    supabaseAdmin
+      .from("blog_posts")
+      .select("*")
+      .order(orderBy, { ascending: orderBy === "sort_order" })
+      .order("created_at", { ascending: false });
+
+  let { data, error } = await run("sort_order");
+
+  // Deploy-order safety: until SORT_ORDER_MIGRATION.sql is applied the column
+  // is missing — fall back so the admin list still opens.
+  if (error?.code === "42703") { ({ data, error } = await run("created_at")); }
 
   if (error) throw error;
   return data || [];
@@ -70,60 +79,19 @@ export default async function BlogsListPage() {
             </Link>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-line text-left">
-                  <th className="py-4 px-4 font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel">Title</th>
-                  <th className="py-4 px-4 font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel">Category</th>
-                  <th className="py-4 px-4 font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel">Status</th>
-                  <th className="py-4 px-4 font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel">Date</th>
-                  <th className="py-4 px-4 font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-line">
-                {blogs.map((blog) => (
-                  <tr key={blog.id} className="hover:bg-night/50">
-                    <td className="py-4 px-4">
-                      <div className="font-display font-semibold text-frost">{blog.title}</div>
-                      <div className="text-mist/60 text-sm line-clamp-1 max-w-xs">{blog.excerpt}</div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="inline-block font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel px-3 py-1 rounded-[999px] bg-slate/50 border border-line">
-                        {blog.category}
-                      </span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className={`${blog.published ? "text-green-400" : "text-yellow-400"} font-display uppercase text-[0.72rem] tracking-[0.1em]`}>
-                        {blog.published ? "Published" : "Draft"}
-                      </span>
-                    </td>
-                    <td className="py-4 px-4 text-mist/60">
-                      {new Date(blog.created_at).toLocaleDateString()}
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="flex items-center gap-2">
-                        <Link
-                          href={"/admin/blogs/" + blog.id + "/edit"}
-                          className="text-steel hover:text-frost transition-colors text-sm font-display uppercase tracking-[0.1em]"
-                        >
-                          Edit
-                        </Link>
-                        <form action={`/api/admin/blogs/${blog.id}`} method="post">
-                          <button
-                            type="submit"
-                            className="text-red-400 hover:text-red-300 transition-colors text-sm font-display uppercase tracking-[0.1em]"
-                          >
-                            Delete
-                          </button>
-                        </form>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <ReorderList
+            table="blogs"
+            items={blogs.map((blog) => ({
+              id: blog.id,
+              title: blog.title,
+              subtitle: blog.excerpt,
+              meta: blog.category,
+              status: { label: blog.published ? "Published" : "Draft", published: blog.published },
+            }))}
+            editHref={(id) => `/admin/blogs/${id}/edit`}
+            deleteAction={(id) => `/api/admin/blogs/${id}`}
+            emptyLabel="No blog posts yet"
+          />
         )}
 
       </main>

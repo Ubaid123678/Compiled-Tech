@@ -435,17 +435,6 @@ export default function NewProjectPage() {
             <label className="flex items-center gap-3 cursor-pointer">
               <input
                 type="checkbox"
-                name="featured"
-                checked={form.featured}
-                onChange={(e) => setForm((p) => ({ ...p, featured: e.target.checked }))}
-                className="w-5 h-5 rounded border-line bg-night text-steel focus:ring-steel"
-              />
-              <span className="font-display uppercase text-[0.78rem] tracking-[0.1em] text-mist">Featured Project</span>
-            </label>
-
-            <label className="flex items-center gap-3 cursor-pointer">
-              <input
-                type="checkbox"
                 name="published"
                 checked={form.published}
                 onChange={(e) => setForm((p) => ({ ...p, published: e.target.checked }))}
