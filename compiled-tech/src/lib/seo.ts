@@ -6,10 +6,18 @@ export const siteConfig = {
   // Set NEXT_PUBLIC_SITE_URL at deploy time to the real origin; this fallback keeps canonical/OG URLs valid.
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://compiledtech.io",
   ogImage: "/og.png",
-  twitterHandle: "@compiledtech",
+  twitterHandle: "@compiledtech15",
   location: "Hasilpur, Punjab, Pakistan",
   email: "hello@compiledtech.io",
-  phone: "+1 555 000 0000",
+  phone: "+92 310 734 9552",
+  // Real, live profiles only — Google matches these to the brand entity.
+  // ponytail: keep in sync with data/site.ts; one list, one edit.
+  socials: [
+    "https://www.linkedin.com/company/compiled-tech/",
+    "https://x.com/compiledtech15",
+    "https://www.instagram.com/compiled.tech/",
+    "https://github.com/compiledtech",
+  ] as const,
 };
 
 export function generatePageMetadata({
@@ -99,6 +107,7 @@ export function generateJsonLd({
   headline,
   articleSection,
   keywords,
+  items,
 }: {
   type: "Organization" | "WebSite" | "Service" | "Article" | "BreadcrumbList";
   name: string;
@@ -116,6 +125,8 @@ export function generateJsonLd({
   headline?: string;
   articleSection?: string;
   keywords?: string[];
+  /** BreadcrumbList only: the same trail the page renders. */
+  items?: Array<{ label: string; href?: string }>;
 }) {
   const base = {
     "@context": "https://schema.org",
@@ -127,8 +138,12 @@ export function generateJsonLd({
   };
 
   if (type === "Organization" || type === "WebSite") {
+    const isOrg = type === "Organization";
     return {
       ...base,
+      // Google's Organization rich result wants a raster logo >= 112x112;
+      // the repo's SVG mark isn't accepted, so use the generated PNG.
+      ...(isOrg && { logo: `${siteConfig.url}/logo/compiled-tech-logo-512.png` }),
       address: address
         ? {
             "@type": "PostalAddress",
@@ -141,11 +156,9 @@ export function generateJsonLd({
       email,
       priceRange,
       openingHours,
-      sameAs: [
-        "https://github.com/compiledtech",
-        "https://linkedin.com/company/compiledtech",
-        "https://x.com/compiledtech",
-      ],
+      // Real profile URLs — Google uses sameAs to connect the site to the
+      // brand's LinkedIn/Instagram/X accounts in search results.
+      sameAs: [...siteConfig.socials],
     };
   }
 
@@ -191,12 +204,22 @@ export function generateJsonLd({
   }
 
   if (type === "BreadcrumbList") {
+    // Real trail when the page supplies one; otherwise just Home. Google needs
+    // at least 2 items for a breadcrumb result, so a 1-item list is a no-op —
+    // harmless, but pages should pass `items` (they all render a trail).
+    const trail = items?.length
+      ? items
+      : [{ label: "Home", href: siteConfig.url }];
+
     return {
       ...base,
       "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: siteConfig.url },
-      ],
+      itemListElement: trail.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.label,
+        ...(item.href ? { item: item.href.startsWith("http") ? item.href : `${siteConfig.url}${item.href}` } : {}),
+      })),
     };
   }
 

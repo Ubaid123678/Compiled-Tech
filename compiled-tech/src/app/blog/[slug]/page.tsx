@@ -156,6 +156,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     name: "Breadcrumb",
     description: "Breadcrumb navigation",
     url: `${siteConfig.url}/blog/${slug}`,
+    items: [
+      { label: "Home", href: "/" },
+      { label: "Blog", href: "/blog" },
+      { label: post.category, href: `/blog?filter=${post.category}` },
+      { label: post.title },
+    ],
   });
 
   return (

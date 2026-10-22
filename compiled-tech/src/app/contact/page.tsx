@@ -99,7 +99,7 @@ export default function ContactPage() {
                       <div className="flex size-12 shrink-0 items-center justify-center rounded-[12px] border border-line bg-slate/50 text-steel group-hover:text-frost group-hover:border-steel/50 transition-colors">
                         <MessageSquare className="w-5 h-5" aria-hidden="true" />
                       </div>
-                      <span>WhatsApp</span>
+                      <span>WhatsApp · {siteConfig.phone}</span>
                     </a>
                     <div className="flex items-center gap-4 text-mist">
                       <div className="flex size-12 shrink-0 items-center justify-center rounded-[12px] border border-line bg-slate/50 text-steel">

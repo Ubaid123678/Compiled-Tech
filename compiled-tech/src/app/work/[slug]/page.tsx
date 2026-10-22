@@ -92,6 +92,12 @@ export default async function WorkProjectPage({ params }: WorkProjectPageProps) 
     name: "Breadcrumb",
     description: "Breadcrumb navigation",
     url: `${siteConfig.url}/work/${slug}`,
+    items: [
+      { label: "Home", href: "/" },
+      { label: "Work", href: "/work" },
+      { label: project.category, href: `/work?filter=${project.category}` },
+      { label: project.title },
+    ],
   });
 
   return (

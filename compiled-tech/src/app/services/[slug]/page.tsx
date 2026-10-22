@@ -96,6 +96,11 @@ async function ServiceDetailContent({ slug }: { slug: string }) {
     name: "Breadcrumb",
     description: "Breadcrumb navigation",
     url: `${siteConfig.url}/services/${pillar.slug}`,
+    items: [
+      { label: "Home", href: "/" },
+      { label: "Services", href: "/services" },
+      { label: pillar.title },
+    ],
   });
 
   return (
