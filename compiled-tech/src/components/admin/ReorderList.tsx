@@ -24,14 +24,16 @@ export type ReorderItem = {
 export function ReorderList({
   table,
   items: initialItems,
-  editHref,
-  deleteAction,
+  editPath,
+  deletePath,
   emptyLabel,
 }: {
   table: "blogs" | "projects";
   items: ReorderItem[];
-  editHref: (id: string) => string;
-  deleteAction: (id: string) => string;
+  /** Base path; the id is appended client-side. Plain strings only — functions
+   *  can't cross the server→client boundary. */
+  editPath: string;
+  deletePath: string;
   emptyLabel: string;
 }) {
   const router = useRouter();
@@ -164,10 +166,10 @@ export function ReorderList({
               >
                 <ArrowDown className="size-4" />
               </button>
-              <Link href={editHref(item.id)} className="ml-2 text-sm font-display uppercase tracking-[0.1em] text-steel hover:text-frost">
+              <Link href={`${editPath}/${item.id}/edit`} className="ml-2 text-sm font-display uppercase tracking-[0.1em] text-steel hover:text-frost">
                 Edit
               </Link>
-              <form action={deleteAction(item.id)} method="post">
+              <form action={`${deletePath}/${item.id}`} method="post">
                 <button type="submit" className="ml-1 text-sm font-display uppercase tracking-[0.1em] text-red-400 hover:text-red-300">
                   Delete
                 </button>

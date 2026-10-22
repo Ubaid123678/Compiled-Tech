@@ -88,8 +88,8 @@ export default async function BlogsListPage() {
               meta: blog.category,
               status: { label: blog.published ? "Published" : "Draft", published: blog.published },
             }))}
-            editHref={(id) => `/admin/blogs/${id}/edit`}
-            deleteAction={(id) => `/api/admin/blogs/${id}`}
+            editPath="/admin/blogs"
+            deletePath="/api/admin/blogs"
             emptyLabel="No blog posts yet"
           />
         )}

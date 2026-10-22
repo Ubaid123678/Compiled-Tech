@@ -88,8 +88,8 @@ export default async function ProjectsListPage() {
               meta: `${project.category} · ${project.year}`,
               status: { label: project.published ? "Published" : "Draft", published: project.published },
             }))}
-            editHref={(id) => `/admin/projects/${id}/edit`}
-            deleteAction={(id) => `/api/admin/projects/${id}`}
+            editPath="/admin/projects"
+            deletePath="/api/admin/projects"
             emptyLabel="No projects yet"
           />
         )}
