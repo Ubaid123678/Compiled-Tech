@@ -158,7 +158,7 @@ export function Header() {
                 </motion.div>
               ))}
             </nav>
-            <div className="absolute inset-x-6 bottom-100 flex justify-center">
+            <div className="absolute inset-x-6 bottom-75 flex justify-center">
               <Button
                 href={cta.href}
                 size="md"
