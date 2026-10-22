@@ -9,5 +9,6 @@ export const site = {
     { short: "IN", name: "LinkedIn", href: "https://www.linkedin.com/company/compiled-tech/" },
     { short: "X", name: "X", href: "https://x.com/compiledtech15" },
     { short: "IG", name: "Instagram", href: "https://www.instagram.com/compiled.tech/" },
+    { short: "TT", name: "TikTok", href: "https://www.tiktok.com/@compiled_tech.io" },
   ],
 } as const;

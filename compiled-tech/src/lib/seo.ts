@@ -16,6 +16,7 @@ export const siteConfig = {
     "https://www.linkedin.com/company/compiled-tech/",
     "https://x.com/compiledtech15",
     "https://www.instagram.com/compiled.tech/",
+    "https://www.tiktok.com/@compiled_tech.io",
     "https://github.com/compiledtech",
   ] as const,
 };
