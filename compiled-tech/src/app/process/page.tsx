@@ -9,7 +9,6 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Footer } from "@/components/layout/Footer";
 import { processFAQ } from "@/data/process";
-import Script from "next/script";
 import { generateJsonLd, siteConfig } from "@/lib/seo";
 
 export default function ProcessPage() {
@@ -42,7 +41,7 @@ export default function ProcessPage() {
 
   return (
     <>
-      <Script
+      <script
         id="json-ld-process"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [...processStepsJsonLd, ...faqJsonLd] }) }}

@@ -10,7 +10,6 @@ import { Section } from "@/components/layout/Section";
 import { MDXComponents } from "@/components/mdx/MDXComponents";
 import { getBlogPost } from "@/lib/blog";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -166,7 +165,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
-      <Script
+      <script
         id="json-ld-article"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [articleJsonLd, breadcrumbJsonLd] }) }}

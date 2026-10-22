@@ -1,7 +1,6 @@
 import { Orbitron, Exo_2, JetBrains_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Suspense } from "react";
-import Script from "next/script";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 import "./globals.css";
 
@@ -54,12 +53,12 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
   return (
     <html suppressHydrationWarning lang="en" data-scroll-behavior="smooth" className={`${orbitron.variable} ${exo.variable} ${jetbrains.variable} h-full antialiased`}>
       <head>
-        <Script
+        <script
           id="json-ld-organization"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        <Script
+        <script
           id="json-ld-website"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}

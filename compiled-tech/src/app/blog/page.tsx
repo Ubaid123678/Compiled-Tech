@@ -5,7 +5,6 @@ import { Section } from "@/components/layout/Section";
 import { BlogGrid } from "@/components/blog/BlogGrid";
 import { getBlogPosts, getBlogCategories } from "@/lib/blog";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
-import Script from "next/script";
 
 export const dynamic = "force-dynamic";
 
@@ -46,7 +45,7 @@ export default async function BlogPage() {
 
   return (
     <>
-      <Script
+      <script
         id="json-ld-blog"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": blogPostsJsonLd }) }}

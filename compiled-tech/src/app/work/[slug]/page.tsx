@@ -7,7 +7,6 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { getWorkProject } from "@/lib/work";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -102,7 +101,7 @@ export default async function WorkProjectPage({ params }: WorkProjectPageProps) 
 
   return (
     <>
-      <Script
+      <script
         id="json-ld-work"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [projectJsonLd, breadcrumbJsonLd] }) }}

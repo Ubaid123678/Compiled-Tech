@@ -5,7 +5,6 @@ import { Section } from "@/components/layout/Section";
 import { WorkGrid } from "@/components/work/WorkGrid";
 import { getWorkProjects, getWorkCategories } from "@/lib/work";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
-import Script from "next/script";
 
 // Reuse generatePageMetadata so work gets the same canonical/OG/Twitter tags.
 // ponytail: keywords need matching on-page copy; titles/description carry them.
@@ -38,7 +37,7 @@ export default async function WorkPage() {
 
   return (
     <>
-      <Script
+      <script
         id="json-ld-work"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": workJsonLd }) }}

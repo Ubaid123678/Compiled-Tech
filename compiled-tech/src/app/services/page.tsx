@@ -8,7 +8,6 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { Footer } from "@/components/layout/Footer";
-import Script from "next/script";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 
 export const metadata = generatePageMetadata({
@@ -43,7 +42,7 @@ export default function ServicesPage() {
 
   return (
     <>
-      <Script
+      <script
         id="json-ld-services"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": servicesJsonLd }) }}

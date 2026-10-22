@@ -6,7 +6,6 @@ import { FeaturedWork } from "@/components/sections/FeaturedWork";
 import { WhyUs } from "@/components/sections/WhyUs";
 import { CTABand } from "@/components/sections/CTABand";
 import { Footer } from "@/components/layout/Footer";
-import Script from "next/script";
 import { Suspense } from "react";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 
@@ -55,7 +54,7 @@ export default function Home() {
 
   return (
     <>
-      <Script
+      <script
         id="json-ld-services"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": servicesJsonLd }) }}

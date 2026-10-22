@@ -8,7 +8,6 @@ import { Section } from "@/components/layout/Section";
 import { Footer } from "@/components/layout/Footer";
 import { Reveal } from "@/components/motion/Reveal";
 import { aboutData } from "@/data/about";
-import Script from "next/script";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 
 export const metadata = generatePageMetadata({
@@ -50,7 +49,7 @@ export default function AboutPage() {
 
   return (
     <>
-      <Script
+      <script
         id="json-ld-about"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [...teamJsonLd, aboutJsonLd] }) }}

@@ -12,7 +12,6 @@ import { Chip } from "@/components/content/Chip";
 import { Footer } from "@/components/layout/Footer";
 import { pillars } from "@/data/services";
 import { Suspense } from "react";
-import Script from "next/script";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 import { getWorkProjects } from "@/lib/work";
 
@@ -105,7 +104,7 @@ async function ServiceDetailContent({ slug }: { slug: string }) {
 
   return (
     <>
-      <Script
+      <script
         id="json-ld-services"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [...servicesJsonLd, breadcrumbJsonLd] }) }}
