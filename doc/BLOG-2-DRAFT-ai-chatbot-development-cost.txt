@@ -1,0 +1,212 @@
+================================================================================
+BLOG POST #2 — FULL DRAFT (copy each field into the admin form)
+================================================================================
+Title:        How Much Does an AI Chatbot Cost in 2026? (Real Price Breakdown)
+Slug:         ai-chatbot-development-cost
+Category:     AI
+Read time:    7 min
+Author:       Compiled Tech Team
+Date:         2026-10-24
+Image path:   /blog/ai-chatbot-cost.webp
+              (generate with the prompt at the bottom, download as WebP,
+               then upload via Admin -> Image upload, or drop in public/blog/)
+
+Excerpt (max ~160 chars — this becomes the meta description):
+A real 2026 price breakdown for AI chatbots: $500 template bots, $3k-$15k
+custom builds, and what actually moves the number. No upsells, just numbers.
+
+SEO keyword targets (used naturally in the text — do not stuff):
+  - how much does an AI chatbot cost
+  - AI chatbot development cost
+  - AI chatbot pricing 2026
+  - cost to build a chatbot
+Internal links already placed in the body:
+  - /services/ai-ml#ai-chatbots-virtual-assistants  (your AI chatbots service)
+  - /services/automate-analyze#ai-automation-ai-agents (AI agents service)
+  - /contact  (CTA)
+  - /blog/hire-a-software-developer-you-can-trust (previous post — interlink)
+================================================================================
+
+--- BODY (paste everything below this line into the "Content" field) ---
+
+A founder asks for a "simple chatbot" and gets quotes from $500 to $50,000 for
+the same three sentences of requirements. Both quotes can be correct. The
+difference is what the chatbot has to know, where its answers come from, and
+who fixes it at 2 a.m. when it starts making things up.
+
+We build AI chatbots for clients, and we stopped hiding our numbers. This is
+what an AI chatbot actually costs in 2026, which parts of the bill are worth
+paying, and where you should not spend a rupee.
+
+> **In short:** a template bot on your existing plan costs $500-$1,500. A custom
+> bot trained on your business data costs $3,000-$15,000 to build and $100-$500
+> per month to run. Anything above that is buying features you cannot name yet.
+
+## What you are actually paying for
+
+Every chatbot quote is made of the same four parts. When a price confuses you,
+break it into these and ask which one is expensive.
+
+**1. The brain (the language model).** Usually a monthly API bill paid directly
+to OpenAI, Google, or Anthropic — $20 to $400 per month depending on how many
+conversations you handle. This is almost never the big cost.
+
+**2. The knowledge (your data).** Connecting the bot to your products, prices,
+policies, and documents. This is the real work, and the part that separates a
+toy from a tool.
+
+**3. The plumbing (integrations).** WhatsApp, your website, your CRM, your
+order system. Each connection is a separate piece of work.
+
+**4. The babysitting (hosting and maintenance).** Updates, monitoring, fixing
+wrong answers, retraining when your prices change.
+
+## Price ranges you will actually see in 2026
+
+### Tier 1: Template chatbot — $500 to $1,500
+
+A bot built on an existing platform (Tidio, Chatbase, Botpress) pointed at your
+website content. Live in days.
+
+**Right choice when:** you want to answer the same 20 questions customers always
+ask — hours, returns, delivery areas.
+
+**Wrong choice when:** your business has rules a template cannot express, or
+you need the bot to *do* things (check an order, book a slot), not just talk.
+
+### Tier 2: Custom AI chatbot trained on your data — $3,000 to $15,000
+
+The sweet spot for most small businesses. A bot that knows your catalog and
+policies, speaks in your tone, lives on your website or WhatsApp, and hands
+complex conversations to a human.
+
+What moves the price inside this range:
+
+- Number of integrations (website only is cheapest; WhatsApp + CRM + payments
+  stacks up)
+- Language support (English only, or English + Urdu + Arabic)
+- Whether it must take actions — booking, ordering, checking status — instead
+  of just answering
+- How messy your source data is (a clean price list is cheap; 400 scanned PDFs
+  are not)
+
+### Tier 3: Custom platform or AI agent — $15,000 to $50,000+
+
+Multi-department systems where the AI executes workflows: processes invoices,
+chases leads, writes reports. This is AI automation territory, not a chatbot
+any more. If a vendor quotes you this for a customer-support bot, ask them to
+explain which of the four parts above justifies it.
+
+## The monthly bill nobody quotes you upfront
+
+The build cost is one-time. These repeat:
+
+- **Model API usage:** $20-$400/month (grows with traffic)
+- **Hosting:** $10-$100/month
+- **Maintenance contract:** $100-$500/month — keeps answers correct when your
+  prices, policies, or products change
+
+A chatbot with no maintenance budget fails quietly: it starts giving outdated
+answers, customers stop trusting it, and by the time anyone notices, it has
+cost more than it saved.
+
+## Five ways to cut the cost without cutting quality
+
+1. **Start with your top 30 questions.** Write down what customers actually ask
+   (WhatsApp history is gold). Scope to that. Add the rest in month three.
+2. **One channel first.** Website OR WhatsApp. Not both on day one.
+3. **Give the bot clean data.** A tidy FAQ document can cut days off the build.
+4. **Skip the avatar and small talk.** Personality is cheap; correctness is not.
+5. **Ask what happens when the bot does not know.** A good bot escalates to a
+   human gracefully. Building that in from day one is cheaper than bolting it
+   on after a bad launch.
+
+## How to tell a serious quote from a bad one
+
+Ask any vendor these five questions. The answers separate engineers from
+middlemen:
+
+- What happens when the bot is asked something not in its data?
+- Which model will you use, and why that one over the alternatives?
+- Who pays the API bill, and what does it cost at 1,000 conversations a month?
+- Show me a bot you built that is still live today.
+- What does maintenance include, and what happens if I stop paying for it?
+
+If the answers are vague, the price is not real — it is a guess with a logo on
+it.
+
+## What we would tell you on a call
+
+If you just need the same 20 questions answered, take the template route and
+spend the savings on ads. If your customers ask things tied to *your* catalog,
+prices, or policies — or you want the bot to actually do work — a custom build
+pays for itself within the year, and the monthly run cost is smaller than one
+support hire.
+
+We publish our pricing logic because we would rather win the project than the
+quote. If you want a real number for your case, [tell us what the bot should
+do](/contact) and we will reply with a fixed price, not a range.
+
+Related reading: [How to hire a software developer you can trust](/blog/hire-a-software-developer-you-can-trust)
+
+--- END OF BODY ---
+
+================================================================================
+IMAGE PROMPT — paste into Gemini (or any image model)
+================================================================================
+
+The site is dark-themed (very dark navy/steel #070B11 to #1B2735 gradient,
+pale steel-blue #E9EFF6 / #B9C6D4 accents, futuristic but clean). The image is
+the blog cover, shown cropped to 16:10. Text-free is safer — the card overlays
+the title itself — but a small price-tag motif is fine.
+
+PROMPT:
+
+"A wide 16:10 premium tech blog cover illustration, dark futuristic style.
+Background: very dark blue-navy gradient (#070B11 to #1B2735) with a subtle
+hexagonal circuit pattern fading into darkness. Center-left: a glowing
+minimal chat bubble outline made of thin pale steel-blue lines (#B9C6D4),
+inside it a small neural-network node pattern glowing softly (#E9EFF6).
+Right side: three floating translucent price-tag shapes in increasing size,
+connected to the chat bubble by thin glowing lines, suggesting a cost
+breakdown. Subtle depth-of-field glow, faint grid lines on the background,
+cinematic lighting, high contrast, no text, no words, no letters, no logos,
+flat vector-tech style with soft neon accents, generous empty space on the
+left third for text overlay."
+
+SETTINGS:
+- Aspect ratio: 16:10 (e.g. 1200x750). If only 16:9 is available, fine.
+- Format: export as WebP (quality ~85). If Gemini only gives PNG/JPG,
+  convert: it must be saved as .webp to match the file name above.
+- Save the file as:  ai-chatbot-cost.webp
+
+AFTER THE IMAGE:
+Upload via Admin -> New Post -> Image upload (it lands in Supabase storage,
+and the form will fill the URL), OR put the file in public/blog/ and set the
+image field to /blog/ai-chatbot-cost.webp.
+
+================================================================================
+PUBLISH CHECKLIST
+================================================================================
+[ ] Image generated and saved as /blog/ai-chatbot-cost.webp (or uploaded)
+[ ] Admin -> New Post: paste Title, Slug, Category = AI, Read time = 7 min,
+    Author, Excerpt, Image URL, Content (everything between BODY markers)
+[ ] Leave "Published" unticked until you have read it once
+[ ] Publish, then open the live /blog/ai-chatbot-cost page and check:
+      - headings and the blockquote look right
+      - the two internal links work
+[ ] Google Search Console -> URL Inspection -> paste the new URL ->
+    Request Indexing
+[ ] Optional: share it on LinkedIn/X with one line + link (early clicks help
+    Google trust new pages)
+================================================================================
+NOTES (why this topic — for you, not for the blog)
+================================================================================
+- "AI chatbot cost" is a buyer-intent search: people typing it are close to
+  hiring someone. Guides like this convert better than generic "what is AI".
+- It fills the empty "AI" category on your blog filter.
+- It naturally links to your two AI service pages (already placed in the body),
+  which passes visitors and SEO weight to the pages that sell.
+- The transparent-pricing angle is a trust differentiator: most competitors
+  hide prices, so this post can also be your pitch.
+================================================================================
