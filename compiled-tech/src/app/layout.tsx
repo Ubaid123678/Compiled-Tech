@@ -66,8 +66,21 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
         />
         <link rel="sitemap" href="/sitemap.xml" />
         <link rel="robots" href="/robots.txt" />
+        {/* Bing Webmaster verification — must stay in the HTML even after verification. */}
+        <meta name="msvalidate.01" content="9B0E3CCD5051C8D3ED5481693B50BDF1" />
       </head>
       <body suppressHydrationWarning className="min-h-full bg-ink font-body text-mist antialiased">
+        {/* Google Analytics — inline so it ships in the HTML stream; next/script's
+            default strategy injects it client-side, which loses the early pageview. */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-NHY0XJ7SZP" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-NHY0XJ7SZP');`,
+          }}
+        />
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-full focus:bg-steel focus:px-4 focus:py-3 focus:font-display focus:text-xs focus:text-ink">
           Skip to content
         </a>
