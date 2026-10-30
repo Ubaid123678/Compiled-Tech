@@ -47,6 +47,20 @@ function agentLinkHeader(includeMarkdown = false) {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // --- www → apex redirect ---------------------------------------------------
+  // www.compiledtech.io resolves to a separate Hostinger CDN host that answers
+  // 200 instead of redirecting, so both hosts are indexable. One 301 here merges
+  // the signals; the canonical/sitemap/schema are already non-www.
+  const host = (request.headers.get("host") || "").toLowerCase();
+  if (host === "www.compiledtech.io") {
+    const url = request.nextUrl.clone();
+    url.host = "compiledtech.io";
+    url.protocol = "https:";
+    // Strip any internal port so the target is always the clean public URL.
+    url.port = "";
+    return NextResponse.redirect(url, 301);
+  }
+
   // --- Admin auth (unchanged behaviour) ------------------------------------
   if (pathname.startsWith("/admin")) {
     let supabaseResponse = NextResponse.next({ request });
