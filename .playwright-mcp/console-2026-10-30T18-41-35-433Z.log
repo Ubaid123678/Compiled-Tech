@@ -1,0 +1,8 @@
+[     129ms] [WARNING] Failed to decode downloaded font: http://127.0.0.1:3169/_next/static/media/02f0f9a8cd003c78-s.ttf @ http://127.0.0.1:3169/?pricing=1:0
+[     129ms] [WARNING] OTS parsing error: invalid sfntVersion: 1752462448 @ http://127.0.0.1:3169/?pricing=1:0
+[     130ms] [WARNING] Failed to decode downloaded font: http://127.0.0.1:3169/_next/static/media/691e25009cc40719-s.ttf @ http://127.0.0.1:3169/?pricing=1:0
+[     130ms] [WARNING] OTS parsing error: invalid sfntVersion: 1752462448 @ http://127.0.0.1:3169/?pricing=1:0
+[     130ms] [WARNING] Failed to decode downloaded font: http://127.0.0.1:3169/_next/static/media/312caa4416578151-s.ttf @ http://127.0.0.1:3169/?pricing=1:0
+[     130ms] [WARNING] OTS parsing error: invalid sfntVersion: 1752462448 @ http://127.0.0.1:3169/?pricing=1:0
+[     130ms] [WARNING] Failed to decode downloaded font: http://127.0.0.1:3169/_next/static/media/a59a30a124cca0b7-s.ttf @ http://127.0.0.1:3169/?pricing=1:0
+[     130ms] [WARNING] OTS parsing error: invalid sfntVersion: 1752462448 @ http://127.0.0.1:3169/?pricing=1:0
