@@ -5,6 +5,12 @@ import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
 import { FeaturedWork } from "@/components/sections/FeaturedWork";
 import { WhyUs } from "@/components/sections/WhyUs";
 import { CTABand } from "@/components/sections/CTABand";
+import { SectionHeading } from "@/components/content/SectionHeading";
+import { Container } from "@/components/layout/Container";
+import { Section } from "@/components/layout/Section";
+import { Reveal } from "@/components/motion/Reveal";
+import { PricingCards } from "@/components/sections/PricingCards";
+import Link from "next/link";
 import { Footer } from "@/components/layout/Footer";
 import { Suspense } from "react";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
@@ -86,7 +92,30 @@ export default function Home() {
         <Suspense fallback={<div className="py-16 lg:py-26 animate-pulse"><div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16"><div className="h-80 bg-slate/50 rounded-[20px]" /><div className="h-80 bg-slate/50 rounded-[20px]" /><div className="h-80 bg-slate/50 rounded-[20px]" /></div></div>}>
           <FeaturedWork />
         </Suspense>
-        <CTABand secondaryLabel="See Pricing" secondaryHref="/pricing" />
+        <Section id="pricing" aria-labelledby="pricing-heading">
+          <Container>
+            <Reveal>
+              <SectionHeading
+                id="pricing-heading"
+                eyebrow="PRICING"
+                h2="Starting prices, in the open"
+                lead="Every project is scoped and quoted in writing before work begins. No surprises mid-build."
+                className="mb-12 lg:mb-16"
+              />
+            </Reveal>
+            <PricingCards />
+            <Reveal>
+              <p className="mt-8 text-center text-mist/70">
+                Final quotes depend on scope —{" "}
+                <Link href="/pricing" className="text-steel underline underline-offset-2 hover:text-frost">
+                  see full pricing details
+                </Link>
+                .
+              </p>
+            </Reveal>
+          </Container>
+        </Section>
+        <CTABand />
       </main>
       <Footer />
     </>
