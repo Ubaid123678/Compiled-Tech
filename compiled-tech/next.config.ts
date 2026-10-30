@@ -37,6 +37,15 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        // Hero video: long cache + correct MIME. Hostinger's CDN was serving
+        // hero.webm as text/plain with no cache header, so repeat visitors
+        // re-downloaded 1.4MB on every visit.
+        source: "/hero/:file*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
         source: "/(.*)",
         headers: [
           { key: "X-Content-Type-Options", value: "nosniff" },
