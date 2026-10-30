@@ -10,6 +10,39 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
+# AI search / answer engines: allowed to read and cite our pages.
+# ai-train=no in Content-Signal below means: do not use this content to train models.
+User-Agent: GPTBot
+Allow: /
+Disallow: /admin/
+
+User-Agent: OAI-SearchBot
+Allow: /
+
+User-Agent: ChatGPT-User
+Allow: /
+
+User-Agent: ClaudeBot
+Allow: /
+
+User-Agent: Claude-SearchBot
+Allow: /
+
+User-Agent: PerplexityBot
+Allow: /
+
+User-Agent: Google-Extended
+Allow: /
+
+User-Agent: Applebot-Extended
+Allow: /
+
+User-Agent: Bingbot
+Allow: /
+
+User-Agent: CCBot
+Allow: /
+
 # Content-Signal (content usage preferences)
 # search=yes      — index us in search results
 # ai-input=yes    — use our pages to ground AI answers, with attribution

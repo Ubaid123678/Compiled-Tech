@@ -15,6 +15,25 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    // Legacy/typo URL insurance. Nothing is currently broken, but these are the
+    // paths people type or old links used; 301 to the real page instead of a 404.
+    // ponytail: static list — move to a DB table if it ever grows past ~20.
+    return [
+      { source: "/projects", destination: "/work", permanent: true },
+      { source: "/projects/:slug", destination: "/work/:slug", permanent: true },
+      { source: "/case-studies", destination: "/work", permanent: true },
+      { source: "/portfolio", destination: "/work", permanent: true },
+      { source: "/blog-posts", destination: "/blog", permanent: true },
+      { source: "/articles", destination: "/blog", permanent: true },
+      { source: "/services/web", destination: "/services/build", permanent: true },
+      { source: "/services/mobile", destination: "/services/build", permanent: true },
+      { source: "/services/ai", destination: "/services/ai-ml", permanent: true },
+      { source: "/prices", destination: "/pricing", permanent: true },
+      { source: "/quote", destination: "/contact", permanent: true },
+      { source: "/get-a-quote", destination: "/contact", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {
