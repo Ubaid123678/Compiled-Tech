@@ -1,5 +1,6 @@
 import { Orbitron, Exo_2, JetBrains_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
+import { AgentTools } from "@/components/agents/AgentTools";
 import { Suspense } from "react";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 import "./globals.css";
@@ -70,6 +71,7 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-full focus:bg-steel focus:px-4 focus:py-3 focus:font-display focus:text-xs focus:text-ink">
           Skip to content
         </a>
+        <AgentTools />
         <Suspense fallback={null}>
           <Header />
         </Suspense>

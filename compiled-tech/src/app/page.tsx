@@ -8,6 +8,7 @@ import { CTABand } from "@/components/sections/CTABand";
 import { Footer } from "@/components/layout/Footer";
 import { Suspense } from "react";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
+import { pricingTiers } from "@/data/pricing";
 
 // Reuse generatePageMetadata so home gets the same canonical/OG/Twitter tags every other page gets.
 // ponytail: visible page copy (hero, services list) is what actually ranks for these
@@ -52,8 +53,25 @@ export default function Home() {
     })
   );
 
+  // Prices on the homepage as Offer schema — readable without JS or a login.
+  const pricingJsonLd = pricingTiers.map((tier) => ({
+    "@type": "Offer",
+    name: tier.name,
+    description: tier.summary,
+    price: tier.from,
+    priceCurrency: tier.currency,
+    url: `${siteConfig.url}/pricing`,
+    availability: "https://schema.org/InStock",
+    seller: { "@type": "Organization", name: siteConfig.name, url: siteConfig.url },
+  }));
+
   return (
     <>
+      <script
+        id="json-ld-pricing"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": pricingJsonLd }) }}
+      />
       <script
         id="json-ld-services"
         type="application/ld+json"
@@ -68,7 +86,7 @@ export default function Home() {
         <Suspense fallback={<div className="py-16 lg:py-26 animate-pulse"><div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16"><div className="h-80 bg-slate/50 rounded-[20px]" /><div className="h-80 bg-slate/50 rounded-[20px]" /><div className="h-80 bg-slate/50 rounded-[20px]" /></div></div>}>
           <FeaturedWork />
         </Suspense>
-        <CTABand />
+        <CTABand secondaryLabel="See Pricing" secondaryHref="/pricing" />
       </main>
       <Footer />
     </>
