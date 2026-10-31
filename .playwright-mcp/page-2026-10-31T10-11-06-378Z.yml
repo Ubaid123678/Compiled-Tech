@@ -1,0 +1,175 @@
+- generic [active] [ref=f14e1]:
+  - link "Skip to content" [ref=f14e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f14e3]:
+    - generic [ref=f14e4]:
+      - link "Compiled Tech home" [ref=f14e5] [cursor=pointer]:
+        - /url: /#hero
+        - generic [ref=f14e6]: Compiled Tech
+      - navigation "Main navigation" [ref=f14e7]:
+        - link "Home" [ref=f14e8] [cursor=pointer]:
+          - /url: /
+        - link "Services" [ref=f14e9] [cursor=pointer]:
+          - /url: /services
+        - link "Pricing" [ref=f14e10] [cursor=pointer]:
+          - /url: /pricing
+        - link "Work" [ref=f14e11] [cursor=pointer]:
+          - /url: /work
+        - link "Process" [ref=f14e12] [cursor=pointer]:
+          - /url: /process
+        - link "About" [ref=f14e13] [cursor=pointer]:
+          - /url: /about
+        - link "Blog" [ref=f14e14] [cursor=pointer]:
+          - /url: /blog
+      - link "Start a Project" [ref=f14e17] [cursor=pointer]:
+        - /url: /contact
+  - banner [ref=f14e22]:
+    - generic [ref=f14e23]:
+      - navigation "Breadcrumb" [ref=f14e24]:
+        - list [ref=f14e25]:
+          - listitem [ref=f14e26]:
+            - link "Home" [ref=f14e27] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f14e29]:
+            - generic [aria-hidden] [ref=f14e30]: /
+            - generic [ref=f14e31]: Blog
+      - heading "Insights" [level=1] [ref=f14e32]
+      - paragraph [ref=f14e33]: Notes on software and AI from the Compiled Tech team.
+  - generic [ref=f14e35]:
+    - group "Filter articles" [ref=f14e36]:
+      - button "All" [pressed] [ref=f14e37]
+      - button "AI" [ref=f14e38]
+      - button "Guides" [ref=f14e39]
+    - generic [ref=f14e40]:
+      - article [ref=f14e41]:
+        - article [ref=f14e42]:
+          - link [ref=f14e43] [cursor=pointer]:
+            - /url: /blog/ai-chatbot-development-cost
+          - generic [ref=f14e44]:
+            - generic [ref=f14e45]:
+              - generic [ref=f14e46]: AI
+              - heading "How Much Does an AI Chatbot Cost in 2026? (Real Price Breakdown)" [level=2] [ref=f14e47]
+              - paragraph [ref=f14e48]: "A real 2026 price breakdown for AI chatbots: $500 template bots, $3k-$15k custom builds, and what actually moves the number. No upsells, just numbers."
+            - generic [ref=f14e49]:
+              - generic [ref=f14e50]: 2026-10-24
+              - generic [ref=f14e51]: ·
+              - generic [ref=f14e52]: 7 min
+              - generic [ref=f14e56]: ·
+              - generic [ref=f14e57]: Compiled Tech Team
+      - article [ref=f14e60]:
+        - article [ref=f14e61]:
+          - link [ref=f14e62] [cursor=pointer]:
+            - /url: /blog/hire-a-software-developer-you-can-trust
+          - generic [ref=f14e63]:
+            - generic [ref=f14e64]: Guides
+            - heading [level=3] [ref=f14e65]:
+              - link "How to Hire a Software Developer You Can Trust" [ref=f14e66] [cursor=pointer]:
+                - /url: /blog/hire-a-software-developer-you-can-trust
+            - paragraph [ref=f14e67]: "A practical checklist for founders and small businesses: how to scope, pay, and evaluate a developer so your project gets finished and nobody gets burned."
+            - generic [ref=f14e68]:
+              - generic [ref=f14e69]: 2026-10-10
+              - generic [ref=f14e70]: ·
+              - generic [ref=f14e71]: 5 min
+              - generic [ref=f14e75]: ·
+              - generic [ref=f14e76]: Compiled Tech Team
+  - generic [ref=f14e79]:
+    - heading "Have an idea? Let's compile it." [level=2] [ref=f14e80]
+    - paragraph [ref=f14e81]: Tell us what you want to build. We reply within one working day.
+    - generic [ref=f14e82]:
+      - link "Start a Project" [ref=f14e83] [cursor=pointer]:
+        - /url: /contact
+      - link "Book a Call" [ref=f14e88] [cursor=pointer]:
+        - /url: /contact#book
+  - contentinfo [ref=f14e90]:
+    - generic [ref=f14e91]:
+      - generic [ref=f14e92]:
+        - generic [ref=f14e93]:
+          - link "Compiled Tech home" [ref=f14e94] [cursor=pointer]:
+            - /url: /
+            - generic [ref=f14e95]: COMPILED TECH
+          - paragraph [ref=f14e96]: We compile ideas into intelligent software.
+          - generic [ref=f14e97]:
+            - link "LinkedIn" [ref=f14e98] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/compiled-tech/
+            - link "X" [ref=f14e102] [cursor=pointer]:
+              - /url: https://x.com/compiledtech15
+            - link "Instagram" [ref=f14e107] [cursor=pointer]:
+              - /url: https://www.instagram.com/compiled.tech/
+            - link "TikTok" [ref=f14e113] [cursor=pointer]:
+              - /url: https://www.tiktok.com/@compiled_tech.io
+        - generic [ref=f14e117]:
+          - heading "Services" [level=3] [ref=f14e118]
+          - list [ref=f14e119]:
+            - listitem [ref=f14e120]:
+              - link "Web & Mobile App Development" [ref=f14e121] [cursor=pointer]:
+                - /url: /services/build#web-mobile-app-development
+            - listitem [ref=f14e122]:
+              - link "AI Automation & AI Agents" [ref=f14e123] [cursor=pointer]:
+                - /url: /services/automate-analyze#ai-automation-ai-agents
+            - listitem [ref=f14e124]:
+              - link "AI Chatbots & Virtual Assistants" [ref=f14e125] [cursor=pointer]:
+                - /url: /services/ai-ml#ai-chatbots-virtual-assistants
+            - listitem [ref=f14e126]:
+              - link "AI Data & Document Processing" [ref=f14e127] [cursor=pointer]:
+                - /url: /services/ai-ml#ai-data-document-processing
+            - listitem [ref=f14e128]:
+              - link "Custom AI & Machine Learning" [ref=f14e129] [cursor=pointer]:
+                - /url: /services/ai-ml#custom-ai-machine-learning
+            - listitem [ref=f14e130]:
+              - link "SaaS & Custom Software Development" [ref=f14e131] [cursor=pointer]:
+                - /url: /services/build#saas-custom-software-development
+            - listitem [ref=f14e132]:
+              - link "E-commerce Development" [ref=f14e133] [cursor=pointer]:
+                - /url: /services/build#e-commerce-development
+        - generic [ref=f14e134]:
+          - heading "Pages" [level=3] [ref=f14e135]
+          - list [ref=f14e136]:
+            - listitem [ref=f14e137]:
+              - link "Home" [ref=f14e138] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f14e139]:
+              - link "Services" [ref=f14e140] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=f14e141]:
+              - link "Pricing" [ref=f14e142] [cursor=pointer]:
+                - /url: /pricing
+            - listitem [ref=f14e143]:
+              - link "Work" [ref=f14e144] [cursor=pointer]:
+                - /url: /work
+            - listitem [ref=f14e145]:
+              - link "Process" [ref=f14e146] [cursor=pointer]:
+                - /url: /process
+            - listitem [ref=f14e147]:
+              - link "About" [ref=f14e148] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=f14e149]:
+              - link "Blog" [ref=f14e150] [cursor=pointer]:
+                - /url: /blog
+        - generic [ref=f14e151]:
+          - heading "Contact" [level=3] [ref=f14e152]
+          - list [ref=f14e153]:
+            - listitem [ref=f14e154]:
+              - link [ref=f14e155] [cursor=pointer]:
+                - /url: mailto:hello@compiledtech.io
+            - listitem [ref=f14e160]:
+              - link [ref=f14e161] [cursor=pointer]:
+                - /url: https://wa.me/923107349552?text=Hi%20Compiled%20Tech%2C%20I%27d%20like%20to%20discuss%20a%20project.
+            - listitem [ref=f14e165]:
+              - link [ref=f14e166] [cursor=pointer]:
+                - /url: "#"
+          - link "Start a Project" [ref=f14e172] [cursor=pointer]:
+            - /url: /contact
+      - generic [ref=f14e173]:
+        - generic [ref=f14e174]:
+          - generic [ref=f14e175]: Newsletter
+          - generic [ref=f14e176]:
+            - textbox "Email address" [ref=f14e177]:
+              - /placeholder: Enter your email
+            - button "Subscribe" [ref=f14e178]
+        - generic [ref=f14e180]:
+          - paragraph [ref=f14e181]: © 2026 Compiled Tech. All rights reserved.
+          - link "Privacy Policy" [ref=f14e182] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms & Conditions" [ref=f14e183] [cursor=pointer]:
+            - /url: /terms
+  - alert [ref=f14e184]

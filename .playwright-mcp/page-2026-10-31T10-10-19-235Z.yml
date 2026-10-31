@@ -1,0 +1,201 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Compiled Tech home" [ref=e5] [cursor=pointer]:
+        - /url: /#hero
+        - generic [ref=e6]: Compiled Tech
+      - navigation "Main navigation" [ref=e7]:
+        - link "Home" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - link "Services" [ref=e9] [cursor=pointer]:
+          - /url: /services
+        - link "Pricing" [ref=e10] [cursor=pointer]:
+          - /url: /pricing
+        - link "Work" [ref=e11] [cursor=pointer]:
+          - /url: /work
+        - link "Process" [ref=e12] [cursor=pointer]:
+          - /url: /process
+        - link "About" [ref=e13] [cursor=pointer]:
+          - /url: /about
+        - link "Blog" [ref=e14] [cursor=pointer]:
+          - /url: /blog
+      - link "Start a Project" [ref=e17] [cursor=pointer]:
+        - /url: /contact
+  - generic [ref=e24]:
+    - heading "Start a project" [level=1] [ref=e25]
+    - paragraph [ref=e26]: Tell us what you want to build. We reply within one working day.
+  - generic [ref=e29]:
+    - generic [ref=e32]:
+      - generic [ref=e33]:
+        - generic [ref=e34]: Name
+        - textbox "Name" [ref=e35]:
+          - /placeholder: Your name
+      - generic [ref=e36]:
+        - generic [ref=e37]: Email
+        - textbox "Email" [ref=e38]:
+          - /placeholder: you@company.com
+      - generic [ref=e39]:
+        - generic [ref=e40]: Company (optional)
+        - textbox "Company (optional)" [ref=e41]:
+          - /placeholder: Company name
+      - generic [ref=e42]:
+        - generic [ref=e43]: Service
+        - combobox [ref=e44]:
+          - generic: Select
+        - combobox [aria-hidden] [ref=e48]
+      - generic [ref=e49]:
+        - generic [ref=e50]: Budget (USD)
+        - combobox [ref=e51]:
+          - generic: Select
+        - combobox [aria-hidden] [ref=e55]
+      - generic [ref=e56]:
+        - generic [ref=e57]: Timeline
+        - combobox [ref=e58]:
+          - generic: Select
+        - combobox [aria-hidden] [ref=e62]
+      - generic [ref=e63]:
+        - generic [ref=e64]: Details
+        - textbox "Details" [ref=e65]:
+          - /placeholder: Tell us about your project...
+      - generic "Security verification" [ref=e66]
+      - button "Send Message" [ref=e69]
+    - complementary [ref=e71]:
+      - generic [ref=e72]:
+        - generic [ref=e73]:
+          - heading "Get in touch" [level=3] [ref=e74]
+          - generic [ref=e75]:
+            - link "hello@compiledtech.io" [ref=e76] [cursor=pointer]:
+              - /url: mailto:hello@compiledtech.io
+            - link "WhatsApp · +92 310 734 9552" [ref=e82] [cursor=pointer]:
+              - /url: https://wa.me/923107349552?text=Hi%20Compiled%20Tech%2C%20I%27d%20like%20to%20discuss%20a%20project.
+            - link "Hasilpur, Punjab, Pakistan" [ref=e87] [cursor=pointer]:
+              - /url: https://www.google.com/maps/search/?api=1&query=Compiled+Tech,+Hasilpur,+Punjab,+Pakistan
+        - iframe [ref=e94]:
+          - generic [ref=f1e1]:
+            - link "Open in Maps (opens in new tab)" [ref=f1e4] [cursor=pointer]:
+              - /url: about:invalid#zClosurez
+              - text: Open in Maps
+            - generic [ref=f1e9]:
+              - region "Map" [ref=f1e10]
+              - iframe [aria-hidden] [ref=f1e28]
+        - generic [ref=e95]:
+          - heading "Prefer a call?" [level=3] [ref=e96]
+          - iframe [ref=e98]:
+            - main [ref=f2e4]:
+              - generic [ref=f2e12]:
+                - heading "Ubaidullah Akram" [level=1] [ref=f2e13]
+                - paragraph [ref=f2e16]: Founder of Compiled Tech.
+              - generic [ref=f2e17]:
+                - link [ref=f2e18] [cursor=pointer]:
+                  - /url: /compiled-tech/15min
+                  - generic [ref=f2e21]:
+                    - heading "15 min meeting" [level=2] [ref=f2e23]
+                    - list [ref=f2e25]:
+                      - listitem [ref=f2e26]:
+                        - generic: 15m
+                - link [ref=f2e27] [cursor=pointer]:
+                  - /url: /compiled-tech/30min
+                  - generic [ref=f2e30]:
+                    - heading "30 min meeting" [level=2] [ref=f2e32]
+                    - list [ref=f2e34]:
+                      - listitem [ref=f2e35]:
+                        - generic: 30m
+          - paragraph [ref=e99]:
+            - text: Or email us at
+            - link "hello@compiledtech.io" [ref=e100] [cursor=pointer]:
+              - /url: mailto:hello@compiledtech.io
+  - contentinfo [ref=e101]:
+    - generic [ref=e102]:
+      - generic [ref=e103]:
+        - generic [ref=e104]:
+          - link "Compiled Tech home" [ref=e105] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e106]: COMPILED TECH
+          - paragraph [ref=e107]: We compile ideas into intelligent software.
+          - generic [ref=e108]:
+            - link "LinkedIn" [ref=e109] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/compiled-tech/
+            - link "X" [ref=e113] [cursor=pointer]:
+              - /url: https://x.com/compiledtech15
+            - link "Instagram" [ref=e118] [cursor=pointer]:
+              - /url: https://www.instagram.com/compiled.tech/
+            - link "TikTok" [ref=e124] [cursor=pointer]:
+              - /url: https://www.tiktok.com/@compiled_tech.io
+        - generic [ref=e128]:
+          - heading "Services" [level=3] [ref=e129]
+          - list [ref=e130]:
+            - listitem [ref=e131]:
+              - link "Web & Mobile App Development" [ref=e132] [cursor=pointer]:
+                - /url: /services/build#web-mobile-app-development
+            - listitem [ref=e133]:
+              - link "AI Automation & AI Agents" [ref=e134] [cursor=pointer]:
+                - /url: /services/automate-analyze#ai-automation-ai-agents
+            - listitem [ref=e135]:
+              - link "AI Chatbots & Virtual Assistants" [ref=e136] [cursor=pointer]:
+                - /url: /services/ai-ml#ai-chatbots-virtual-assistants
+            - listitem [ref=e137]:
+              - link "AI Data & Document Processing" [ref=e138] [cursor=pointer]:
+                - /url: /services/ai-ml#ai-data-document-processing
+            - listitem [ref=e139]:
+              - link "Custom AI & Machine Learning" [ref=e140] [cursor=pointer]:
+                - /url: /services/ai-ml#custom-ai-machine-learning
+            - listitem [ref=e141]:
+              - link "SaaS & Custom Software Development" [ref=e142] [cursor=pointer]:
+                - /url: /services/build#saas-custom-software-development
+            - listitem [ref=e143]:
+              - link "E-commerce Development" [ref=e144] [cursor=pointer]:
+                - /url: /services/build#e-commerce-development
+        - generic [ref=e145]:
+          - heading "Pages" [level=3] [ref=e146]
+          - list [ref=e147]:
+            - listitem [ref=e148]:
+              - link "Home" [ref=e149] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e150]:
+              - link "Services" [ref=e151] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e152]:
+              - link "Pricing" [ref=e153] [cursor=pointer]:
+                - /url: /pricing
+            - listitem [ref=e154]:
+              - link "Work" [ref=e155] [cursor=pointer]:
+                - /url: /work
+            - listitem [ref=e156]:
+              - link "Process" [ref=e157] [cursor=pointer]:
+                - /url: /process
+            - listitem [ref=e158]:
+              - link "About" [ref=e159] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e160]:
+              - link "Blog" [ref=e161] [cursor=pointer]:
+                - /url: /blog
+        - generic [ref=e162]:
+          - heading "Contact" [level=3] [ref=e163]
+          - list [ref=e164]:
+            - listitem [ref=e165]:
+              - link [ref=e166] [cursor=pointer]:
+                - /url: mailto:hello@compiledtech.io
+            - listitem [ref=e171]:
+              - link [ref=e172] [cursor=pointer]:
+                - /url: https://wa.me/923107349552?text=Hi%20Compiled%20Tech%2C%20I%27d%20like%20to%20discuss%20a%20project.
+            - listitem [ref=e176]:
+              - link [ref=e177] [cursor=pointer]:
+                - /url: "#"
+          - link "Start a Project" [ref=e183] [cursor=pointer]:
+            - /url: /contact
+      - generic [ref=e184]:
+        - generic [ref=e185]:
+          - generic [ref=e186]: Newsletter
+          - generic [ref=e187]:
+            - textbox "Email address" [ref=e188]:
+              - /placeholder: Enter your email
+            - button "Subscribe" [ref=e189]
+        - generic [ref=e191]:
+          - paragraph [ref=e192]: © 2026 Compiled Tech. All rights reserved.
+          - link "Privacy Policy" [ref=e193] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms & Conditions" [ref=e194] [cursor=pointer]:
+            - /url: /terms
+  - alert [ref=e195]
