@@ -128,7 +128,7 @@ export default function ContactPage() {
                     loading="lazy"
                     allowFullScreen
                     referrerPolicy="no-referrer-when-downgrade"
-                    className="h-64 w-full border-0 grayscale-[0.3] transition-all duration-500 hover:grayscale-0"
+                    className="h-64 w-full border-0 invert-[0.92] hue-rotate-180 contrast-[0.9] saturate-[0.7]"
                   />
                 </div>
 
