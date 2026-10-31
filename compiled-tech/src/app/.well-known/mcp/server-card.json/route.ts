@@ -18,8 +18,8 @@ export function GET() {
     description:
       "Software, web and AI development studio. Public content: services, pricing, case studies, blog and contact details.",
     homepage: siteConfig.url,
-    // No MCP transport is served by this site; agents should use the resources below.
-    transport: "none",
+    transport: "streamable-http",
+    endpoint: `${siteConfig.url}/mcp`,
     capabilities: {
       resources: {
         listChanged: false,
@@ -44,7 +44,14 @@ export function GET() {
           },
         ],
       },
-      tools: {},
+      tools: {
+        listChanged: false,
+        tools: [
+          { name: "list_services", description: "List services grouped by pillar." },
+          { name: "list_pricing", description: "Starting prices per project tier." },
+          { name: "get_contact_details", description: "Email, phone, location and enquiry form." },
+        ],
+      },
       prompts: {},
     },
     contact: {

@@ -10,6 +10,13 @@ import { generateJsonLd, siteConfig } from "@/lib/seo";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
+// Points at the real Google Business Profile pin (resolves to the verified
+// listing with its name and reviews, not a bare coordinate).
+const googleMapsUrl =
+  "https://www.google.com/maps/search/?api=1&query=Compiled+Tech,+Hasilpur,+Punjab,+Pakistan";
+const googleMapsEmbedUrl =
+  "https://www.google.com/maps?q=Compiled+Tech,+Hasilpur,+Punjab,+Pakistan&output=embed";
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -100,13 +107,29 @@ export default function ContactPage() {
                       </div>
                       <span>WhatsApp · {siteConfig.phone}</span>
                     </a>
-                    <div className="flex items-center gap-4 text-mist">
-                      <div className="flex size-12 shrink-0 items-center justify-center rounded-[12px] border border-line bg-slate/50 text-steel">
+                    <a
+                      href={googleMapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-4 text-mist hover:text-frost transition-colors"
+                    >
+                      <div className="flex size-12 shrink-0 items-center justify-center rounded-[12px] border border-line bg-slate/50 text-steel group-hover:text-frost group-hover:border-steel/50 transition-colors">
                         <MapPin className="w-5 h-5" aria-hidden="true" />
                       </div>
                       <span>{contactInfo.location}</span>
-                    </div>
+                    </a>
                   </div>
+                </div>
+
+                <div className="overflow-hidden rounded-[20px] border border-line bg-night">
+                  <iframe
+                    src={googleMapsEmbedUrl}
+                    title="Compiled Tech on Google Maps"
+                    loading="lazy"
+                    allowFullScreen
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="h-64 w-full border-0 grayscale-[0.3] transition-all duration-500 hover:grayscale-0"
+                  />
                 </div>
 
                 <BookingEmbed />
