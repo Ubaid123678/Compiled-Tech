@@ -12,11 +12,12 @@ type RevealProps = {
  * Scroll-in reveal for the server-rendered sections it wraps.
  *
  * ponytail: this is a client component, which means the wrapped subtree is
- * serialized into the RSC payload twice (once as HTML, once as props). The
- * CSS `animation-timeline: view()` alternative removes that cost, but it is
- * Chromium-only — in Safari and Firefox the animation silently never runs and
- * the page reads as static. Correct-on-every-browser wins over 15KB; revisit
- * only if scroll-driven animations ship everywhere.
+ * serialized into the RSC payload twice (once as HTML, once as props). The CSS
+ * `animation-timeline: view()` alternative removes that cost, but support is
+ * still incomplete — Firefox only gained it in 159 (158 and below render the
+ * page completely static, which is what shipped to users), and Safari only in
+ * 26. That is ~12% of the web seeing no animation at all. Correct everywhere
+ * beats ~15KB; revisit when support is near-universal.
  */
 export function Reveal({ children, className, delay = 0 }: RevealProps) {
   const reduceMotion = useReducedMotion();
