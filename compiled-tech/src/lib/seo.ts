@@ -32,6 +32,15 @@ export const siteConfig = {
 export const organizationId = `${siteConfig.url}/#organization`;
 export const websiteId = `${siteConfig.url}/#website`;
 
+/**
+ * Date the site content was last built, as YYYY-MM-DD.
+ *
+ * Pages such as the homepage and /process are prerendered at build time, so
+ * the build date is the honest "content was updated" date. Falls back to the
+ * process start if the variable is missing.
+ */
+export const contentDate = (process.env.NEXT_PUBLIC_BUILD_DATE || new Date().toISOString()).slice(0, 10);
+
 export function generatePageMetadata({
   title,
   description,
@@ -308,6 +317,11 @@ export function generateSpeakableJsonLd(url: string) {
     url,
     isPartOf: { "@id": websiteId },
     about: { "@id": organizationId },
+    // Recency signal for LLM readers. The homepage and these answer sections
+    // are rebuilt on every deploy, so the build time IS the last update — this
+    // is a real date, not a decorative one.
+    datePublished: contentDate,
+    dateModified: contentDate,
     speakable: {
       "@type": "SpeakableSpecification",
       cssSelector: ["[data-speakable]"],
