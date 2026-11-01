@@ -70,7 +70,11 @@ export default function Home() {
   // FAQPage + Speakable come from the same arrays the page renders, so the
   // markup and the visible copy cannot drift apart.
   const faqJsonLd = generateFaqJsonLd(answers, siteConfig.url, "answers");
-  const speakableJsonLd = generateSpeakableJsonLd(siteConfig.url);
+  const speakableJsonLd = generateSpeakableJsonLd(siteConfig.url, {
+    name: "Software, Web & AI Development Company | Compiled Tech",
+    description:
+      "Custom web apps, mobile apps, SaaS platforms, and AI automation for startups and growing teams.",
+  });
   const howToJsonLd = generateHowToJsonLd(
     "How a Compiled Tech project runs",
     processSteps.map((step) => ({ title: step.title, text: step.text })),

@@ -11,6 +11,10 @@ export const siteConfig = {
   location: "Hasilpur, Punjab, Pakistan",
   email: "hello@compiledtech.io",
   phone: "+92 310 734 9552",
+  // Facts used by schema only where they are verifiable from the site itself.
+  slogan: "Compile ideas into intelligence",
+  employeeCount: 4,
+  foundingDate: "2026",
   // Real, live profiles only — Google matches these to the brand entity.
   // ponytail: keep in sync with data/site.ts; one list, one edit.
   socials: [
@@ -204,10 +208,18 @@ export function generateJsonLd({
           areaServed: "Worldwide",
         },
         founder: { "@type": "Person", name: "Ubaidullah Akram" },
+        slogan: siteConfig.slogan,
+        foundingDate: siteConfig.foundingDate,
+        numberOfEmployees: {
+          "@type": "QuantitativeValue",
+          value: siteConfig.employeeCount,
+        },
       }),
       // WebSite search action: the "potentialAction" the report asked for.
       ...(!isOrg && {
         publisher: { "@id": organizationId },
+        // Language of the site's content; every page renders lang="en".
+        inLanguage: "en",
         potentialAction: {
           "@type": "SearchAction",
           target: {
@@ -233,6 +245,24 @@ export function generateJsonLd({
         serviceUrl: url,
         servicePhone: telephone || siteConfig.phone,
         availableLanguage: "English",
+      },
+      // Every service is quoted per project, so the honest offer is the
+      // published starting band rather than a made-up fixed price.
+      offers: {
+        "@type": "Offer",
+        url: `${siteConfig.url}/pricing`,
+        // No single price: work is quoted per project. The band is expressed in
+        // priceSpecification.minPrice, which is the accurate representation.
+        priceCurrency: "USD",
+        priceSpecification: {
+          "@type": "PriceSpecification",
+          minPrice: 500,
+          priceCurrency: "USD",
+          valueAddedTaxIncluded: false,
+        },
+        availability: "https://schema.org/InStock",
+        itemCondition: "https://schema.org/NewCondition",
+        seller: { "@id": organizationId },
       },
     };
   }
@@ -293,6 +323,15 @@ export function generateHowToJsonLd(
     "@id": `${url}#howto`,
     name,
     url,
+    // The published process runs a build from 5 days to a few months; ISO 8601
+    // duration for the typical end-to-end path (discover + design + build +
+    // launch, excluding the open-ended support step).
+    totalTime: "P3M",
+    estimatedCost: {
+      "@type": "MonetaryAmount",
+      currency: "USD",
+      minValue: 500,
+    },
     step: steps.map((step, index) => ({
       "@type": "HowToStep",
       position: index + 1,
@@ -309,12 +348,18 @@ export function generateHowToJsonLd(
  * data-speakable attributes the FAQ component renders, so it points at real
  * text rather than an empty promise.
  */
-export function generateSpeakableJsonLd(url: string) {
+export function generateSpeakableJsonLd(
+  url: string,
+  page: { name: string; description: string }
+) {
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "@id": `${url}#webpage`,
     url,
+    name: page.name,
+    description: page.description,
+    inLanguage: "en",
     isPartOf: { "@id": websiteId },
     about: { "@id": organizationId },
     // Recency signal for LLM readers. The homepage and these answer sections
@@ -379,6 +424,10 @@ export function generateProductJsonLd(tiers: readonly {
     "@type": "Product",
     name: `${siteConfig.name} ${tier.name}`,
     description: tier.summary,
+    // image is a *required* property for a valid Product rich result; without
+    // it Search Console rejects the item. Same brand image for all tiers —
+    // they are packages, not photographed goods.
+    image: `${siteConfig.url}${siteConfig.ogImage}`,
     brand: { "@id": organizationId },
     category: "Software development",
     offers: {
@@ -393,7 +442,11 @@ export function generateProductJsonLd(tiers: readonly {
         valueAddedTaxIncluded: false,
       },
       availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
       seller: { "@id": organizationId },
     },
+    // sku keeps the three packages distinct to crawlers; the tier name is the
+    // only stable identifier the site actually has.
+    sku: tier.name.toLowerCase().replace(/\s+/g, "-"),
   }));
 }

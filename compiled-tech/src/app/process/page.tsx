@@ -36,7 +36,10 @@ export default function ProcessPage() {
     processUrl
   );
   const faqJsonLd = generateFaqJsonLd(processFAQ, processUrl, "faq");
-  const speakableJsonLd = generateSpeakableJsonLd(processUrl);
+  const speakableJsonLd = generateSpeakableJsonLd(processUrl, {
+    name: "How we work | Compiled Tech",
+    description: "Five steps, the same on every project.",
+  });
 
   return (
     <>
