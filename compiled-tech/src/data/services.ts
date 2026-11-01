@@ -92,34 +92,37 @@ export const plusStrip = {
   right: "SOFTWARE ONLY: No hardware, import/export, or physical infrastructure",
 } as const;
 
+// Homepage copy. Written short and plain on purpose: it is read aloud by
+// voice assistants and lifted into search snippets, so each line is one idea
+// in everyday words. Keep that rule if you edit these.
 export const coreServices = [
   {
     title: "Web & Mobile App Development",
-    description: "Websites, web applications, and mobile apps.",
+    description: "We build websites, web apps, and mobile apps that load fast and work on every screen.",
   },
   {
     title: "AI Automation & AI Agents",
-    description: "Automate business processes and build AI systems that can perform tasks and workflows.",
+    description: "We automate the repeat work inside your business, and build AI agents that carry out real tasks.",
   },
   {
     title: "AI Chatbots & Virtual Assistants",
-    description: "Customer-support and business assistants that understand your company's information and communicate with users.",
+    description: "We build chatbots that learn your own company information and then answer your customers for you.",
   },
   {
     title: "AI Data & Document Processing",
-    description: "Automatically extract, organize, and process information from invoices, PDFs, forms, websites, and other data sources.",
+    description: "We pull data out of invoices, PDFs, and forms, and file it into your systems without typing.",
   },
   {
     title: "Custom AI & Machine Learning",
-    description: "Develop and customize AI/ML models for specialized business requirements, including training and fine-tuning.",
+    description: "We train and tune models for your own problem, instead of forcing a general tool to fit.",
   },
   {
     title: "SaaS & Custom Software Development",
-    description: "Build scalable software products, business platforms, and SaaS applications.",
+    description: "We build the product itself: accounts, billing, admin panels, and the parts that must not break.",
   },
   {
     title: "E-commerce Development",
-    description: "Build online stores, custom e-commerce platforms, and integrations.",
+    description: "We build online stores with payments, stock, and shipping wired up, plus the tools to run them.",
   },
 ] as const;
 

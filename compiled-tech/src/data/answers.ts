@@ -30,6 +30,14 @@ export const answers = [
     q: "What happens after launch?",
     a: "You get the code, the documentation, and a full handover, so you can run the product without us. Our support plan then covers fixes, updates, and new features. You are never locked in, and you can move the work in-house whenever you choose.",
   },
+  {
+    q: "Who owns the code?",
+    a: "You do. The repository, the domain, and every account are yours from day one. We commit to your repository, not a private one. If you ever leave, nothing is held back, and no part of your product stops working because we walked away.",
+  },
+  {
+    q: "How do we start?",
+    a: "Send a short message describing what you want to build. We reply within one working day, ask a few questions, and book a call. You leave that call with a written scope, a fixed price, and a delivery date, with no obligation to proceed.",
+  },
 ] as const;
 
 export type Answer = (typeof answers)[number];

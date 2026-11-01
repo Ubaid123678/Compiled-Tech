@@ -5,12 +5,15 @@ import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
 import { FeaturedWork } from "@/components/sections/FeaturedWork";
 import { WhyUs } from "@/components/sections/WhyUs";
 import { AnswerSection } from "@/components/sections/AnswerSection";
+import { AboutSection } from "@/components/sections/AboutSection";
+import { EngagementSection } from "@/components/sections/EngagementSection";
 import { CTABand } from "@/components/sections/CTABand";
 import { SectionHeading } from "@/components/content/SectionHeading";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { PricingCards } from "@/components/sections/PricingCards";
+import { ComparisonTable } from "@/components/content/ComparisonTable";
 import Link from "next/link";
 import { Footer } from "@/components/layout/Footer";
 import { Suspense } from "react";
@@ -50,26 +53,17 @@ export const metadata = generatePageMetadata({
 });
 
 export default function Home() {
-  const servicesJsonLd = [
-    "Web & Mobile App Development",
-    "SaaS & Custom Software Development",
-    "E-commerce Development",
-    "Custom AI & Machine Learning",
-    "AI Chatbots & Virtual Assistants",
-    "AI Data & Document Processing",
-    "AI Automation & AI Agents",
-    "AI Consulting",
-    "Training Workshops",
-    "Maintenance and Support",
-  ].map((serviceName) => 
-    generateJsonLd({
-      type: "Service",
-      name: serviceName,
-      description: `Professional ${serviceName.toLowerCase()} services by Compiled Tech.`,
-      url: `${siteConfig.url}/services`,
-      telephone: siteConfig.phone,
-    })
-  );
+  // One Service node listing every line, instead of ten near-identical nodes
+  // that repeated the same url/provider/channel ten times over. Same meaning,
+  // ~4KB less HTML, and the catalogue is easier for a model to read whole.
+  const servicesJsonLd = generateJsonLd({
+    type: "Service",
+    name: "Software, web and AI development",
+    description:
+      "Compiled Tech builds web and mobile apps, SaaS platforms, online stores, custom software, AI chatbots, document processing, AI automation, AI consulting, training and support.",
+    url: `${siteConfig.url}/services`,
+    telephone: siteConfig.phone,
+  });
 
   // Prices on the homepage as Product + Offer — readable without JS or a login.
   const pricingJsonLd = generateProductJsonLd(pricingTiers);
@@ -94,7 +88,7 @@ export default function Home() {
       <script
         id="json-ld-services"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": servicesJsonLd }) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd) }}
       />
       <script
         id="json-ld-faq"
@@ -111,6 +105,7 @@ export default function Home() {
           <FeaturedWork />
         </Suspense>
         <AnswerSection />
+        <AboutSection />
         <Section id="pricing" aria-labelledby="pricing-heading">
           <Container>
             <Reveal>
@@ -123,6 +118,7 @@ export default function Home() {
               />
             </Reveal>
             <PricingCards />
+            <ComparisonTable />
             <Reveal>
               <p className="mt-8 text-center text-mist/70">
                 Final quotes depend on scope —{" "}
@@ -134,6 +130,7 @@ export default function Home() {
             </Reveal>
           </Container>
         </Section>
+        <EngagementSection />
         <CTABand />
       </main>
       <Footer />
