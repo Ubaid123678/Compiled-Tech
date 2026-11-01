@@ -2,6 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // The image optimizer needs sharp's native libvips .so at runtime. Standalone
+  // tracing copies the JS but leaves libvips-cpp.so nested under
+  // node_modules/@img/sharp-linux-x64/node_modules/, where the loader never
+  // finds it — so every /_next/image request silently falls back to serving the
+  // full-size original (an 80KB 1267px photo for a 384px slot). This is the
+  // include pattern Next's own standalone docs recommend.
+  outputFileTracingIncludes: {
+    "/*": ["node_modules/sharp/**/*", "node_modules/@img/**/*"],
+  },
   poweredByHeader: false,
   compress: true,
   allowedDevOrigins: ["192.168.100.171"],

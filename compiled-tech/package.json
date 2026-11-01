@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --webpack && node scripts/strip-legacy-polyfills.mjs",
+    "build": "next build --webpack && node scripts/fix-standalone-sharp.mjs && node scripts/strip-legacy-polyfills.mjs",
     "start": "next start",
     "lint": "eslint"
   },
@@ -30,6 +30,7 @@
     "react-dom": "19.3.0",
     "react-hook-form": "^7.89.0",
     "resend": "^6.32.1",
+    "sharp": "^0.35.5",
     "simple-icons": "^16.34.0",
     "tailwind-merge": "^3.7.0",
     "zod": "^4.6.6"
