@@ -12,7 +12,7 @@ export function ServicesSection() {
             id="services-heading"
             eyebrow="SERVICES"
             h2="What we do"
-            lead="Focused software services for products, operations, and customer experiences."
+            lead="Software for your product, your operations, and your customers. Nothing else."
             className="mb-12 lg:mb-16"
           />
         </Reveal>

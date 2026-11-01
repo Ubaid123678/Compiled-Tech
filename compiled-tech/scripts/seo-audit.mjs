@@ -34,14 +34,24 @@ const words = (s) => (s ? s.split(/\s+/).filter(Boolean) : []);
 const body = html.split(/<body[^>]*>/i)[1] || html;
 const bodyMarkup = body.replace(/<script[\s\S]*?<\/script>/gi, "");
 const visible = norm(body);
-const sentences = visible.split(/(?<=[.!?])\s+/).filter((s) => words(s).length > 2);
 const syllables = (w) =>
   (w.toLowerCase().match(/[aeiouy]+/g) || []).length || 1;
-const wordList = words(visible);
-const syl = wordList.reduce((n, w) => n + syllables(w), 0);
-const asl = wordList.length / Math.max(1, sentences.length);
-const asw = syl / Math.max(1, wordList.length);
+
+// Readability is measured on prose paragraphs only. Stripping every tag off
+// the whole body welds nav labels and card titles into fake sentences
+// ("Start a Project See Our Work STACK WE BUILD ON ..."), which drags any
+// readability score down for reasons no reader experiences.
+const proseParagraphs = [...bodyMarkup.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)]
+  .map((m) => norm(m[1]))
+  .filter((p) => words(p).length >= 4);
+const proseText = proseParagraphs.join(" ");
+const proseSentences = proseText.split(/(?<=[.!?])\s+/).filter((s) => words(s).length > 1);
+const proseWords = words(proseText);
+const syl = proseWords.reduce((n, w) => n + syllables(w), 0);
+const asl = proseWords.length / Math.max(1, proseSentences.length);
+const asw = syl / Math.max(1, proseWords.length);
 const flesch = 206.835 - 1.015 * asl - 84.6 * asw;
+const wordList = proseWords;
 
 // Headings
 const headings = [...body.matchAll(/<h([1-6])([^>]*)>([\s\S]*?)<\/h\1>/gi)].map((m) => ({
@@ -109,7 +119,7 @@ const types = [...new Set(flat.flatMap((n) => [].concat(n["@type"])))];
 const checks = [
   ["text-to-html ratio", `${((visible.length / html.length) * 100).toFixed(1)}%`, visible.length / html.length >= 0.05],
   ["visible text chars", String(visible.length), null],
-  ["word count", String(wordList.length), null],
+  ["prose word count", String(wordList.length), null],
   // No images at all is a pass: nothing to be non-modern about.
   ["image formats modern", allImgs.length ? `${modern.length}/${allImgs.length}` : "no images", modern.length === allImgs.length],
   ["headings with id", `${headingsWithId.length}/${headings.length}`, headings.length > 0 && headingsWithId.length === headings.length],
@@ -117,7 +127,7 @@ const checks = [
   ["question + 40-60 word answer", String(questionPerfect.length), questionPerfect.length >= 5],
   ["definition patterns", String((visible.match(/\b\w[\w\s&-]{2,40}\b(?:is|refers to|means)\b (?:a|an|the)\b/gi) || []).length), (visible.match(/\b\w[\w\s&-]{2,40}\b(?:is|refers to|means)\b (?:a|an|the)\b/gi) || []).length >= 1],
   ["voice-friendly paragraphs", `${voiceFriendly.length}/${paragraphs.length} (${Math.round((voiceFriendly.length / Math.max(1, paragraphs.length)) * 100)}%)`, voiceFriendly.length / Math.max(1, paragraphs.length) >= 0.5],
-  ["reading ease (Flesch)", flesch.toFixed(0), flesch >= 60],
+  ["reading ease (Flesch, prose)", flesch.toFixed(0), flesch >= 60],
   ["avg syllables/word", asw.toFixed(2), asw <= 1.6],
   [
     "GEO-critical schema types",

@@ -10,7 +10,7 @@ export const processSteps = [
   {
     number: 2,
     title: "Design",
-    text: "Wireframes and a clickable design that you approve before any code.",
+    text: "We send wireframes and a clickable design. You approve them before we write any code.",
     whatHappens: "Wireframes and a clickable prototype you approve before any code.",
     whatYouReceive: "Approved wireframes and clickable design",
     typicalLength: "1 to 2 weeks",

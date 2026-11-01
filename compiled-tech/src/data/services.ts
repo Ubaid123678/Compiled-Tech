@@ -88,8 +88,8 @@ export const pillars = [
 ] as const;
 
 export const plusStrip = {
-  left: "PLUS: Graphic design and UI/UX design",
-  right: "SOFTWARE ONLY: No hardware, import/export, or physical infrastructure",
+  left: "Plus graphic design and UI/UX design.",
+  right: "Software only. No hardware, import/export, or physical infrastructure.",
 } as const;
 
 // Homepage copy. Written short and plain on purpose: it is read aloud by

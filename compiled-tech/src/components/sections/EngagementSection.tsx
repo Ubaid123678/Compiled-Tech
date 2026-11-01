@@ -96,6 +96,45 @@ export function EngagementSection() {
             </p>
           </div>
         </div>
+
+        <div className="mt-14 grid gap-10 border-t border-line pt-10 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <h3
+              id="how-payment-works"
+              className="mb-3 font-display text-[1.05rem] font-semibold uppercase tracking-[0.02em] text-frost"
+            >
+              How payment works
+            </h3>
+            <p className="mb-4 text-base leading-[1.7] text-mist" data-speakable>
+              We split every fixed-price project in two. Half is due when you approve the scope and
+              the date. The other half is due at handover, once you have tested the build and are
+              happy with it.
+            </p>
+            <p className="text-base leading-[1.7] text-mist" data-speakable>
+              Larger builds are split into milestones instead. You pay for each milestone when it
+              passes your review, so the risk stays small on both sides. We invoice in US dollars
+              and accept bank transfer or card.
+            </p>
+          </div>
+          <div>
+            <h3
+              id="how-we-communicate"
+              className="mb-3 font-display text-[1.05rem] font-semibold uppercase tracking-[0.02em] text-frost"
+            >
+              How we keep you informed
+            </h3>
+            <p className="mb-4 text-base leading-[1.7] text-mist" data-speakable>
+              You get a short written update every week. It says what shipped, what is next, and
+              what is blocking us. If something is going to slip, you hear it from us first, not at
+              the deadline.
+            </p>
+            <p className="text-base leading-[1.7] text-mist" data-speakable>
+              For day-to-day questions there is a shared channel with the developers. No ticket
+              queue, no account manager relaying messages, and no waiting days for a reply on a
+              small change.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
