@@ -38,6 +38,22 @@ export const answers = [
     q: "How do we start?",
     a: "Send a short message describing what you want to build. We reply within one working day, ask a few questions, and book a call. You leave that call with a written scope, a fixed price, and a delivery date, with no obligation to proceed.",
   },
+  {
+    q: "Which technology do you build on?",
+    a: "We build most products on React, Next.js, and TypeScript, with Node.js or Python behind them. Mobile apps use React Native or Flutter. Databases are PostgreSQL, MySQL, or MongoDB. We pick what fits your team, not what is fashionable this year.",
+  },
+  {
+    q: "Can you take over an unfinished project?",
+    a: "Yes, and it is one of the most common reasons people call us. We read the existing code first, tell you honestly what is worth keeping, and what should be rewritten. You get that assessment in writing before we commit to finishing anything.",
+  },
+  {
+    q: "How do you handle data and privacy?",
+    a: "Your data stays in your own accounts, on infrastructure you control. We do not copy client data to our machines or train models on it. Access is limited to the developers on your project, and it is removed at handover when the work ends.",
+  },
+  {
+    q: "Do you provide a warranty after launch?",
+    a: "Every build includes thirty days of free bug fixes after launch. Anything that worked on handover day and later breaks is ours to repair. New features and scope changes sit outside that window, and are quoted separately as normal work.",
+  },
 ] as const;
 
 export type Answer = (typeof answers)[number];
