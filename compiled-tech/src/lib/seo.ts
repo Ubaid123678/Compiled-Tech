@@ -322,6 +322,17 @@ export function generateSpeakableJsonLd(url: string) {
     // is a real date, not a decorative one.
     datePublished: contentDate,
     dateModified: contentDate,
+    // Named author entity. The audit reads "partial author information" from a
+    // twitter:creator handle with no author in the structured data; this is the
+    // real person behind the studio, linked to the profile that proves it.
+    author: {
+      "@type": "Person",
+      name: "Ubaidullah Akram",
+      jobTitle: "Founder & CEO",
+      url: `${siteConfig.url}/about#ubaidullah-akram`,
+      sameAs: ["https://www.linkedin.com/in/ubaid1525/", "https://github.com/Ubaid123678"],
+    },
+    publisher: { "@id": organizationId },
     speakable: {
       "@type": "SpeakableSpecification",
       cssSelector: ["[data-speakable]"],
