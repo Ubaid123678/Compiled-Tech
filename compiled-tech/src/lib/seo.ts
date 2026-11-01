@@ -5,7 +5,8 @@ export const siteConfig = {
   description: "Compiled Tech builds web apps, mobile apps, SaaS and AI solutions for startups and growing teams.",
   // Set NEXT_PUBLIC_SITE_URL at deploy time to the real origin; this fallback keeps canonical/OG URLs valid.
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://compiledtech.io",
-  ogImage: "/og.png",
+  // WebP keeps the social preview under 25KB; 1200x630 as the OG spec wants.
+  ogImage: "/og.webp",
   twitterHandle: "@compiledtech15",
   location: "Hasilpur, Punjab, Pakistan",
   email: "hello@compiledtech.io",
@@ -150,7 +151,7 @@ export function generateJsonLd({
     name,
     description,
     url,
-    // Absolute URL — a relative "/og.png" is not a valid schema image value.
+    // Absolute URL — a relative path is not a valid schema image value.
     image: image
       ? image.startsWith("http")
         ? image

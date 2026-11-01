@@ -16,7 +16,7 @@ type ArticleCardProps = {
 
 export function ArticleCard({ slug, title, category, excerpt, date, readTime, author, image, featured }: ArticleCardProps) {
   const baseClasses = "group relative rounded-[20px] border border-line bg-night overflow-hidden transition-all duration-400 ease-out hover:border-steel/40 hover:shadow-[0_10px_30px_rgb(185_198_212_/_0.25)]";
-  const imageSrc = image || "/hero/poster.jpg";
+  const imageSrc = image || "/hero/poster.webp";
 
   if (featured) {
     return (

@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { LogoMark } from "@/components/content/LogoMark";
 import { cta, nav } from "@/data/nav";
 
 export function Header() {
@@ -84,7 +84,7 @@ export function Header() {
               setOpen(false);
             }}
           >
-            <Image src="/logo/compiled-tech-icon-for-dark-bg.svg" alt="" width={28} height={28} loading="eager" className="min-[900px]:size-8" />
+            <LogoMark className="size-7 text-frost min-[900px]:size-8" />
             <span className="font-display text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-frost min-[900px]:text-[0.95rem] min-[900px]:tracking-[0.16em]">
               Compiled Tech
             </span>

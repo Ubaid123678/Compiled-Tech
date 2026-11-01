@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { X, Mail, MessageSquare, MapPin, LucideIcon } from "lucide-react";
 import { Container } from "./Container";
+import { LogoMark } from "@/components/content/LogoMark";
 import { Reveal } from "@/components/motion/Reveal";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import { nav } from "@/data/nav";
@@ -88,13 +88,7 @@ export function Footer() {
         <Reveal className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12 mb-10">
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-3 mb-4" aria-label="Compiled Tech home">
-              <Image
-                src="/logo/compiled-tech-icon-for-dark-bg.svg"
-                alt=""
-                width={28}
-                height={28}
-                className="text-frost"
-              />
+              <LogoMark className="size-7 text-frost" />
               <span className="font-display font-semibold text-[0.9rem] tracking-[0.16em] uppercase text-frost">
                 COMPILED TECH
               </span>

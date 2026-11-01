@@ -13,7 +13,7 @@ export function HeroMedia() {
         preload="metadata"
         // Poster paints instantly and gives crawlers/Lighthouse an LCP element
         // (a <video autoplay> without one reports NO_LCP in Lighthouse).
-        poster="/hero/poster.jpg"
+        poster="/hero/poster.webp"
         aria-hidden="true"
       >
         <source src="/hero/hero.webm" type="video/webm" />

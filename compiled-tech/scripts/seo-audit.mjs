@@ -110,7 +110,8 @@ const checks = [
   ["text-to-html ratio", `${((visible.length / html.length) * 100).toFixed(1)}%`, visible.length / html.length >= 0.05],
   ["visible text chars", String(visible.length), null],
   ["word count", String(wordList.length), null],
-  ["image formats modern", `${modern.length}/${allImgs.length}`, allImgs.length > 0 && modern.length === allImgs.length],
+  // No images at all is a pass: nothing to be non-modern about.
+  ["image formats modern", allImgs.length ? `${modern.length}/${allImgs.length}` : "no images", modern.length === allImgs.length],
   ["headings with id", `${headingsWithId.length}/${headings.length}`, headings.length > 0 && headingsWithId.length === headings.length],
   ["question headings", String(questionHeadings.length), questionHeadings.length >= 5],
   ["question + 40-60 word answer", String(questionPerfect.length), questionPerfect.length >= 5],
