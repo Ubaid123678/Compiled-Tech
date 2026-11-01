@@ -14,7 +14,7 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 z-1 bg-linear-to-b from-ink/60 via-transparent to-ink/70" />
       <div className="pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgb(7_11_17/0.75)_100%)]" />
 
-      <h1 className="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between px-[clamp(20px,5vw,64px)] pb-30 pt-27.5 min-[760px]:grid min-[760px]:grid-cols-[1fr_minmax(200px,28%)_1fr] min-[760px]:items-center min-[760px]:pb-[6%] min-[760px]:pt-0">
+      <h1 id="hero-heading" className="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between px-[clamp(20px,5vw,64px)] pb-30 pt-27.5 min-[760px]:grid min-[760px]:grid-cols-[1fr_minmax(200px,28%)_1fr] min-[760px]:items-center min-[760px]:pb-[6%] min-[760px]:pt-0">
         <span className="sr-only absolute">{site.heroSrText}</span>
         <span
           aria-hidden="true"

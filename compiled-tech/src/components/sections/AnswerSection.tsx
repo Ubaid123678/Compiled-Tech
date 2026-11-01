@@ -1,4 +1,5 @@
 import { answers } from "@/data/answers";
+import { slugify } from "@/lib/utils";
 
 /**
  * Answer section for the homepage.
@@ -29,13 +30,11 @@ export function AnswerSection() {
 
         <dl className="mx-auto mt-12 grid max-w-4xl gap-x-12 gap-y-10 sm:grid-cols-2 lg:mt-16">
           {answers.map((item) => (
-            <div
-              key={item.q}
-              id={item.q.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}
-              className="border-t border-line pt-6"
-            >
+            <div key={item.q} className="border-t border-line pt-6">
               <dt>
-                <h3 className="mb-3 font-display text-[1.05rem] font-semibold uppercase leading-[1.35] tracking-[0.02em] text-frost">
+                <h3
+                  id={slugify(item.q)}
+                  className="mb-3 font-display text-[1.05rem] font-semibold uppercase leading-[1.35] tracking-[0.02em] text-frost">
                   {item.q}
                 </h3>
               </dt>

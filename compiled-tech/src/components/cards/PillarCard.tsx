@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { TiltCard } from "@/components/motion/TiltCard";
 import { pillars } from "@/data/services";
+import { slugify } from "@/lib/utils";
 
 type PillarCardProps = {
   index: number;
@@ -16,7 +17,10 @@ export function PillarCard({ index, href }: PillarCardProps) {
     <TiltCard as="article" className="flex flex-col h-full">
       <div className="flex flex-col flex-1">
         <span className="font-mono text-[0.8rem] text-steel mb-2">PILLAR {index + 1}</span>
-        <h3 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.15rem,2vw,1.35rem)] leading-[1.3] mb-3">
+        <h3
+          id={slugify(pillar.title)}
+          className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.15rem,2vw,1.35rem)] leading-[1.3] mb-3"
+        >
           {pillar.title}
         </h3>
         <p className="text-mist text-base leading-[1.6] mb-6 flex-1">{pillar.line}</p>

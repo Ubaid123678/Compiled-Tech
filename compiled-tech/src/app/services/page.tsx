@@ -9,6 +9,7 @@ import { Section } from "@/components/layout/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { Footer } from "@/components/layout/Footer";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
+import { slugify } from "@/lib/utils";
 
 export const metadata = generatePageMetadata({
   title: "Web, Mobile, SaaS & AI Development Services",
@@ -74,7 +75,10 @@ export default function ServicesPage() {
                 <section aria-labelledby={`pillar-${pillar.slug}`}>
                   <div className="mb-8">
                     <span className="font-mono text-[0.8rem] text-steel mb-2 block">PILLAR {pillarIndex + 1}</span>
-                    <h2 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.5rem,2.5vw,2rem)] leading-[1.15] mb-2">
+                    <h2
+                      id={slugify(pillar.title)}
+                      className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.5rem,2.5vw,2rem)] leading-[1.15] mb-2"
+                    >
                       {pillar.title}
                     </h2>
                     <p className="text-mist text-[1.125rem] leading-[1.65] max-w-2xl">{pillar.line}</p>

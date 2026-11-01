@@ -84,7 +84,7 @@ export default function ContactPage() {
             >
               <div className="space-y-8">
                 <div className="rounded-[20px] border border-line bg-night p-6 lg:p-8">
-                  <h3 className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel mb-6">
+                  <h3 id="get-in-touch" className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel mb-6">
                     Get in touch
                   </h3>
                   <div className="space-y-6">

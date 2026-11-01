@@ -1,6 +1,7 @@
 import { SectionHeading } from "@/components/content/SectionHeading";
 import { Reveal } from "@/components/motion/Reveal";
 import { coreServices } from "@/data/services";
+import { slugify } from "@/lib/utils";
 
 export function ServicesSection() {
   return (
@@ -23,7 +24,9 @@ export function ServicesSection() {
                   <span className="font-mono text-xs text-steel transition-colors group-hover:text-frost">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="max-w-sm text-right font-display text-[clamp(1rem,1.8vw,1.25rem)] font-semibold uppercase leading-[1.3] tracking-[0.02em] text-frost transition-transform duration-300 group-hover:-translate-x-1">
+                  <h3
+                    id={slugify(service.title)}
+                    className="max-w-sm text-right font-display text-[clamp(1rem,1.8vw,1.25rem)] font-semibold uppercase leading-[1.3] tracking-[0.02em] text-frost transition-transform duration-300 group-hover:-translate-x-1">
                     {service.title}
                   </h3>
                 </div>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { Chip } from "@/components/content/Chip";
-import { cn } from "@/lib/utils";
+import { cn, slugify } from "@/lib/utils";
 
 type CaseCardProps = {
   slug: string;
@@ -51,7 +51,9 @@ export function CaseCard({ slug, title, category, excerpt, year, role, image, th
           <span className="text-sm text-mist/60">{year}</span>
         </div>
         <Link href={`/work/${slug}`} className="group/title focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-steel">
-          <h3 className={cn("mb-3 flex items-start justify-between gap-3 font-display text-[1.15rem] font-semibold uppercase leading-[1.3] tracking-[0.02em] text-frost", featured && "text-[clamp(1.35rem,2vw,1.8rem)]")}>
+          <h3
+          id={slugify(title)}
+          className={cn("mb-3 flex items-start justify-between gap-3 font-display text-[1.15rem] font-semibold uppercase leading-[1.3] tracking-[0.02em] text-frost", featured && "text-[clamp(1.35rem,2vw,1.8rem)]")}>
             {title}
             <ArrowUpRight size={18} strokeWidth={1.7} className="mt-0.5 shrink-0 text-steel transition-transform duration-300 group-hover/title:translate-x-1 group-hover/title:-translate-y-1" aria-hidden="true" />
           </h3>

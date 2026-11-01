@@ -72,6 +72,9 @@ body:has(.admin-shell) > #mobile-menu {
 
 html {
   scroll-behavior: smooth;
+  /* Every heading now has an id, so anchored jumps are common. Keep the
+     target clear of the 72px fixed header instead of hiding under it. */
+  scroll-padding-top: 6rem;
 }
 
 body {

@@ -1,5 +1,5 @@
 import { Breadcrumbs } from "./Breadcrumbs";
-import { cn } from "@/lib/utils";
+import { cn, slugify } from "@/lib/utils";
 
 type PageHeroProps = {
   title: string;
@@ -24,7 +24,7 @@ export function PageHero({ title, lead, breadcrumbs, className, showHexagon = tr
         {breadcrumbs && breadcrumbs.length > 0 && (
           <Breadcrumbs items={breadcrumbs} className="mb-4" />
         )}
-        <h1 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.5rem,3.2vw,2.4rem)] leading-[1.15] mb-2">
+        <h1 id={slugify(title)} className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.5rem,3.2vw,2.4rem)] leading-[1.15] mb-2">
           {title}
         </h1>
         <p className="text-mist text-[1.125rem] leading-[1.65] max-w-2xl">

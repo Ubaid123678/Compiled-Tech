@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import { pricingTiers } from "@/data/pricing";
+import { slugify } from "@/lib/utils";
 
 // Shared by /pricing and the homepage pricing section — single source for the
 // tier card markup, so the two pages can't drift.
@@ -12,7 +13,7 @@ export function PricingCards() {
       {pricingTiers.map((tier, index) => (
         <Reveal key={tier.name} delay={index * 0.08}>
           <article
-            id={tier.name.toLowerCase().replace(/\s+/g, "-")}
+            id={`${slugify(tier.name)}-card`}
             className={`flex h-full flex-col rounded-[20px] border bg-night p-6 transition-all duration-300 hover:-translate-y-1 hover:border-steel/50 hover:shadow-[0_18px_42px_rgb(0_0_0_/_0.28)] ${
               "popular" in tier && tier.popular ? "border-steel/60" : "border-line"
             }`}
@@ -22,7 +23,9 @@ export function PricingCards() {
                 Most common
               </span>
             )}
-            <h2 className="font-display text-[1.15rem] font-semibold uppercase tracking-[0.02em] text-frost">
+            <h2
+              id={slugify(tier.name)}
+              className="font-display text-[1.15rem] font-semibold uppercase tracking-[0.02em] text-frost">
               {tier.name}
             </h2>
             <p className="mt-3 text-mist">{tier.summary}</p>

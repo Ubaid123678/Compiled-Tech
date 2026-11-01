@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { slugify } from "@/lib/utils";
 
 type ServiceTileProps = {
   name: string;
@@ -14,7 +15,9 @@ export function ServiceTile({ name, line, icon, href }: ServiceTileProps) {
       <div className="text-steel mb-4" aria-hidden="true">
         {icon}
       </div>
-      <h3 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[1.15rem] leading-[1.3] mb-2">
+      <h3
+        id={slugify(name)}
+        className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[1.15rem] leading-[1.3] mb-2">
         {name}
       </h3>
       <p className="text-mist/80 text-base leading-[1.6]">{line}</p>

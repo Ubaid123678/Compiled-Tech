@@ -7,6 +7,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import { nav } from "@/data/nav";
 import { contactInfo } from "@/data/contact";
+import { slugify } from "@/lib/utils";
 
 type SocialLink = {
   label: string;
@@ -119,7 +120,7 @@ export function Footer() {
 
           {Object.entries(footerNav).map(([title, links]) => (
             <div key={title}>
-              <h3 className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel mb-3">
+              <h3 id={`footer-${slugify(title)}`} className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel mb-3">
                 {title}
               </h3>
               <ul className="space-y-2">

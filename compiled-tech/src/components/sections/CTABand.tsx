@@ -2,6 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { Reveal } from "@/components/motion/Reveal";
+import { slugify } from "@/lib/utils";
 
 type CTABandProps = {
   title?: string;
@@ -26,7 +27,9 @@ export function CTABand({
     <section className={cn("relative isolate overflow-hidden rounded-frame border border-line bg-linear-to-b from-ink via-night/50 to-ink px-6 py-12 text-center lg:px-12 lg:py-16", className)}>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(185_198_212/0.03)_0%,transparent_70%)]" aria-hidden="true" />
       <Reveal className="relative z-10 mx-auto max-w-3xl">
-        <h2 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.5rem,3.2vw,2.4rem)] leading-[1.15] mb-4">
+        <h2
+          id={slugify(title)}
+          className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.5rem,3.2vw,2.4rem)] leading-[1.15] mb-4">
           {title}
         </h2>
         <p className="text-mist text-[1.125rem] leading-[1.65] mb-8 max-w-xl mx-auto">

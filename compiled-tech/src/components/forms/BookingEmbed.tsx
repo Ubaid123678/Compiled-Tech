@@ -5,7 +5,7 @@ export function BookingEmbed() {
 
   return (
     <div id="book" className="w-full">
-      <h3 className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel mb-4">
+      <h3 id="prefer-a-call" className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel mb-4">
         Prefer a call?
       </h3>
       {bookingUrl ? (

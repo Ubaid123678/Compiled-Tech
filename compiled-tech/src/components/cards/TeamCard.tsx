@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { slugify } from "@/lib/utils";
 
 type TeamCardProps = {
   name: string;
@@ -49,7 +50,10 @@ export function TeamCard({ name, role, line, image, linkedin, github }: TeamCard
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
-      <h3 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[1.15rem] leading-[1.3] mb-1">
+      <h3
+        id={slugify(name)}
+        className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[1.15rem] leading-[1.3] mb-1"
+      >
         {name}
       </h3>
       <p className="text-steel text-sm leading-[1.5] mb-3">{role}</p>
