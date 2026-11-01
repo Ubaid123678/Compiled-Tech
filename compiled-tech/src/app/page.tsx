@@ -4,6 +4,7 @@ import { ServicesSection } from "@/components/sections/ServicesSection";
 import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
 import { FeaturedWork } from "@/components/sections/FeaturedWork";
 import { WhyUs } from "@/components/sections/WhyUs";
+import { AnswerSection } from "@/components/sections/AnswerSection";
 import { CTABand } from "@/components/sections/CTABand";
 import { SectionHeading } from "@/components/content/SectionHeading";
 import { Container } from "@/components/layout/Container";
@@ -13,8 +14,19 @@ import { PricingCards } from "@/components/sections/PricingCards";
 import Link from "next/link";
 import { Footer } from "@/components/layout/Footer";
 import { Suspense } from "react";
-import { generatePageMetadata, generateJsonLd, siteConfig, organizationId } from "@/lib/seo";
+import {
+  generatePageMetadata,
+  generateJsonLd,
+  generateFaqJsonLd,
+  generateProductJsonLd,
+  generateSpeakableJsonLd,
+  generateHowToJsonLd,
+  siteConfig,
+  organizationId,
+} from "@/lib/seo";
 import { pricingTiers } from "@/data/pricing";
+import { answers } from "@/data/answers";
+import { processSteps } from "@/data/process";
 
 // Reuse generatePageMetadata so home gets the same canonical/OG/Twitter tags every other page gets.
 // ponytail: visible page copy (hero, services list) is what actually ranks for these
@@ -59,17 +71,18 @@ export default function Home() {
     })
   );
 
-  // Prices on the homepage as Offer schema — readable without JS or a login.
-  const pricingJsonLd = pricingTiers.map((tier) => ({
-    "@type": "Offer",
-    name: tier.name,
-    description: tier.summary,
-    price: tier.from,
-    priceCurrency: tier.currency,
-    url: `${siteConfig.url}/pricing`,
-    availability: "https://schema.org/InStock",
-    seller: { "@id": organizationId },
-  }));
+  // Prices on the homepage as Product + Offer — readable without JS or a login.
+  const pricingJsonLd = generateProductJsonLd(pricingTiers);
+
+  // FAQPage + Speakable come from the same arrays the page renders, so the
+  // markup and the visible copy cannot drift apart.
+  const faqJsonLd = generateFaqJsonLd(answers, siteConfig.url, "answers");
+  const speakableJsonLd = generateSpeakableJsonLd(siteConfig.url);
+  const howToJsonLd = generateHowToJsonLd(
+    "How a Compiled Tech project runs",
+    processSteps.map((step) => ({ title: step.title, text: step.text })),
+    siteConfig.url
+  );
 
   return (
     <>
@@ -83,6 +96,11 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": servicesJsonLd }) }}
       />
+      <script
+        id="json-ld-faq"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [faqJsonLd, speakableJsonLd, howToJsonLd] }) }}
+      />
       <main id="main">
         <Hero />
         <TrustStrip />
@@ -92,6 +110,7 @@ export default function Home() {
         <Suspense fallback={<div className="py-16 lg:py-26 animate-pulse"><div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16"><div className="h-80 bg-slate/50 rounded-[20px]" /><div className="h-80 bg-slate/50 rounded-[20px]" /><div className="h-80 bg-slate/50 rounded-[20px]" /></div></div>}>
           <FeaturedWork />
         </Suspense>
+        <AnswerSection />
         <Section id="pricing" aria-labelledby="pricing-heading">
           <Container>
             <Reveal>

@@ -62,7 +62,7 @@ function FAQItemComponent({ item, index }: { item: FAQItem; index: number }) {
             className="overflow-hidden"
           >
             <div className="px-5 pb-4 pt-4 border-t border-line">
-              <p className="text-mist text-base leading-[1.65]">{item.a}</p>
+              <p data-speakable className="text-mist text-base leading-[1.65]">{item.a}</p>
             </div>
           </motion.div>
         )}

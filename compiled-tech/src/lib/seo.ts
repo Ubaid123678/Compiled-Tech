@@ -266,3 +266,108 @@ export function generateJsonLd({
 
   return base;
 }
+
+/**
+ * HowTo for a page that actually shows numbered steps. Steps come from the
+ * same array the timeline renders — markup never claims a process the page
+ * does not display.
+ */
+export function generateHowToJsonLd(
+  name: string,
+  steps: readonly { title: string; text: string }[],
+  url: string
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "@id": `${url}#howto`,
+    name,
+    url,
+    step: steps.map((step, index) => ({
+      "@type": "HowToStep",
+      position: index + 1,
+      name: step.title,
+      text: step.text,
+      url: `${url}#step-${index + 1}-title`,
+    })),
+  };
+}
+
+/**
+ * WebPage node carrying `speakable`, which is what voice assistants and LLM
+ * readers use to pick a section to read aloud. The selector matches the
+ * data-speakable attributes the FAQ component renders, so it points at real
+ * text rather than an empty promise.
+ */
+export function generateSpeakableJsonLd(url: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${url}#webpage`,
+    url,
+    isPartOf: { "@id": websiteId },
+    about: { "@id": organizationId },
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["[data-speakable]"],
+    },
+  };
+}
+
+/**
+ * FAQPage from the questions a page actually renders. Feed it the same array
+ * the visible <FAQ> uses so the markup can never drift from the schema.
+ */
+export function generateFaqJsonLd(
+  items: readonly { q: string; a: string }[],
+  url: string,
+  id = "faq"
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${url}#${id}`,
+    url,
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+}
+
+/**
+ * The build packages are real, priced, purchasable packages, so they get
+ * Product markup rather than a bare Offer. `from` prices are starting points,
+ * which PriceSpecification.minPrice states honestly.
+ */
+export function generateProductJsonLd(tiers: readonly {
+  name: string;
+  summary: string;
+  from: number;
+  currency: string;
+  includes: readonly string[];
+}[]) {
+  return tiers.map((tier) => ({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${siteConfig.name} ${tier.name}`,
+    description: tier.summary,
+    brand: { "@id": organizationId },
+    category: "Software development",
+    offers: {
+      "@type": "Offer",
+      url: `${siteConfig.url}/pricing#${tier.name.toLowerCase().replace(/\s+/g, "-")}`,
+      priceCurrency: tier.currency,
+      price: tier.from,
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        minPrice: tier.from,
+        priceCurrency: tier.currency,
+        valueAddedTaxIncluded: false,
+      },
+      availability: "https://schema.org/InStock",
+      seller: { "@id": organizationId },
+    },
+  }));
+}

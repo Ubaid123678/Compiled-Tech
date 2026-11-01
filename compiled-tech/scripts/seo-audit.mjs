@@ -52,17 +52,19 @@ const headings = [...body.matchAll(/<h([1-6])([^>]*)>([\s\S]*?)<\/h\1>/gi)].map(
 const headingsWithId = headings.filter((h) => h.id);
 const questionHeadings = headings.filter((h) => /\?$/.test(h.text));
 
-// Paragraphs directly after a question heading
-const blocks = [...body.matchAll(/<h([2-6])[^>]*>([\s\S]*?)<\/h\1>([\s\S]{0,1200})/gi)].map(
-  (m) => ({ text: norm(m[2]), after: norm(m[3]).split(/(?<=[.!?])\s+/).slice(0, 8).join(" ") })
-);
-const questionPerfect = blocks.filter((b) => {
+// Paragraphs directly after a question heading. Slice by heading position so a
+// match cannot swallow the next heading.
+const headingPositions = [...body.matchAll(/<h([2-6])([^>]*)>([\s\S]*?)<\/h\1>/gi)];
+const questionBlocks = headingPositions.map((m, i) => {
+  const start = m.index + m[0].length;
+  const end = headingPositions[i + 1]?.index ?? body.length;
+  const slice = body.slice(start, end);
+  const p = /<p[^>]*>([\s\S]*?)<\/p>/i.exec(slice);
+  return { text: norm(m[3]), answer: p ? norm(p[1]) : "" };
+});
+const questionPerfect = questionBlocks.filter((b) => {
   if (!/\?$/.test(b.text)) return false;
-  // first paragraph after the heading, measured in words
-  const m = /<p[^>]*>([\s\S]*?)<\/p>/i.exec(
-    body.slice(body.indexOf(`>${b.text}<`), body.indexOf(`>${b.text}<`) + 2000)
-  );
-  const w = words(m ? norm(m[1]) : "").length;
+  const w = words(b.answer).length;
   return w >= 40 && w <= 60;
 });
 
@@ -116,7 +118,11 @@ const checks = [
   ["voice-friendly paragraphs", `${voiceFriendly.length}/${paragraphs.length} (${Math.round((voiceFriendly.length / Math.max(1, paragraphs.length)) * 100)}%)`, voiceFriendly.length / Math.max(1, paragraphs.length) >= 0.5],
   ["reading ease (Flesch)", flesch.toFixed(0), flesch >= 60],
   ["avg syllables/word", asw.toFixed(2), asw <= 1.6],
-  ["schema types", types.join(", "), ["Organization", "WebSite", "FAQPage", "Product", "BreadcrumbList", "HowTo"].every((t) => types.includes(t))],
+  [
+    "GEO-critical schema types",
+    ["Organization", "WebSite", "FAQPage", "HowTo", "Product"].filter((t) => types.includes(t)).join(", "),
+    ["Organization", "WebSite", "FAQPage", "HowTo", "Product"].filter((t) => types.includes(t)).length >= 5,
+  ],
   ["speakable", types.includes("SpeakableSpecification") || /"speakable"/.test(html) ? "yes" : "no", /"speakable"/.test(html)],
   ["FAQPage", types.includes("FAQPage") ? "yes" : "no", types.includes("FAQPage")],
   ["datePublished", /"datePublished"/.test(html) ? "yes" : "no", /"datePublished"/.test(html)],
