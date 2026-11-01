@@ -21,6 +21,16 @@ export const siteConfig = {
   ] as const,
 };
 
+/**
+ * One canonical company entity. Everything else (Service.provider,
+ * Article.publisher, Offer.seller) references it by @id, so schema stays one
+ * complete node instead of nine partial ones — which is exactly what the
+ * "Organization: consider adding logo, sameAs, contactPoint, address"
+ * warnings were complaining about.
+ */
+export const organizationId = `${siteConfig.url}/#organization`;
+export const websiteId = `${siteConfig.url}/#website`;
+
 export function generatePageMetadata({
   title,
   description,
@@ -110,7 +120,12 @@ export function generateJsonLd({
   keywords,
   items,
 }: {
-  type: "Organization" | "WebSite" | "Service" | "Article" | "BreadcrumbList";
+  type:
+    | "Organization"
+    | "WebSite"
+    | "Service"
+    | "Article"
+    | "BreadcrumbList";
   name: string;
   description: string;
   url: string;
@@ -135,13 +150,20 @@ export function generateJsonLd({
     name,
     description,
     url,
-    image: image || siteConfig.ogImage,
+    // Absolute URL — a relative "/og.png" is not a valid schema image value.
+    image: image
+      ? image.startsWith("http")
+        ? image
+        : `${siteConfig.url}${image}`
+      : `${siteConfig.url}${siteConfig.ogImage}`,
   };
 
   if (type === "Organization" || type === "WebSite") {
     const isOrg = type === "Organization";
     return {
       ...base,
+      // Stable entity id so other nodes can reference this by @id.
+      "@id": isOrg ? organizationId : websiteId,
       // Google's Organization rich result wants a raster logo >= 112x112;
       // the repo's SVG mark isn't accepted, so use the generated PNG.
       ...(isOrg && { logo: `${siteConfig.url}/logo/compiled-tech-logo-512.png` }),
@@ -160,6 +182,31 @@ export function generateJsonLd({
       // Real profile URLs — Google uses sameAs to connect the site to the
       // brand's LinkedIn/Instagram/X accounts in search results.
       sameAs: [...siteConfig.socials],
+      // Named human contact point: what the report's contactPoint check reads,
+      // and what Google's Organization result can show.
+      ...(isOrg && {
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "sales",
+          telephone: siteConfig.phone,
+          email: siteConfig.email,
+          availableLanguage: ["English"],
+          areaServed: "Worldwide",
+        },
+        founder: { "@type": "Person", name: "Ubaidullah Akram" },
+      }),
+      // WebSite search action: the "potentialAction" the report asked for.
+      ...(!isOrg && {
+        publisher: { "@id": organizationId },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${siteConfig.url}/blog?q={search_term_string}`,
+          },
+          "query-input": "required name=search_term_string",
+        },
+      }),
     };
   }
 
@@ -168,16 +215,13 @@ export function generateJsonLd({
       ...base,
       "@type": "Service",
       serviceType: name,
-      provider: {
-        "@type": "Organization",
-        name: siteConfig.name,
-        url: siteConfig.url,
-      },
+      // @id reference, not another partial Organization blob.
+      provider: { "@id": organizationId },
       areaServed: "Worldwide",
       availableChannel: {
         "@type": "ServiceChannel",
         serviceUrl: url,
-        servicePhone: telephone,
+        servicePhone: telephone || siteConfig.phone,
         availableLanguage: "English",
       },
     };
@@ -188,19 +232,15 @@ export function generateJsonLd({
       ...base,
       "@type": "Article",
       headline: headline || name,
-      author: author ? { "@type": "Person", name: author } : { "@type": "Organization", name: siteConfig.name },
+      author: author
+        ? { "@type": "Person", name: author, url: `${siteConfig.url}/about` }
+        : { "@id": organizationId },
+      // Real dates only — an invented datePublished would be a lie to crawlers.
       datePublished,
-      dateModified,
+      dateModified: dateModified || datePublished,
       articleSection,
       keywords: keywords?.join(", "),
-      publisher: {
-        "@type": "Organization",
-        name: siteConfig.name,
-        logo: {
-          "@type": "ImageObject",
-          url: `${siteConfig.url}/icon.svg`,
-        },
-      },
+      publisher: { "@id": organizationId },
     };
   }
 

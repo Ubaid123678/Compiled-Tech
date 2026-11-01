@@ -13,7 +13,7 @@ import { PricingCards } from "@/components/sections/PricingCards";
 import Link from "next/link";
 import { Footer } from "@/components/layout/Footer";
 import { Suspense } from "react";
-import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
+import { generatePageMetadata, generateJsonLd, siteConfig, organizationId } from "@/lib/seo";
 import { pricingTiers } from "@/data/pricing";
 
 // Reuse generatePageMetadata so home gets the same canonical/OG/Twitter tags every other page gets.
@@ -68,7 +68,7 @@ export default function Home() {
     priceCurrency: tier.currency,
     url: `${siteConfig.url}/pricing`,
     availability: "https://schema.org/InStock",
-    seller: { "@type": "Organization", name: siteConfig.name, url: siteConfig.url },
+    seller: { "@id": organizationId },
   }));
 
   return (

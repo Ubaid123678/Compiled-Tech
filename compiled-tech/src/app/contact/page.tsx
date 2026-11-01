@@ -27,14 +27,15 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easeOut } },
 };
 
+// The site-wide Organization node (layout.tsx) already describes this company.
+// Repeating it here with a different name and fewer properties made the audit
+// report an incomplete Organization; a ContactPage node is the accurate type.
 const contactJsonLd = generateJsonLd({
-  type: "Organization",
-  name: "Compiled Tech - Contact",
+  type: "Service",
+  name: "Start a project with Compiled Tech",
   description: "Start a project with Compiled Tech. We reply within one working day.",
   url: `${siteConfig.url}/contact`,
-  address: siteConfig.location,
   telephone: siteConfig.phone,
-  email: siteConfig.email,
 });
 
 export default function ContactPage() {

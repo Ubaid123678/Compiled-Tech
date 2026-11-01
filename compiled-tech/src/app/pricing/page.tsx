@@ -5,7 +5,7 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { pricingTiers } from "@/data/pricing";
 import { PricingCards } from "@/components/sections/PricingCards";
-import { generatePageMetadata, siteConfig } from "@/lib/seo";
+import { generatePageMetadata, siteConfig, organizationId } from "@/lib/seo";
 import Link from "next/link";
 
 export const metadata = generatePageMetadata({
@@ -45,11 +45,7 @@ export default function PricingPage() {
         },
         availability: "https://schema.org/InStock",
         url: `${siteConfig.url}/pricing#${tier.name.toLowerCase().replace(/\s+/g, "-")}`,
-        seller: {
-          "@type": "Organization",
-          name: siteConfig.name,
-          url: siteConfig.url,
-        },
+        seller: { "@id": organizationId },
       },
     })),
   };

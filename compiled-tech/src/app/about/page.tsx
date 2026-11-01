@@ -37,14 +37,15 @@ export default function AboutPage() {
     })
   );
 
-  const aboutJsonLd = generateJsonLd({
-    type: "Organization",
-    name: `${siteConfig.name} - About Us`,
-    description: aboutData.hero.lead,
+  // A second Organization node here was a duplicate of the one in layout.tsx —
+  // same entity, half the properties, so every audit read it as incomplete.
+  // The page gets a real breadcrumb trail instead; the entity lives in layout.
+  const breadcrumbJsonLd = generateJsonLd({
+    type: "BreadcrumbList",
+    name: "Breadcrumb",
+    description: "Breadcrumb navigation",
     url: `${siteConfig.url}/about`,
-    address: siteConfig.location,
-    telephone: siteConfig.phone,
-    email: siteConfig.email,
+    items: [{ label: "Home", href: "/" }, { label: "About" }],
   });
 
   return (
@@ -52,7 +53,7 @@ export default function AboutPage() {
       <script
         id="json-ld-about"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [...teamJsonLd, aboutJsonLd] }) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [...teamJsonLd, breadcrumbJsonLd] }) }}
       />
       <PageHero
         title={aboutData.hero.title}
