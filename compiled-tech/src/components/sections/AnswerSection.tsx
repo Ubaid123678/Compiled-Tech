@@ -1,4 +1,5 @@
 import { answers } from "@/data/answers";
+import { Reveal } from "@/components/motion/Reveal";
 import { slugify } from "@/lib/utils";
 
 /**
@@ -29,8 +30,8 @@ export function AnswerSection() {
         </div>
 
         <dl className="mx-auto mt-12 grid max-w-4xl gap-x-12 gap-y-10 sm:grid-cols-2 lg:mt-16">
-          {answers.map((item) => (
-            <div key={item.q} className="border-t border-line pt-6">
+          {answers.map((item, index) => (
+            <Reveal key={item.q} delay={index * 0.06} className="border-t border-line pt-6">
               <dt>
                 <h3
                   id={slugify(item.q)}
@@ -43,7 +44,7 @@ export function AnswerSection() {
                   {item.a}
                 </p>
               </dd>
-            </div>
+            </Reveal>
           ))}
         </dl>
       </div>

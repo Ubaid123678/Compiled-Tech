@@ -1,4 +1,5 @@
 import { pricingTiers } from "@/data/pricing";
+import { Reveal } from "@/components/motion/Reveal";
 
 /**
  * Packages side by side. The audit asks for data tables with headers, and a
@@ -11,7 +12,7 @@ import { pricingTiers } from "@/data/pricing";
  */
 export function ComparisonTable() {
   return (
-    <div className="mt-12 overflow-x-auto lg:mt-16">
+    <Reveal className="mt-12 overflow-x-auto lg:mt-16">
       <table className="w-full min-w-160 border-collapse text-left text-sm">
         <caption className="sr-only">
           Compiled Tech build packages compared by starting price, timeline, and what each includes.
@@ -47,6 +48,6 @@ export function ComparisonTable() {
           ))}
         </tbody>
       </table>
-    </div>
+    </Reveal>
   );
 }

@@ -1,4 +1,5 @@
 import { industries, plusStrip } from "@/data/services";
+import { Reveal } from "@/components/motion/Reveal";
 import { slugify } from "@/lib/utils";
 
 const models = [
@@ -44,8 +45,8 @@ export function EngagementSection() {
         </div>
 
         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {models.map((model) => (
-            <article key={model.name} className="border-t border-line pt-6">
+          {models.map((model, index) => (
+            <Reveal key={model.name} delay={index * 0.08} className="border-t border-line pt-6">
               <h3
                 id={slugify(model.name)}
                 className="mb-3 font-display text-[1.05rem] font-semibold uppercase tracking-[0.02em] text-frost"
@@ -55,7 +56,7 @@ export function EngagementSection() {
               <p className="text-base leading-[1.7] text-mist" data-speakable>
                 {model.text}
               </p>
-            </article>
+            </Reveal>
           ))}
         </div>
 

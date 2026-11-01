@@ -68,6 +68,13 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
         <link rel="robots" href="/robots.txt" />
         {/* Bing Webmaster verification — must stay in the HTML even after verification. */}
         <meta name="msvalidate.01" content="9B0E3CCD5051C8D3ED5481693B50BDF1" />
+        {/* Scroll-reveal sections ship with inline opacity:0 and are revealed by
+            JS. Without JS — or if hydration fails — they would stay invisible,
+            so content is forced visible in that case. Animation is decoration;
+            the text is the point. */}
+        <noscript>
+          <style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
       </head>
       <body suppressHydrationWarning className="min-h-full bg-ink font-body text-mist antialiased">
         {/* Google Analytics — inline so it ships in the HTML stream; next/script's

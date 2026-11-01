@@ -1,4 +1,5 @@
 import { aboutData } from "@/data/about";
+import { Reveal } from "@/components/motion/Reveal";
 
 /**
  * Plain-language company copy on the homepage.
@@ -17,7 +18,7 @@ export function AboutSection() {
     <section id="studio" aria-labelledby="studio-heading" className="border-t border-line">
       <div className="mx-auto max-w-300 px-4 py-12 sm:px-6 lg:px-16 lg:py-20">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
-          <div>
+          <Reveal>
             <p className="mb-3 font-display text-[0.72rem] uppercase tracking-[0.22em] text-steel">
               THE STUDIO
             </p>
@@ -27,9 +28,9 @@ export function AboutSection() {
             >
               Who you are hiring
             </h2>
-          </div>
+          </Reveal>
 
-          <div className="max-w-2xl space-y-6 text-[1.05rem] leading-[1.7] text-mist">
+          <Reveal delay={0.1} className="max-w-2xl space-y-6 text-[1.05rem] leading-[1.7] text-mist">
             <p data-speakable>
               Compiled Tech is a software studio in Hasilpur, Pakistan. Four people build the
               work, and you speak to them directly. There is no account manager between you and
@@ -54,7 +55,7 @@ export function AboutSection() {
               without us. If you want us to stay, our support plan covers fixes, updates, and new
               features. If you want to take it in-house, that is fine too.
             </p>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
