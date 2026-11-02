@@ -29,6 +29,14 @@ export const metadata = generatePageMetadata({
 });
 
 export default function ServicesPage() {
+  const breadcrumbJsonLd = generateJsonLd({
+    type: "BreadcrumbList",
+    name: "Breadcrumb",
+    description: "Breadcrumb navigation",
+    url: `${siteConfig.url}/services`,
+    items: [{ label: "Home", href: "/" }, { label: "Services" }],
+  });
+
   const servicesJsonLd = pillars.flatMap((pillar) =>
     pillar.services.map((service) =>
       generateJsonLd({
@@ -46,7 +54,7 @@ export default function ServicesPage() {
       <script
         id="json-ld-services"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": servicesJsonLd }) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [...servicesJsonLd, breadcrumbJsonLd] }) }}
       />
       <PageHero
         title="Services"

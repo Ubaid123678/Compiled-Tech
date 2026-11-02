@@ -26,6 +26,14 @@ export const metadata = generatePageMetadata({
 export default async function WorkPage() {
   const [projects, categories] = await Promise.all([getWorkProjects(), getWorkCategories()]);
 
+  const breadcrumbJsonLd = generateJsonLd({
+    type: "BreadcrumbList",
+    name: "Breadcrumb",
+    description: "Breadcrumb navigation",
+    url: `${siteConfig.url}/work`,
+    items: [{ label: "Home", href: "/" }, { label: "Work" }],
+  });
+
   const workJsonLd = projects.map((project) =>
     generateJsonLd({
       type: "Service",
@@ -40,7 +48,7 @@ export default async function WorkPage() {
       <script
         id="json-ld-work"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": workJsonLd }) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [...workJsonLd, breadcrumbJsonLd] }) }}
       />
       <PageHero
         title="Work"

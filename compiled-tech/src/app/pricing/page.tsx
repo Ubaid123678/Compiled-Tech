@@ -5,7 +5,7 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { pricingTiers } from "@/data/pricing";
 import { PricingCards } from "@/components/sections/PricingCards";
-import { generatePageMetadata, siteConfig, organizationId } from "@/lib/seo";
+import { generatePageMetadata, generateJsonLd, siteConfig, organizationId } from "@/lib/seo";
 import Link from "next/link";
 
 export const metadata = generatePageMetadata({
@@ -25,6 +25,14 @@ export const metadata = generatePageMetadata({
 
 export default function PricingPage() {
   // Offer schema per tier so agents/crawlers can read real prices without JS.
+  const breadcrumbJsonLd = generateJsonLd({
+    type: "BreadcrumbList",
+    name: "Breadcrumb",
+    description: "Breadcrumb navigation",
+    url: `${siteConfig.url}/pricing`,
+    items: [{ label: "Home", href: "/" }, { label: "Pricing" }],
+  });
+
   const offersJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -55,7 +63,7 @@ export default function PricingPage() {
       <script
         id="json-ld-pricing"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(offersJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [offersJsonLd, breadcrumbJsonLd] }) }}
       />
       <PageHero
         title="Pricing"
