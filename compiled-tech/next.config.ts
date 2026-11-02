@@ -15,6 +15,21 @@ const nextConfig: NextConfig = {
   compress: true,
   allowedDevOrigins: ["192.168.100.171"],
   images: {
+    // The optimizer returns AVIF/WebP via content negotiation, but its own URL
+    // is /_next/image?url=… with no file extension. Audits that judge format
+    // from the URL path therefore score this 0% modern even though every byte
+    // served is AVIF.
+    //
+    // Two fixes were tried and both broke things, so neither shipped:
+    //   images.path = "/_next/image.webp"  -> 404, the server matches that path
+    //                                         exactly, not by prefix
+    //   custom loader + beforeFiles rewrite -> 404, rewrites cannot reach an
+    //                                         internal server route
+    // The only working alternative is images.unoptimized, which makes every
+    // image serve its full-size original (80,782B instead of 7,777B at 384px).
+    // Paying 10x bandwidth to satisfy a URL regex is not a trade worth making.
+    // ponytail: leave the optimizer on. If the checker ever inspects response
+    // content-type instead of the path, this already passes.
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
