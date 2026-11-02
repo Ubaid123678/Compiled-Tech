@@ -409,6 +409,8 @@ export function generateFaqJsonLd(
   url: string,
   id = "faq"
 ) {
+  const slug = (value: string) =>
+    value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -419,6 +421,8 @@ export function generateFaqJsonLd(
     mainEntity: items.map((item) => ({
       "@type": "Question",
       name: item.q,
+      // Deep link to the rendered card, so the schema points at a real anchor.
+      url: `${url}#${slug(item.q)}`,
       // `text` restates the question as a plain string; acceptedAnswer carries
       // the reply. Both are what the FAQ rich result reads.
       text: item.q,
