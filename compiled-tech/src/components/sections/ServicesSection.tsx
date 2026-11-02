@@ -12,7 +12,7 @@ export function ServicesSection() {
             id="services-heading"
             eyebrow="SERVICES"
             h2="What we do"
-            lead="Software for your product, your operations, and your customers. Nothing else."
+            lead="Compiled Tech builds seven things: web and mobile apps, SaaS platforms, online stores, custom AI and machine learning, chatbots, document processing, and AI automation. Everything else we decline, so the team stays sharp at the work you are paying for."
             className="mb-12 lg:mb-16"
           />
         </Reveal>

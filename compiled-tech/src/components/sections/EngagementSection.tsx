@@ -66,11 +66,13 @@ export function EngagementSection() {
               id="what-we-build-for"
               className="mb-3 font-display text-[1.05rem] font-semibold uppercase tracking-[0.02em] text-frost"
             >
-              What we build for
+              Which industries we build for
             </h3>
             <p className="mb-4 text-base leading-[1.7] text-mist" data-speakable>
-              We work across most industries, because the engineering problem is usually the same.
-              These are the ones our clients come from most often.
+              Compiled Tech builds for most industries, because the problem is rarely the sector.
+              We work mostly in healthcare, finance, retail, logistics and education. What matters
+              more is a clear goal, and one person who can say yes when a decision is needed. That
+              is usually the difference between a project that lands and one that drifts for months.
             </p>
             <ul className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm text-mist" role="list">
               {industries.map((industry) => (
@@ -88,8 +90,9 @@ export function EngagementSection() {
               What we do not do
             </h3>
             <p className="mb-4 text-base leading-[1.7] text-mist" data-speakable>
-              {plusStrip.right} We are a software team, so we say no to work outside that. Knowing
-              the boundary saves you a wasted call.
+              Compiled Tech builds software only. We do not sell hardware, handle import or export,
+              or manage physical infrastructure. Saying no to work outside that boundary keeps the
+              team small and the estimates honest, and it saves you a wasted call.
             </p>
             <p className="text-base leading-[1.7] text-mist" data-speakable>
               {plusStrip.left} That means one team can take a rough idea through design, build, and
@@ -107,9 +110,10 @@ export function EngagementSection() {
               How payment works
             </h3>
             <p className="mb-4 text-base leading-[1.7] text-mist" data-speakable>
-              We split every fixed-price project in two. Half is due when you approve the scope and
-              the date. The other half is due at handover, once you have tested the build and are
-              happy with it.
+              Compiled Tech splits fixed-price projects in two. Half is due when you approve the
+              scope and date, half at handover once you have tested the build. Larger builds are
+              split into milestones, each paid when it passes your review. We invoice in US dollars
+              by transfer or card.
             </p>
             <p className="text-base leading-[1.7] text-mist" data-speakable>
               Larger builds are split into milestones instead. You pay for each milestone when it
@@ -125,9 +129,9 @@ export function EngagementSection() {
               How we keep you informed
             </h3>
             <p className="mb-4 text-base leading-[1.7] text-mist" data-speakable>
-              You get a short written update every week. It says what shipped, what is next, and
-              what is blocking us. If something is going to slip, you hear it from us first, not at
-              the deadline.
+              Compiled Tech sends a short written update every week. It says what shipped, what is
+              next, and what is blocking us. If something will slip you hear it from us first, not
+              at the deadline. Day-to-day questions go in a shared channel with the developers.
             </p>
             <p className="text-base leading-[1.7] text-mist" data-speakable>
               For day-to-day questions there is a shared channel with the developers. No ticket

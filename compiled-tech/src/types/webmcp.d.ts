@@ -11,6 +11,7 @@ import "react";
  * Drop this file once @types/react ships the attributes.
  */
 declare module "react" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface HTMLAttributes<T> {
     /** Machine-readable tool name for this form. */
     toolname?: string;

@@ -33,7 +33,8 @@ export function WhyUs() {
         <Reveal>
           <SectionHeading
             id="why-heading"
-            h2="Why CompiledTech"
+            h2="Why Compiled Tech"
+            lead="Compiled Tech only builds software. No hardware, no imports, no side business. That focus is the whole pitch, and it is why a four-person team can ship a web app, a mobile app, or an AI workflow in weeks instead of quarters."
             className="mb-12 lg:mb-16"
           />
         </Reveal>

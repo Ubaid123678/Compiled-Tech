@@ -28,6 +28,11 @@ export function AboutSection() {
             >
               Who you are hiring
             </h2>
+            <p className="mt-4 text-[1.05rem] leading-[1.7] text-mist">
+              Compiled Tech is four people in Hasilpur, Pakistan, and you speak to the developers
+              directly. There is no account manager relaying messages. You get a written scope, a
+              fixed price and a delivery date before work starts, and the same people finish it.
+            </p>
           </Reveal>
 
           <Reveal delay={0.1} className="max-w-2xl space-y-6 text-[1.05rem] leading-[1.7] text-mist">
