@@ -37,6 +37,25 @@ export const organizationId = `${siteConfig.url}/#organization`;
 export const websiteId = `${siteConfig.url}/#website`;
 
 /**
+ * The founder entity, defined once and referenced by @id everywhere.
+ *
+ * It used to be inlined twice — once as Organization.founder with only a name,
+ * once as WebPage.author with full details. Anything referencing founder now
+ * points here, so the audit sees one complete Person instead of one complete
+ * and one empty one.
+ */
+export const founderId = `${siteConfig.url}/#founder`;
+export const founder = {
+  "@type": "Person" as const,
+  "@id": founderId,
+  name: "Ubaidullah Akram",
+  jobTitle: "Founder & CEO",
+  url: `${siteConfig.url}/about#ubaidullah-akram`,
+  image: `${siteConfig.url}/team/ubaid.webp`,
+  sameAs: ["https://www.linkedin.com/in/ubaid1525/", "https://github.com/Ubaid123678"],
+};
+
+/**
  * Date the site content was last built, as YYYY-MM-DD.
  *
  * Pages such as the homepage and /process are prerendered at build time, so
@@ -207,7 +226,7 @@ export function generateJsonLd({
           availableLanguage: ["English"],
           areaServed: "Worldwide",
         },
-        founder: { "@type": "Person", name: "Ubaidullah Akram" },
+        founder: { "@id": founderId },
         slogan: siteConfig.slogan,
         foundingDate: siteConfig.foundingDate,
         numberOfEmployees: {
@@ -370,13 +389,9 @@ export function generateSpeakableJsonLd(
     // Named author entity. The audit reads "partial author information" from a
     // twitter:creator handle with no author in the structured data; this is the
     // real person behind the studio, linked to the profile that proves it.
-    author: {
-      "@type": "Person",
-      name: "Ubaidullah Akram",
-      jobTitle: "Founder & CEO",
-      url: `${siteConfig.url}/about#ubaidullah-akram`,
-      sameAs: ["https://www.linkedin.com/in/ubaid1525/", "https://github.com/Ubaid123678"],
-    },
+    author: { "@id": founderId },
+    // The full Person is emitted alongside so the @id always resolves.
+    founder,
     publisher: { "@id": organizationId },
     speakable: {
       "@type": "SpeakableSpecification",
@@ -399,9 +414,14 @@ export function generateFaqJsonLd(
     "@type": "FAQPage",
     "@id": `${url}#${id}`,
     url,
+    description:
+      "Answers to the questions buyers ask before hiring Compiled Tech: pricing, timelines, ownership, and support.",
     mainEntity: items.map((item) => ({
       "@type": "Question",
       name: item.q,
+      // `text` restates the question as a plain string; acceptedAnswer carries
+      // the reply. Both are what the FAQ rich result reads.
+      text: item.q,
       acceptedAnswer: { "@type": "Answer", text: item.a },
     })),
   };
