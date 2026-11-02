@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { pricingTiers } from "@/data/pricing";
+import { answers } from "@/data/answers";
 import { siteConfig } from "@/lib/seo";
 
 /**
@@ -76,6 +77,65 @@ export function AgentTools() {
             { name: "Automate and Analyze", services: ["AI Automation & AI Agents"] },
             { name: "Advise and Support", services: ["AI Consulting", "Training Workshops", "Maintenance and Support"] },
           ],
+        }),
+      });
+      // FAQ tools: the audit asks for searchFAQ on a page that carries a
+      // FAQPage. Both read the same `answers` array the section renders, so
+      // they can never disagree with the visible copy.
+      modelContext.registerTool({
+        name: "search_faq",
+        description:
+          "Search Compiled Tech's frequently asked questions about pricing, timelines, ownership, technology and support.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            query: { type: "string", description: "Words to look for in the questions and answers" },
+          },
+          required: ["query"],
+          additionalProperties: false,
+        },
+        execute: (args) => {
+          const q = String(args?.query ?? "").toLowerCase().trim();
+          const terms = q.split(/\s+/).filter(Boolean);
+          const hits = answers
+            .map((item) => {
+              const haystack = `${item.q} ${item.a}`.toLowerCase();
+              const score = terms.reduce((n, t) => n + (haystack.includes(t) ? 1 : 0), 0);
+              return { item, score };
+            })
+            .filter((hit) => hit.score > 0)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 5)
+            .map((hit) => ({
+              question: hit.item.q,
+              answer: hit.item.a,
+              url: `${siteConfig.url}/#${hit.item.q
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-|-$/g, "")}`,
+            }));
+          return { query: q, count: hits.length, results: hits };
+        },
+      });
+
+      modelContext.registerTool({
+        name: "submit_question",
+        description:
+          "Open the Compiled Tech contact form, pre-filled with a question the FAQ could not answer.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            question: { type: "string", description: "The question to send to the team" },
+          },
+          required: ["question"],
+          additionalProperties: false,
+        },
+        execute: (args) => ({
+          // Navigation is the honest action: this tool must not post to the
+          // leads endpoint behind the user's back.
+          url: `${siteConfig.url}/contact`,
+          prefill: { details: String(args?.question ?? "") },
+          note: "Open the contact form and paste the question into Details.",
         }),
       });
     } catch (error) {

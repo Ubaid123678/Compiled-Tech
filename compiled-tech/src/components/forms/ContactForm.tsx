@@ -112,12 +112,23 @@ export function ContactForm() {
           onLoad={() => window.dispatchEvent(new Event("turnstile:ready"))}
         />
       )}
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
+      {/* Declarative WebMCP: a static scanner (and an agent reading the raw
+          HTML before hydration) can discover what this form does and what each
+          field wants. The imperative registerTool() calls only exist after the
+          JS bundle runs, which is why the audit scored this page at 36%. */}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6"
+        noValidate
+        toolname="send_project_enquiry"
+        tooldescription="Send a project enquiry to Compiled Tech. Collects name, email, service, budget, timeline and project details, then emails the team. Reply within one working day."
+      >
       <FormField
         control={control}
         name="name"
         label="Name"
         type="text"
+        toolDescription="Full name of the person making the enquiry"
         placeholder="Your name"
         error={errors.name?.message}
         rules={{ required: "Enter your name" }}
@@ -128,6 +139,7 @@ export function ContactForm() {
         name="email"
         label="Email"
         type="email"
+        toolDescription="Reply-to email address for this enquiry"
         placeholder="you@company.com"
         error={errors.email?.message}
         rules={{ required: "Enter a valid email address" }}
@@ -138,6 +150,7 @@ export function ContactForm() {
         name="company"
         label="Company (optional)"
         type="text"
+        toolDescription="Company or organisation name, optional"
         placeholder="Company name"
       />
 
@@ -146,6 +159,7 @@ export function ContactForm() {
         name="service"
         label="Service"
         type="select"
+        toolDescription="Which service the project needs"
         options={serviceOptions}
         error={errors.service?.message}
         rules={{ required: "Select a service" }}
@@ -156,6 +170,7 @@ export function ContactForm() {
         name="budget"
         label="Budget (USD)"
         type="select"
+        toolDescription="Budget band for the project, in US dollars"
         options={budgetOptions}
         error={errors.budget?.message}
         rules={{ required: "Select a budget range" }}
@@ -166,6 +181,7 @@ export function ContactForm() {
         name="timeline"
         label="Timeline"
         type="select"
+        toolDescription="When the project should start or finish"
         options={timelineOptions}
         error={errors.timeline?.message}
         rules={{ required: "Select a timeline" }}
@@ -176,6 +192,7 @@ export function ContactForm() {
         name="details"
         label="Details"
         type="textarea"
+        toolDescription="What the project should do, at least 20 characters"
         placeholder="Tell us about your project..."
         error={errors.details?.message}
         rules={{ required: "Tell us a little more (at least 20 characters)" }}

@@ -33,10 +33,16 @@ export function NewsletterForm() {
   }
 
   return (
-    <form className="flex w-full flex-col gap-2 sm:w-[320px] sm:flex-row" onSubmit={onSubmit}>
+    <form
+      className="flex w-full flex-col gap-2 sm:w-[320px] sm:flex-row"
+      onSubmit={onSubmit}
+      toolname="subscribe_newsletter"
+      tooldescription="Subscribe an email address to the Compiled Tech newsletter. Takes one parameter: email."
+    >
       <input
         type="email"
         name="email"
+        toolparamdescription="Email address to subscribe to the newsletter"
         placeholder="Enter your email"
         required
         className="min-w-0 flex-1 rounded-[12px] border border-line bg-night px-4 py-3 text-sm text-frost placeholder:text-mist/40 transition-colors focus:border-steel focus:outline-none"

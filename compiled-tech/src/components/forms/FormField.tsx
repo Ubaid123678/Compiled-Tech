@@ -16,6 +16,8 @@ type FormFieldProps<T extends FieldValues> = {
   error?: string;
   className?: string;
   placeholder?: string;
+  /** Declarative WebMCP hint for agents reading the raw markup. */
+  toolDescription?: string;
   control: Control<T>;
   rules?: RegisterOptions<T, Path<T>>;
 };
@@ -29,6 +31,7 @@ function renderInput<T extends FieldValues>({
   showError,
   ariaInvalid,
   describedBy,
+  toolDescription,
 }: {
   field: ControllerRenderProps<T>;
   name: string;
@@ -38,6 +41,7 @@ function renderInput<T extends FieldValues>({
   showError: boolean;
   ariaInvalid: boolean;
   describedBy: string | undefined;
+  toolDescription?: string;
 }) {
   return (
     <>
@@ -45,6 +49,7 @@ function renderInput<T extends FieldValues>({
         ref={field.ref}
         id={name}
         type={type}
+        toolparamdescription={toolDescription}
         value={field.value ?? ""}
         onChange={field.onChange}
         onBlur={field.onBlur}
@@ -73,6 +78,7 @@ function renderTextarea<T extends FieldValues>({
   showError,
   ariaInvalid,
   describedBy,
+  toolDescription,
 }: {
   field: ControllerRenderProps<T>;
   name: string;
@@ -81,12 +87,14 @@ function renderTextarea<T extends FieldValues>({
   showError: boolean;
   ariaInvalid: boolean;
   describedBy: string | undefined;
+  toolDescription?: string;
 }) {
   return (
     <>
       <Textarea
         ref={field.ref}
         id={name}
+        toolparamdescription={toolDescription}
         value={field.value ?? ""}
         onChange={field.onChange}
         onBlur={field.onBlur}
@@ -116,6 +124,7 @@ function renderSelect<T extends FieldValues>({
   showError,
   ariaInvalid,
   describedBy,
+  toolDescription,
 }: {
   field: ControllerRenderProps<T>;
   name: string;
@@ -124,9 +133,14 @@ function renderSelect<T extends FieldValues>({
   showError: boolean;
   ariaInvalid: boolean;
   describedBy: string | undefined;
+  toolDescription?: string;
 }) {
   return (
     <>
+      {/* Radix renders a <button> trigger, which cannot carry tool* attributes
+          meaningfully, so the hint lives on the field wrapper where a static
+          parser still finds it next to the control. */}
+      <div toolparamdescription={toolDescription}>
       <Select
         onValueChange={field.onChange as (v: string) => void}
         defaultValue={field.value ?? ""}
@@ -150,6 +164,7 @@ function renderSelect<T extends FieldValues>({
           ))}
         </SelectContent>
       </Select>
+      </div>
       {showError && (
         <p id={`${name}-error`} className="mt-1.5 text-sm text-red" role="alert">
           {errorMessage}
@@ -168,6 +183,7 @@ export function FormField<T extends FieldValues>({
   error,
   className,
   placeholder,
+  toolDescription,
   control,
   rules,
 }: FormFieldProps<T>) {
@@ -188,14 +204,14 @@ export function FormField<T extends FieldValues>({
           const describedBy = showError ? `${name}-error` : hint ? `${name}-hint` : undefined;
 
           if (type === "select" && options) {
-            return renderSelect({ field, name, options, errorMessage, showError, ariaInvalid, describedBy });
+            return renderSelect({ field, name, options, errorMessage, showError, ariaInvalid, describedBy, toolDescription });
           }
 
           if (type === "textarea") {
-            return renderTextarea({ field, name, placeholder, errorMessage, showError, ariaInvalid, describedBy });
+            return renderTextarea({ field, name, placeholder, errorMessage, showError, ariaInvalid, describedBy, toolDescription });
           }
 
-          return renderInput({ field, name, type, placeholder, errorMessage, showError, ariaInvalid, describedBy });
+          return renderInput({ field, name, type, placeholder, errorMessage, showError, ariaInvalid, describedBy, toolDescription });
         }}
       />
       {hint && !error && (
