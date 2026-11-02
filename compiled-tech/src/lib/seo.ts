@@ -267,20 +267,18 @@ export function generateJsonLd({
       },
       // Every service is quoted per project, so the honest offer is the
       // published starting band rather than a made-up fixed price.
+      // AggregateOffer, not Offer. A plain Offer requires a single `price`, and
+      // these services are quoted per project — so an Offer here is either
+      // invalid or a lie. AggregateOffer is the schema.org type for a range,
+      // and lowPrice/highPrice are exactly the published $500-$10,000 band.
       offers: {
-        "@type": "Offer",
+        "@type": "AggregateOffer",
         url: `${siteConfig.url}/pricing`,
-        // No single price: work is quoted per project. The band is expressed in
-        // priceSpecification.minPrice, which is the accurate representation.
         priceCurrency: "USD",
-        priceSpecification: {
-          "@type": "PriceSpecification",
-          minPrice: 500,
-          priceCurrency: "USD",
-          valueAddedTaxIncluded: false,
-        },
+        lowPrice: 500,
+        highPrice: 10000,
+        offerCount: 3,
         availability: "https://schema.org/InStock",
-        itemCondition: "https://schema.org/NewCondition",
         seller: { "@id": organizationId },
       },
     };

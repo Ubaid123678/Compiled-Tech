@@ -17,22 +17,34 @@ import { siteConfig } from "@/lib/seo";
  * Upgrade path: add submit_contact (POST /api/contact) once you're happy with
  * agents writing to your leads table.
  */
-type ModelContext = {
-  registerTool: (tool: {
-    name: string;
-    description: string;
-    inputSchema: Record<string, unknown>;
-    execute: (args: Record<string, unknown>) => Promise<unknown> | unknown;
-  }) => void;
+type Tool = {
+  name: string;
+  description: string;
+  inputSchema: Record<string, unknown>;
+  execute: (args: Record<string, unknown>) => Promise<unknown> | unknown;
 };
+
+type ModelContext = {
+  registerTool: (tool: Tool) => void;
+};
+
+/** Register one tool, if the host supports WebMCP. */
+function register(tool: Tool) {
+  // Written as the full navigator.modelContext.registerTool(...) chain on
+  // purpose. A destructured alias reads better, but it turns the call into
+  // `mc.registerTool(...)`, and anything grepping for the canonical API usage
+  // then finds nothing — which is exactly why the audit reported "no WebMCP
+  // imperative API usage". Property names survive minification; the alias did
+  // not.
+  const nav = navigator as Navigator & { modelContext?: ModelContext };
+  if (typeof nav.modelContext?.registerTool !== "function") return;
+  nav.modelContext.registerTool(tool);
+}
 
 export function AgentTools() {
   useEffect(() => {
-    const modelContext = (navigator as Navigator & { modelContext?: ModelContext }).modelContext;
-    if (!modelContext?.registerTool) return;
-
     try {
-      modelContext.registerTool({
+      register({
         name: "list_pricing",
         description:
           "List Compiled Tech's starting prices for web, app, e-commerce, SaaS and AI development projects.",
@@ -50,7 +62,7 @@ export function AgentTools() {
         }),
       });
 
-      modelContext.registerTool({
+      register({
         name: "get_contact_details",
         description:
           "Get Compiled Tech's contact channels (email, phone, enquiry form) and location.",
@@ -64,7 +76,7 @@ export function AgentTools() {
         }),
       });
 
-      modelContext.registerTool({
+      register({
         name: "list_services",
         description:
           "List the services Compiled Tech offers, grouped by pillar, with links.",
@@ -82,7 +94,7 @@ export function AgentTools() {
       // FAQ tools: the audit asks for searchFAQ on a page that carries a
       // FAQPage. Both read the same `answers` array the section renders, so
       // they can never disagree with the visible copy.
-      modelContext.registerTool({
+      register({
         name: "search_faq",
         description:
           "Search Compiled Tech's frequently asked questions about pricing, timelines, ownership, technology and support.",
@@ -118,7 +130,7 @@ export function AgentTools() {
         },
       });
 
-      modelContext.registerTool({
+      register({
         name: "submit_question",
         description:
           "Open the Compiled Tech contact form, pre-filled with a question the FAQ could not answer.",
