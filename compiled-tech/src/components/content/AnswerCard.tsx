@@ -49,23 +49,24 @@ export function AnswerCard({ id, index, question, answer }: AnswerCardProps) {
         className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-linear-to-r from-steel/70 via-steel/20 to-transparent transition-transform duration-500 group-hover:scale-x-100"
       />
 
-      <div className="mb-3 flex items-baseline gap-3">
-        <span
-          aria-hidden="true"
-          className="font-mono text-[0.68rem] tracking-[0.2em] text-steel/50 transition-colors duration-300 group-hover:text-steel"
-        >
-          {String(index + 1).padStart(2, "0")}
-        </span>
-        <h3
-          id={`${id}-heading`}
-          className="flex-1 font-display text-[1rem] font-semibold uppercase leading-[1.4] tracking-[0.02em] text-frost"
-        >
-          {question}
-        </h3>
-      </div>
+      {/* The number is a CSS ::before counter, not a text node.
+          Two rules are in play at once here:
+            1. the <p> must be the heading's immediate sibling, so the heading
+               cannot sit inside a flex row (that put a <div> in between and the
+               snippet check fell from 19/19 to 7/19)
+            2. the heading's text must still start with the question word, so
+               the counter cannot be markup inside the <h3> either — "01 What is
+               ..." stops matching a question pattern
+          A generated-content counter satisfies both: no extra element, and the
+          number is not part of the accessible or extracted text. */}
+      <h3
+        id={`${id}-heading`}
+        data-index={String(index + 1).padStart(2, "0")}
+        className="mb-3 font-display text-[1rem] font-semibold uppercase leading-[1.4] tracking-[0.02em] text-frost before:mr-3 before:font-mono before:text-[0.68rem] before:tracking-[0.2em] before:text-steel/50 before:content-[attr(data-index)] before:transition-colors before:duration-300 group-hover:before:text-steel"
+      >
+        {question}
+      </h3>
 
-      {/* Sits directly after the heading in document order — the structure the
-          snippet and answer-engine parsers expect. */}
       <p className="text-[0.975rem] leading-[1.7] text-mist">{answer}</p>
     </motion.article>
   );
