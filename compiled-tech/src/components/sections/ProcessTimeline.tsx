@@ -91,10 +91,14 @@ export function ProcessTimeline() {
             ))}
           </nav>
 
-          <div>
+          {/* <ol> not <div>: these are ordered steps, and an ordered list is
+              both the honest markup and what "HowTo headings with ordered
+              lists" looks for. list-none because the visual order is carried by
+              the numbers already in each panel. */}
+          <ol className="list-none">
             {processSteps.map((step, index) => (
+              <li key={step.number}>
               <article
-                key={step.number}
                 ref={(element) => {
                   panelRefs.current[index] = element;
                 }}
@@ -112,8 +116,9 @@ export function ProcessTimeline() {
                   <p className="mt-6 max-w-xl text-[1.125rem] leading-[1.65] text-mist">{step.text}</p>
                 </div>
               </article>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </div>
     </section>

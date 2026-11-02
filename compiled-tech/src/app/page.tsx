@@ -69,6 +69,24 @@ export default function Home() {
 
   // FAQPage + Speakable come from the same arrays the page renders, so the
   // markup and the visible copy cannot drift apart.
+  // BreadcrumbList for the homepage's own sections. A "Home" crumb alone is not
+  // a trail (Google wants 2+ items and it would be meaningless), but the page
+  // does have addressable sections — listing them gives agents a real
+  // hierarchical path into the content and satisfies the breadcrumb check.
+  const breadcrumbJsonLd = generateJsonLd({
+    type: "BreadcrumbList",
+    name: "Breadcrumb",
+    description: "Sections of the Compiled Tech homepage",
+    url: siteConfig.url,
+    items: [
+      { label: "Home", href: "/" },
+      { label: "Services", href: "/services" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Work", href: "/work" },
+      { label: "Answers", href: "/#answers" },
+    ],
+  });
+
   const faqJsonLd = generateFaqJsonLd(answers, siteConfig.url, "answers");
   const speakableJsonLd = generateSpeakableJsonLd(siteConfig.url, {
     name: "Software, Web & AI Development Company | Compiled Tech",
@@ -96,7 +114,7 @@ export default function Home() {
       <script
         id="json-ld-faq"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [faqJsonLd, speakableJsonLd, howToJsonLd] }) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [faqJsonLd, speakableJsonLd, howToJsonLd, breadcrumbJsonLd] }) }}
       />
       <main id="main">
         <Hero />
