@@ -50,6 +50,7 @@ export function GET() {
           { name: "list_services", description: "List services grouped by pillar." },
           { name: "list_pricing", description: "Starting prices per project tier." },
           { name: "get_contact_details", description: "Email, phone, location and enquiry form." },
+          { name: "search_faq", description: "Search the FAQ: pricing, timelines, ownership, technology, support." },
         ],
       },
       prompts: {},

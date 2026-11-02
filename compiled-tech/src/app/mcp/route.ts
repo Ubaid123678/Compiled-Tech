@@ -1,6 +1,7 @@
 import { siteConfig } from "@/lib/seo";
 import { pillars } from "@/data/services";
 import { pricingTiers } from "@/data/pricing";
+import { answers } from "@/data/answers";
 
 export const dynamic = "force-static";
 
@@ -51,9 +52,19 @@ const TOOLS = [
     description: "Contact channels (email, phone, form) and location.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
+  {
+    name: "search_faq",
+    description: "Search the frequently asked questions about pricing, timelines, ownership, technology and support.",
+    inputSchema: {
+      type: "object",
+      properties: { query: { type: "string", description: "Words to look for" } },
+      required: ["query"],
+      additionalProperties: false,
+    },
+  },
 ] as const;
 
-function runTool(name: string): string {
+function runTool(name: string, args: Record<string, unknown> = {}): string {
   if (name === "list_services") {
     return pillars
       .map((p) => `${p.title}:\n` + p.services.map((s) => `- ${s.name}: ${s.line}`).join("\n"))
@@ -68,6 +79,24 @@ function runTool(name: string): string {
   }
   if (name === "get_contact_details") {
     return `Email: ${siteConfig.email}\nPhone: ${siteConfig.phone}\nLocation: ${siteConfig.location}\nForm: ${siteConfig.url}/contact`;
+  }
+  if (name === "search_faq") {
+    // Same array the homepage renders, so the agent and the page can never
+    // disagree. Falls back to the full list when the query is empty.
+    const terms = String(args.query ?? "").toLowerCase().split(/\s+/).filter(Boolean);
+    const hits = answers
+      .map((item) => {
+        const hay = `${item.q} ${item.a}`.toLowerCase();
+        return { item, score: terms.reduce((n, t) => n + (hay.includes(t) ? 1 : 0), 0) };
+      })
+      .filter((hit) => terms.length === 0 || hit.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5);
+    if (!hits.length) return `No FAQ entry matched "${args.query}". Contact: ${siteConfig.url}/contact`;
+    return (
+      hits.map((hit) => `Q: ${hit.item.q}\nA: ${hit.item.a}`).join("\n\n") +
+      `\n\nMore: ${siteConfig.url}/#answers`
+    );
   }
   return `Unknown tool: ${name}`;
 }
@@ -110,7 +139,7 @@ export async function POST(request: Request) {
     const name = typeof body.params?.name === "string" ? body.params.name : "";
     const tool = TOOLS.find((t) => t.name === name);
     if (!tool) return errorResult(id, -32602, `Unknown tool: ${name}`);
-    return textResult(id, runTool(name));
+    return textResult(id, runTool(name, (body.params?.arguments as Record<string, unknown>) ?? {}));
   }
 
   return errorResult(id, -32601, `Method not found: ${method}`);
