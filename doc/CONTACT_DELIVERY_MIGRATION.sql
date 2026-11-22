@@ -9,5 +9,6 @@ alter table public.leads
 
 create unique index if not exists leads_request_id_key on public.leads (request_id);
 revoke all on public.leads from anon, authenticated;
+grant select, insert, update on public.leads to service_role;
 
 commit;

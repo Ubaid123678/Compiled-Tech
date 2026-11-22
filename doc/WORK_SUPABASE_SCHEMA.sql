@@ -5,7 +5,7 @@ create table if not exists work_projects (
   id uuid default gen_random_uuid() primary key,
   slug text unique not null,
   title text not null,
-  category text not null check (category in ('Web', 'Mobile', 'AI')),
+  category text not null check (category in ('Web', 'Mobile', 'E-commerce', 'SaaS', 'AI')),
   excerpt text,
   description text not null,
   problem text,

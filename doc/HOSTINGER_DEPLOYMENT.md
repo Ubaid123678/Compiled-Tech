@@ -79,10 +79,7 @@ In Hostinger hPanel:
    If Hostinger asks for a startup file instead of a command, use
    `.next/standalone/server.js`.
 
-The build output uses Next.js standalone mode. When deploying by file upload,
-copy `public` and `.next/static` into the standalone directory beside
-`server.js`. A Git-based Hostinger integration may handle this differently, so
-confirm that `public` and `.next/static` are present after the build.
+The build packages `public` and `.next/static` beside the standalone server. For a manual upload, deploy the complete `.next/standalone` directory so the JavaScript, fonts, branding, and media travel with `server.js`.
 
 ## 4. Add environment variables in Hostinger
 
@@ -198,3 +195,13 @@ invalidates existing links. Existing subscribers remain subscribed. Include a
 signed unsubscribe link generated with `signNewsletterAction("unsubscribe", subscriber.id)`
 in future newsletter emails. Existing subscribers can also request removal by
 email. Test confirmation and unsubscribe with a company-controlled address.
+
+
+## Verify Search Console and Google Analytics after the release
+
+1. Deploy the approved revision to the existing Hostinger production app. Confirm the apex hostname is the site URL and that the HTTPS www hostname redirects to it.
+2. Open `https://compiledtech.io/favicon.ico` and check that it returns the branded ICO file with an image content type. Check that the homepage declares the same stable URL using `rel="icon"`. Purge the homepage and favicon URLs in Hostinger CDN if they still serve the previous version.
+3. Open `/robots.txt` and `/sitemap.xml`. Confirm that public canonical pages are crawlable, sitemap entries resolve on the apex hostname, and versioned or private action URLs are absent.
+4. In the verified [Search Console property](https://search.google.com/search-console), open the Page indexing report and record each affected URL and exclusion reason. Use URL Inspection and Test Live URL to check whether Google can fetch each intended canonical page, whether it can index it, and which canonical Google picked. If the live test reports a Hostinger challenge, HTTP 403, or HTTP 429, review the CDN crawler settings using [Hostinger’s crawler guide](https://www.hostinger.com/support/hostinger-cdn-search-engine-crawlers-and-seo/).
+5. Submit the canonical sitemap and request indexing for the homepage and affected public pages whose live checks pass. Review the report as Google reprocesses them. Redirects, duplicates, and deliberately private or removed URLs may be correctly excluded. Google controls when the title, favicon, and search results are refreshed.
+6. In GA4, confirm the web data stream uses the configured measurement ID. Under Enhanced measurement, enable history-based page changes for Next.js navigation and disable form interactions if the existing stream is collecting those events. Use [DebugView](https://support.google.com/analytics/answer/7201382) or Tag Assistant to verify one page view per page load and client navigation after opting in. Verify the tag stays unloaded in a fresh session after declining. A test property can be used for staging by setting `NEXT_PUBLIC_GA_MEASUREMENT_ID` before building.

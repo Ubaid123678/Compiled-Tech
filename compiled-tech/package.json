@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --webpack && node scripts/fix-standalone-sharp.mjs && node scripts/strip-legacy-polyfills.mjs",
+    "build": "next build --webpack && node scripts/fix-standalone-sharp.mjs && node scripts/strip-legacy-polyfills.mjs && node scripts/package-standalone-assets.mjs",
     "start": "next start",
     "lint": "eslint"
   },
