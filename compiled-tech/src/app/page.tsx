@@ -118,7 +118,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [faqJsonLd, speakableJsonLd, howToJsonLd, breadcrumbJsonLd] }) }}
       />
-      <main id="main">
+      <main id="main" tabIndex={-1}>
         <Hero />
         <TrustStrip />
         <WhyUs />

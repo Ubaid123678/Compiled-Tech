@@ -105,103 +105,105 @@ async function ServiceDetailContent({ slug }: { slug: string }) {
 
   return (
     <>
-      <script
-        id="json-ld-services"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [...servicesJsonLd, breadcrumbJsonLd] }) }}
-      />
-      <PageHero
-        title={pillar.title}
-        lead={pillar.line}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Services", href: "/services" },
-          { label: pillar.title },
-        ]}
-      />
+      <main id="main" tabIndex={-1}>
+        <script
+          id="json-ld-services"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [...servicesJsonLd, breadcrumbJsonLd] }) }}
+        />
+        <PageHero
+          title={pillar.title}
+          lead={pillar.line}
+          breadcrumbs={[
+            { label: "Home", href: "/" },
+            { label: "Services", href: "/services" },
+            { label: pillar.title },
+          ]}
+        />
 
-      <Section id="services" aria-labelledby="services-heading">
-        <Container>
-          <div className="space-y-16 lg:space-y-20">
-            {pillar.services.map((service) => (
-                <article key={service.name} id={serviceAnchor(service.name)}>
-                <ServiceTile
-                  name={service.name}
-                  line={service.line}
-                  icon={getServiceIcon(service.name)}
-                />
-              </article>
-            ))}
-
-            <div className="pt-8 border-t border-line">
-              <SectionHeading
-                id="how-it-works"
-                eyebrow="PROCESS"
-                h2="How it works"
-                className="mb-10"
-              />
-              <div className="grid gap-6 sm:grid-cols-3">
-                {howItWorks.map((step) => (
-                  <div key={step.step} className="rounded-[20px] border border-line bg-night p-6">
-                    <span className="font-mono text-[0.8rem] text-steel mb-2 block">STEP {step.step}</span>
-                    <h3 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[1.15rem] leading-[1.3] mb-2">
-                      {step.title}
-                    </h3>
-                    <p className="text-mist text-base leading-[1.6]">{step.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="pt-8 border-t border-line">
-              <SectionHeading
-                id="tech-we-use"
-                eyebrow="TECHNOLOGY"
-                h2="Tech we use"
-                className="mb-6"
-              />
-              <div className="flex flex-wrap gap-3">
-                {techWeUse.map((tech) => (
-                  <Chip key={tech} variant="default">{tech}</Chip>
-                ))}
-              </div>
-            </div>
-
-            <div className="pt-8 border-t border-line">
-              <SectionHeading
-                id="related-work"
-                eyebrow="WORK"
-                h2="Related projects"
-                className="mb-8"
-              />
-              <div className="grid gap-6 sm:grid-cols-2">
-                {relatedProjects.map((project) => (
-                  <CaseCard
-                    key={project.slug}
-                    slug={project.slug}
-                    title={project.title}
-                    category={project.category}
-                    excerpt={project.excerpt}
-                    year={project.year}
-                    role={project.role}
-                    image={project.image}
-                    thumbnail={project.thumbnail}
-                    featured={false}
+        <Section id="services" aria-label="Included services">
+          <Container>
+            <div className="space-y-16 lg:space-y-20">
+              {pillar.services.map((service) => (
+                  <article key={service.name} id={serviceAnchor(service.name)}>
+                  <ServiceTile
+                    name={service.name}
+                    line={service.line}
+                    icon={getServiceIcon(service.name)}
                   />
-                ))}
+                </article>
+              ))}
+
+              <div className="pt-8 border-t border-line">
+                <SectionHeading
+                  id="how-it-works"
+                  eyebrow="PROCESS"
+                  h2="How it works"
+                  className="mb-10"
+                />
+                <div className="grid gap-6 sm:grid-cols-3">
+                  {howItWorks.map((step) => (
+                    <div key={step.step} className="rounded-[20px] border border-line bg-night p-6">
+                      <span className="font-mono text-[0.8rem] text-steel mb-2 block">STEP {step.step}</span>
+                      <h3 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[1.15rem] leading-[1.3] mb-2">
+                        {step.title}
+                      </h3>
+                      <p className="text-mist text-base leading-[1.6]">{step.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-8 border-t border-line">
+                <SectionHeading
+                  id="tech-we-use"
+                  eyebrow="TECHNOLOGY"
+                  h2="Tech we use"
+                  className="mb-6"
+                />
+                <div className="flex flex-wrap gap-3">
+                  {techWeUse.map((tech) => (
+                    <Chip key={tech} variant="default">{tech}</Chip>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-8 border-t border-line">
+                <SectionHeading
+                  id="related-work"
+                  eyebrow="WORK"
+                  h2="Related projects"
+                  className="mb-8"
+                />
+                <div className="grid gap-6 sm:grid-cols-2">
+                  {relatedProjects.map((project) => (
+                    <CaseCard
+                      key={project.slug}
+                      slug={project.slug}
+                      title={project.title}
+                      category={project.category}
+                      excerpt={project.excerpt}
+                      year={project.year}
+                      role={project.role}
+                      image={project.image}
+                      thumbnail={project.thumbnail}
+                      featured={false}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-8 border-t border-line">
+                <FAQ items={faq} />
               </div>
             </div>
 
-            <div className="pt-8 border-t border-line">
-              <FAQ items={faq} />
-            </div>
-          </div>
+            <PlusStrip />
+          </Container>
+        </Section>
 
-          <PlusStrip />
-        </Container>
-      </Section>
-
-      <CTABand />
+        <CTABand />
+      </main>
       <Footer />
     </>
   );

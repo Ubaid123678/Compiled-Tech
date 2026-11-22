@@ -45,25 +45,27 @@ export default async function BlogPage() {
 
   return (
     <>
-      <script
-        id="json-ld-blog"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": blogPostsJsonLd }) }}
-      />
-      <PageHero
-        title="Insights"
-        lead="Notes on software and AI from the Compiled Tech team."
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Blog" },
-        ]}
-      />
+      <main id="main" tabIndex={-1}>
+        <script
+          id="json-ld-blog"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": blogPostsJsonLd }) }}
+        />
+        <PageHero
+          title="Insights"
+          lead="Notes on software and AI from the Compiled Tech team."
+          breadcrumbs={[
+            { label: "Home", href: "/" },
+            { label: "Blog" },
+          ]}
+        />
 
-      <Section id="blog" className="pb-12 pt-8 lg:pb-20 lg:pt-12">
-        <BlogGrid posts={posts} categories={categories} />
-      </Section>
+        <Section id="blog" className="pb-12 pt-8 lg:pb-20 lg:pt-12">
+          <BlogGrid posts={posts} categories={categories} />
+        </Section>
 
-      <CTABand />
+        <CTABand />
+      </main>
       <Footer />
     </>
   );

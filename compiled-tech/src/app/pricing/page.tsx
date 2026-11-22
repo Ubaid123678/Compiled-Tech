@@ -60,33 +60,35 @@ export default function PricingPage() {
 
   return (
     <>
-      <script
-        id="json-ld-pricing"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [offersJsonLd, breadcrumbJsonLd] }) }}
-      />
-      <PageHero
-        title="Pricing"
-        lead="Starting prices, in the open. Every project is scoped and quoted in writing before work begins."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Pricing" }]}
-        showHexagon={false}
-      />
+      <main id="main" tabIndex={-1}>
+        <script
+          id="json-ld-pricing"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [offersJsonLd, breadcrumbJsonLd] }) }}
+        />
+        <PageHero
+          title="Pricing"
+          lead="Starting prices, in the open. Every project is scoped and quoted in writing before work begins."
+          breadcrumbs={[{ label: "Home", href: "/" }, { label: "Pricing" }]}
+          showHexagon={false}
+        />
 
-      <Section id="pricing">
-        <Container>
-          <PricingCards />
-          <p className="mt-8 text-center text-mist/70">
-              Prices are starting points in USD; final quotes depend on scope. Not sure which
-              band you need?{" "}
-              <Link href="/contact" className="text-steel underline underline-offset-2 hover:text-frost">
-                Tell us the project
-              </Link>{" "}
-              and we will reply with a fixed price.
-            </p>
-        </Container>
-      </Section>
+        <Section id="pricing">
+          <Container>
+            <PricingCards />
+            <p className="mt-8 text-center text-mist/70">
+                Prices are starting points in USD; final quotes depend on scope. Not sure which
+                band you need?{" "}
+                <Link href="/contact" className="text-steel underline underline-offset-2 hover:text-frost">
+                  Tell us the project
+                </Link>{" "}
+                and we will reply with a fixed price.
+              </p>
+          </Container>
+        </Section>
 
-      <CTABand />
+        <CTABand />
+      </main>
       <Footer />
     </>
   );

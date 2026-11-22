@@ -12,11 +12,12 @@ type FilterChipsProps = {
 
 export function FilterChips({ filters, activeFilter, onChange, className }: FilterChipsProps) {
   return (
-    <div className={cn("flex flex-wrap gap-3 mb-10", className)} role="group" aria-label="Filter articles">
+    <div className={cn("flex flex-wrap gap-3 mb-10", className)} role="group" aria-label="Filter by category">
       <AnimatePresence>
         {filters.map((filter) => (
           <motion.button
             key={filter}
+            type="button"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}

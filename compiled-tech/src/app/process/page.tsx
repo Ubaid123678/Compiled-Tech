@@ -43,34 +43,36 @@ export default function ProcessPage() {
 
   return (
     <>
-      <script
-        id="json-ld-process"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [breadcrumbJsonLd, howToJsonLd, faqJsonLd, speakableJsonLd] }) }}
-      />
-      <PageHero
-        title="How we work"
-        lead="Five steps, the same on every project."
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Process" },
-        ]}
-      />
+      <main id="main" tabIndex={-1}>
+        <script
+          id="json-ld-process"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [breadcrumbJsonLd, howToJsonLd, faqJsonLd, speakableJsonLd] }) }}
+        />
+        <PageHero
+          title="How we work"
+          lead="Five steps, the same on every project."
+          breadcrumbs={[
+            { label: "Home", href: "/" },
+            { label: "Process" },
+          ]}
+        />
 
-      <ProcessTimeline />
+        <ProcessTimeline />
 
-      <Section id="faq" aria-labelledby="faq-heading" className="bg-night/50">
-        <Container>
-          <SectionHeading
-            id="faq-heading"
-            h2="Common Questions"
-            className="mb-10"
-          />
-          <FAQ items={processFAQ} />
-        </Container>
-      </Section>
+        <Section id="faq" aria-labelledby="faq-heading" className="bg-night/50">
+          <Container>
+            <SectionHeading
+              id="faq-heading"
+              h2="Common Questions"
+              className="mb-10"
+            />
+            <FAQ items={processFAQ} />
+          </Container>
+        </Section>
 
-      <CTABand />
+        <CTABand />
+      </main>
       <Footer />
     </>
   );

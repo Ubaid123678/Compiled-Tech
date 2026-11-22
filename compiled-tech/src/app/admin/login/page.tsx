@@ -42,7 +42,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-ink px-4">
+    <main id="main" tabIndex={-1} className="min-h-screen flex items-center justify-center bg-ink px-4">
       <div className="w-full max-w-md bg-night border border-line rounded-[20px] p-8">
         <h1 className="font-display font-semibold uppercase tracking-[0.02em] text-frost text-[clamp(1.5rem,3.2vw,2.4rem)] leading-[1.15] mb-2 text-center">
           Admin Login
@@ -97,6 +97,6 @@ export default function LoginPage() {
           </button>
         </form>
       </div>
-    </div>
+    </main>
   );
 }

@@ -7,29 +7,31 @@ import { Footer } from "@/components/layout/Footer";
 export default function NotFound() {
   return (
     <>
-      <PageHero
-        title="Page not found"
-        lead="That page does not exist. Go back home or start a project."
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "404" },
-        ]}
-        showHexagon={false}
-      />
+      <main id="main" tabIndex={-1}>
+        <PageHero
+          title="Page not found"
+          lead="That page does not exist. Go back home or start a project."
+          breadcrumbs={[
+            { label: "Home", href: "/" },
+            { label: "404" },
+          ]}
+          showHexagon={false}
+        />
 
-      <Section className="pb-12 pt-8 lg:pb-20 lg:pt-12">
-        <Container className="max-w-md text-center">
-          <div className="space-y-6">
-            <Button href="/" size="lg" icon={<span className="w-5 h-5">←</span>}>
-              Back Home
-            </Button>
-            <Button href="/contact" variant="ghost" size="lg">
-              Start a Project
-            </Button>
-          </div>
-        </Container>
-      </Section>
+        <Section className="pb-12 pt-8 lg:pb-20 lg:pt-12">
+          <Container className="max-w-md text-center">
+            <div className="space-y-6">
+              <Button href="/" size="lg" icon={<span className="w-5 h-5">←</span>}>
+                Back Home
+              </Button>
+              <Button href="/contact" variant="ghost" size="lg">
+                Start a Project
+              </Button>
+            </div>
+          </Container>
+        </Section>
 
+      </main>
       <Footer />
     </>
   );

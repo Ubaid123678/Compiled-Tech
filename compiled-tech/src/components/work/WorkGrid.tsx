@@ -1,7 +1,7 @@
 "use client";
 
 import type { WorkCategory } from "@/data/work";
-import { useState } from "react";
+import { useCategoryFilter } from "@/components/content/use-category-filter";
 import { motion } from "framer-motion";
 import { FilterChips } from "@/components/content/FilterChips";
 import { CaseCard } from "@/components/cards/CaseCard";
@@ -22,7 +22,7 @@ export type CaseStudy = {
 // Receives all published projects from the server page and filters locally —
 // no API round-trip on category change.
 export function WorkGrid({ projects, categories }: { projects: CaseStudy[]; categories: string[] }) {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useCategoryFilter(categories);
   const visible =
     activeFilter === "All" ? projects : projects.filter((p) => p.category === activeFilter);
 

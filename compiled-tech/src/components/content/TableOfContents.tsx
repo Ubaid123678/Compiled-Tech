@@ -17,7 +17,7 @@ export function TableOfContents({ items, className }: TableOfContentsProps) {
   if (items.length === 0) return null;
 
   return (
-    <nav className={cn("sticky top-24 space-y-2 max-h-[70vh] overflow-auto hidden lg:block", className)} aria-label="Table of contents">
+    <nav className={cn("space-y-2 max-h-[70vh] overflow-auto", className)} aria-label="Table of contents">
       <h3 className="font-display uppercase text-[0.72rem] tracking-[0.22em] text-steel mb-4">
         On this page
       </h3>

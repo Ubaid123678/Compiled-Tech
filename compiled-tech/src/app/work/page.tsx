@@ -8,6 +8,8 @@ import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 
 // Reuse generatePageMetadata so work gets the same canonical/OG/Twitter tags.
 // ponytail: keywords need matching on-page copy; titles/description carry them.
+export const dynamic = "force-dynamic";
+
 export const metadata = generatePageMetadata({
   title: "Our Work — Web, Mobile & AI Projects",
   description:
@@ -45,23 +47,25 @@ export default async function WorkPage() {
 
   return (
     <>
-      <script
-        id="json-ld-work"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [...workJsonLd, breadcrumbJsonLd] }) }}
-      />
-      <PageHero
-        title="Work"
-        lead="Projects we have built and shipped."
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Work" },
-        ]}
-      />
-      <Section id="work" className="pb-12 pt-8 lg:pb-20 lg:pt-12">
-        <WorkGrid projects={projects} categories={categories} />
-      </Section>
-      <CTABand />
+      <main id="main" tabIndex={-1}>
+        <script
+          id="json-ld-work"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [...workJsonLd, breadcrumbJsonLd] }) }}
+        />
+        <PageHero
+          title="Work"
+          lead="Projects we have built and shipped."
+          breadcrumbs={[
+            { label: "Home", href: "/" },
+            { label: "Work" },
+          ]}
+        />
+        <Section id="work" className="pb-12 pt-8 lg:pb-20 lg:pt-12">
+          <WorkGrid projects={projects} categories={categories} />
+        </Section>
+        <CTABand />
+      </main>
       <Footer />
     </>
   );

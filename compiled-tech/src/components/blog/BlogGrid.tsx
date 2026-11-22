@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCategoryFilter } from "@/components/content/use-category-filter";
 import { motion } from "framer-motion";
 import { FilterChips } from "@/components/content/FilterChips";
 import { ArticleCard } from "@/components/cards/ArticleCard";
@@ -23,7 +23,7 @@ export type Post = {
 // round-trip on category change. Featured post renders full-width on top, same
 // pattern as the Work page.
 export function BlogGrid({ posts, categories }: { posts: Post[]; categories: string[] }) {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useCategoryFilter(categories);
   const visible =
     activeFilter === "All" ? posts : posts.filter((p) => p.category === activeFilter);
 
