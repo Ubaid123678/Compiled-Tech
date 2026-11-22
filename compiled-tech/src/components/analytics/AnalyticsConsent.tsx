@@ -48,11 +48,8 @@ function clearAnalyticsCookies() {
 }
 
 function setAnalytics(id: string, enabled: boolean) {
-  const browser = window as Window & {
-    dataLayer?: unknown[];
-    [key: `ga-disable-${string}`]: boolean | undefined;
-  };
-  browser[`ga-disable-${id}`] = !enabled;
+  const browser: Window & { dataLayer?: unknown[] } = window;
+  Reflect.set(browser, `ga-disable-${id}`, !enabled);
   if (!enabled || configured) return;
 
   configured = true;
