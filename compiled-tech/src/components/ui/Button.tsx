@@ -8,6 +8,7 @@ type ButtonProps = {
   href?: string;
   icon?: ReactNode;
   loading?: boolean;
+  disabled?: boolean;
   children: ReactNode;
   className?: string;
   onClick?: () => void;
@@ -21,6 +22,7 @@ export function Button({
   href,
   icon,
   loading = false,
+  disabled = false,
   children,
   className,
   onClick,
@@ -66,7 +68,7 @@ export function Button({
   }
 
   return (
-    <button className={classes} type={type} disabled={loading} onClick={onClick}>
+    <button className={classes} type={type} disabled={loading || disabled} onClick={onClick}>
       {content}
     </button>
   );

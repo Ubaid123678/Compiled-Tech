@@ -138,7 +138,7 @@ export function ContactForm() {
         <Script
           src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
           strategy="afterInteractive"
-          onReady={() => window.dispatchEvent(new Event("turnstile:ready"))}
+          onReady={() => { window.dispatchEvent(new Event("turnstile:ready")); }}
           onError={() => setVerificationFailed(true)}
         />
       )}
@@ -147,7 +147,7 @@ export function ContactForm() {
           field wants. The imperative registerTool() calls only exist after the
           JS bundle runs, which is why the audit scored this page at 36%. */}
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(event) => void handleSubmit(onSubmit)(event)}
         className="space-y-6"
         noValidate
         toolname="send_project_enquiry"
