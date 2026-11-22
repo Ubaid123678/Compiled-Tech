@@ -11,6 +11,7 @@ import { Section } from "@/components/layout/Section";
 import { Chip } from "@/components/content/Chip";
 import { Footer } from "@/components/layout/Footer";
 import { pillars } from "@/data/services";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
 import { getWorkProjects } from "@/lib/work";
@@ -24,9 +25,9 @@ export async function generateStaticParams() {
 }
 
 async function getRelatedWork(serviceSlug: string) {
-  const projects = await getWorkProjects();
-  const categoryMap: Record<string, Array<"Web" | "Mobile" | "AI">> = {
-    build: ["Web", "Mobile"],
+  const projects = await getWorkProjects().catch(() => []);
+  const categoryMap: Record<string, string[]> = {
+    build: ["Web", "Mobile", "E-commerce", "SaaS"],
     "ai-ml": ["AI"],
     "automate-analyze": ["AI", "Web"],
     "advise-support": ["Web", "Mobile", "AI"],
@@ -44,7 +45,7 @@ async function ServiceDetailContent({ slug }: { slug: string }) {
   const pillar = pillars.find((p) => p.slug === slug);
 
   if (!pillar) {
-    return null;
+    notFound();
   }
 
   const howItWorks = [
@@ -63,7 +64,7 @@ async function ServiceDetailContent({ slug }: { slug: string }) {
 
   const faq = [
     {
-      q: `How long does a ${pillar.title.toLowerCase()} project take?`,
+      q: "How long will my project take?",
       a: "Typically 4–12 weeks for build phase, depending on scope. We agree on timeline upfront."
     },
     {
@@ -85,7 +86,7 @@ async function ServiceDetailContent({ slug }: { slug: string }) {
       type: "Service",
       name: service.name,
       description: service.line,
-      url: `${siteConfig.url}/services/${pillar.slug}#${service.name.toLowerCase().replace(/\s+/g, "-")}`,
+      url: `${siteConfig.url}/services/${pillar.slug}#${serviceAnchor(service.name)}`,
       telephone: siteConfig.phone,
     })
   );
@@ -210,13 +211,7 @@ export async function generateMetadata({ params }: ServiceDetailPageProps) {
   const { slug } = await params;
   const pillar = pillars.find((p) => p.slug === slug);
 
-  if (!pillar) {
-    return generatePageMetadata({
-      title: "Service Not Found",
-      description: "The requested service could not be found.",
-      path: `/services/${slug}`,
-    });
-  }
+  if (!pillar) notFound();
 
   return generatePageMetadata({
     title: pillar.title,

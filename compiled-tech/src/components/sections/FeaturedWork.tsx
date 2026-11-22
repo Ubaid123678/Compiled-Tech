@@ -5,10 +5,8 @@ import { CaseCard } from "@/components/cards/CaseCard";
 import { getWorkProjects } from "@/lib/work";
 import { Reveal } from "@/components/motion/Reveal";
 
-import { WorkProject } from "@/lib/work";
-
 export async function FeaturedWork() {
-  const projects: WorkProject[] = (await getWorkProjects()).slice(0, 3);
+  const projects = (await getWorkProjects().catch(() => [])).slice(0, 3);
 
   return (
     <section id="work" aria-labelledby="work-heading">
@@ -22,7 +20,7 @@ export async function FeaturedWork() {
             className="mb-12 lg:mb-16"
           />
         </Reveal>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-10">
+        {projects.length > 0 && <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-10">
           {projects.map((project) => (
             <Reveal key={project.slug}>
               <CaseCard
@@ -38,7 +36,7 @@ export async function FeaturedWork() {
               />
             </Reveal>
           ))}
-        </div>
+        </div>}
         <div className="text-center">
           <Link
             href="/work"

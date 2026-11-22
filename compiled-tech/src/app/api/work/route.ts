@@ -23,6 +23,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ projects, categories });
   } catch (err) {
     console.error("Work API error:", err);
-    return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to fetch projects" }, { status: 503 });
   }
 }

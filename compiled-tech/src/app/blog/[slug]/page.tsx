@@ -8,6 +8,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { MDXComponents } from "@/components/mdx/MDXComponents";
+import { getPublicContentClient } from "@/lib/public-content";
 import { getBlogPost } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
@@ -48,16 +49,7 @@ function extractHeadings(content: string) {
 
 async function getRelatedPosts(currentSlug: string, currentCategory: string, limit = 3) {
   try {
-    const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    if (!url || !key) {
-      throw new Error("Supabase blog configuration is missing.");
-    }
-
-    const supabase = (await import("@supabase/supabase-js")).createClient(url, key);
-
-    const { data, error } = await supabase
+    const { data, error } = await getPublicContentClient()
       .from("blog_posts")
       .select("*")
       .eq("published", true)
@@ -81,42 +73,25 @@ async function getRelatedPosts(currentSlug: string, currentCategory: string, lim
 export async function generateMetadata({ params }: BlogPostPageProps) {
   const { slug } = await params;
   
-  try {
-    const post = await getBlogPost(slug);
-    if (!post) {
-      return {
-        title: "Post Not Found | Compiled Tech",
-        description: "The requested blog post could not be found.",
-      };
-    }
+  const post = await getBlogPost(slug);
+  if (!post) return { robots: { index: false } };
 
-    return generatePageMetadata({
-      title: post.title,
-      description: post.excerpt,
-      path: `/blog/${slug}`,
-      type: "article",
-      publishedTime: post.date,
-      modifiedTime: post.date,
-      authors: [post.author],
-      tags: [post.category],
-    });
-  } catch {
-    return {
-      title: "Post Not Found | Compiled Tech",
-      description: "The requested blog post could not be found.",
-    };
-  }
+  return generatePageMetadata({
+    title: post.title,
+    description: post.excerpt,
+    path: `/blog/${slug}`,
+    type: "article",
+    publishedTime: post.date,
+    modifiedTime: post.date,
+    authors: [post.author],
+    tags: [post.category],
+  });
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
 
-  let post;
-  try {
-    post = await getBlogPost(slug);
-  } catch {
-    notFound();
-  }
+  const post = await getBlogPost(slug);
 
   if (!post) {
     notFound();
@@ -131,7 +106,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     }));
   } catch (error) {
     console.error(`Blog post MDX compilation failed for "${slug}":`, error);
-    notFound();
+    throw new Error("This article could not be rendered");
   }
 
   const headings = extractHeadings(post.content);

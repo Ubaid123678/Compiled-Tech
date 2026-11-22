@@ -5,6 +5,7 @@ import { CTABand } from "@/components/sections/CTABand";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
+import { getPublicContentClient } from "@/lib/public-content";
 import { getWorkProject } from "@/lib/work";
 import { notFound } from "next/navigation";
 import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
@@ -16,12 +17,7 @@ type WorkProjectPageProps = {
 }
 
 async function getRelatedProjects(currentSlug: string, currentCategory: string, limit = 3) {
-  const supabase = (await import("@supabase/supabase-js")).createClient(
-    process.env.SUPABASE_URL || "http://localhost:54321",
-    process.env.SUPABASE_SERVICE_ROLE_KEY || "dummy"
-  );
-
-  const { data } = await supabase
+  const { data, error } = await getPublicContentClient()
     .from("work_projects")
     .select("*")
     .eq("published", true)
@@ -30,50 +26,34 @@ async function getRelatedProjects(currentSlug: string, currentCategory: string, 
     .order("year", { ascending: false })
     .limit(limit);
 
+  if (error) console.error("Could not load related projects", { code: error.code });
   return data || [];
 }
 
 export async function generateMetadata({ params }: WorkProjectPageProps) {
   const { slug } = await params;
   
-  try {
-    const project = await getWorkProject(slug);
-    if (!project) {
-      return {
-        title: "Project Not Found | Compiled Tech",
-        description: "The requested project could not be found.",
-      };
-    }
+  const project = await getWorkProject(slug);
+  if (!project) return { robots: { index: false } };
 
-    return generatePageMetadata({
-      title: project.title,
-      description: project.excerpt,
-      path: `/work/${slug}`,
-      type: "website",
-    });
-  } catch {
-    return {
-      title: "Project Not Found | Compiled Tech",
-      description: "The requested project could not be found.",
-    };
-  }
+  return generatePageMetadata({
+    title: project.title,
+    description: project.excerpt,
+    path: `/work/${slug}`,
+    type: "website",
+  });
 }
 
 export default async function WorkProjectPage({ params }: WorkProjectPageProps) {
   const { slug } = await params;
 
-  let project;
-  try {
-    project = await getWorkProject(slug);
-  } catch {
-    notFound();
-  }
+  const project = await getWorkProject(slug);
 
   if (!project) {
     notFound();
   }
 
-  const relatedProjects = await getRelatedProjects(slug, project.category);
+  const relatedProjects = await getRelatedProjects(slug, project.category).catch(() => []);
   const galleryImages = (project.gallery_images || []).filter(
     (image: unknown): image is string => typeof image === "string" && image.length > 0
   );

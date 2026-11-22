@@ -4,7 +4,7 @@ import { getWorkProject } from "@/lib/work";
 export const dynamic = "force-dynamic";
 
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
@@ -18,6 +18,6 @@ export async function GET(
     return NextResponse.json({ project });
   } catch (err) {
     console.error("Work project API error:", err);
-    return NextResponse.json({ error: "Failed to fetch project" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to fetch project" }, { status: 503 });
   }
 }

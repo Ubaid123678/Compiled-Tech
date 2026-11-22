@@ -1,3 +1,4 @@
+import type { WorkCategory } from "@/data/work";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
@@ -7,7 +8,7 @@ import { cn, slugify } from "@/lib/utils";
 type CaseCardProps = {
   slug: string;
   title: string;
-  category: "Web" | "Mobile" | "AI";
+  category: WorkCategory;
   excerpt: string;
   year: number;
   role: string;

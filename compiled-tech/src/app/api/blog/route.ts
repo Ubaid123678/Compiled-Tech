@@ -16,6 +16,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ posts, categories });
   } catch (err) {
     console.error("Blog API error:", err);
-    return NextResponse.json({ error: "Failed to fetch posts" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to fetch posts" }, { status: 503 });
   }
 }

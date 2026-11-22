@@ -4,7 +4,7 @@ import { getBlogPosts } from "@/lib/blog";
 import { getWorkProjects } from "@/lib/work";
 import { siteConfig } from "@/lib/seo";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 const staticRoutes = [
   "/", "/about", "/blog", "/contact", "/privacy", "/pricing", "/process",

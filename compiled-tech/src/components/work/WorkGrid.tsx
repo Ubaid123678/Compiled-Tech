@@ -1,5 +1,6 @@
 "use client";
 
+import type { WorkCategory } from "@/data/work";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FilterChips } from "@/components/content/FilterChips";
@@ -9,7 +10,7 @@ import { Container } from "@/components/layout/Container";
 export type CaseStudy = {
   slug: string;
   title: string;
-  category: "Web" | "Mobile" | "AI";
+  category: WorkCategory;
   excerpt: string;
   year: number;
   role: string;

@@ -33,6 +33,8 @@ import { processSteps } from "@/data/process";
 // Reuse generatePageMetadata so home gets the same canonical/OG/Twitter tags every other page gets.
 // ponytail: visible page copy (hero, services list) is what actually ranks for these
 // keywords; the tags below just point Google at it consistently.
+export const revalidate = 300;
+
 export const metadata = generatePageMetadata({
   title: "Software, Web & AI Development",
   description:

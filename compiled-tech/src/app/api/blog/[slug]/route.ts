@@ -4,7 +4,7 @@ import { getBlogPost } from "@/lib/blog";
 export const dynamic = "force-dynamic";
 
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
@@ -18,6 +18,6 @@ export async function GET(
     return NextResponse.json({ post });
   } catch (err) {
     console.error("Blog post API error:", err);
-    return NextResponse.json({ error: "Failed to fetch post" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to fetch post" }, { status: 503 });
   }
 }
