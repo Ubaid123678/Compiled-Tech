@@ -94,9 +94,9 @@ export async function proxy(request: NextRequest) {
     const authorized = isSiteAdmin(user);
     let response = supabaseResponse;
     if (!isLoginPath && !authorized) {
-      response = new NextResponse(null, { status: 307, headers: { Location: "/admin/login" } });
+      response = NextResponse.redirect(new URL("/admin/login", siteConfig.url));
     } else if (isLoginPath && authorized) {
-      response = new NextResponse(null, { status: 307, headers: { Location: "/admin" } });
+      response = NextResponse.redirect(new URL("/admin", siteConfig.url));
     }
     if (response !== supabaseResponse) {
       for (const cookie of supabaseResponse.cookies.getAll()) response.cookies.set(cookie);
