@@ -6,6 +6,10 @@ alter table public.work_projects enable row level security;
 alter table public.blog_posts enable row level security;
 alter table public.newsletter enable row level security;
 
+grant select on public.work_projects, public.blog_posts to anon, authenticated;
+grant insert, update, delete on public.work_projects, public.blog_posts to authenticated;
+grant select on public.newsletter to authenticated;
+
 drop policy if exists "Authenticated users can manage projects" on public.work_projects;
 drop policy if exists "Site administrators can manage projects" on public.work_projects;
 create policy "Site administrators can manage projects"

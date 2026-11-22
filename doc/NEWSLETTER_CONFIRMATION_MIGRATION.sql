@@ -2,6 +2,7 @@ begin;
 
 drop policy if exists "Public can subscribe" on public.newsletter;
 revoke insert on public.newsletter from anon, authenticated;
+grant select, insert, delete on public.newsletter to service_role;
 
 create table if not exists public.newsletter_pending (
   id uuid primary key,

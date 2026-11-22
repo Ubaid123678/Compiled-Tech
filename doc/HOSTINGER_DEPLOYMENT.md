@@ -173,7 +173,11 @@ Deployment still requires your external configuration:
 This guide does not require sharing credentials. Enter all secret values
 directly in Hostinger's protected environment settings.
 
-## Prepare admin access before deploying the authorization change
+## Prepare database changes before deploying the review branch
+
+Apply `CONTACT_DELIVERY_MIGRATION.sql` for inquiry delivery tracking, then follow the admin and newsletter setup below. Take a production database backup and test the same release sequence in staging first.
+
+### Admin access
 
 Confirm the approved administrator user IDs in Supabase Authentication. For each approved user, run this SQL with their exact UUID. This preserves their other app metadata.
 
