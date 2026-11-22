@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Orbitron, Exo_2, JetBrains_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
+import { AnalyticsConsent } from "@/components/analytics/AnalyticsConsent";
 import { AgentTools } from "@/components/agents/AgentTools";
 import { Suspense } from "react";
 import { generateJsonLd, siteConfig } from "@/lib/seo";
@@ -34,6 +35,10 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: React.PropsWithChildren) {
+  const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+    ?? (process.env.NODE_ENV === "production" && siteConfig.url === "https://compiledtech.io"
+      ? "G-NHY0XJ7SZP"
+      : "");
   const organizationJsonLd = generateJsonLd({
     type: "Organization",
     name: siteConfig.name,
@@ -75,17 +80,6 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
         </noscript>
       </head>
       <body suppressHydrationWarning className="min-h-full bg-ink font-body text-mist antialiased">
-        {/* Google Analytics — inline so it ships in the HTML stream; next/script's
-            default strategy injects it client-side, which loses the early pageview. */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-NHY0XJ7SZP" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-NHY0XJ7SZP');`,
-          }}
-        />
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-full focus:bg-steel focus:px-4 focus:py-3 focus:font-display focus:text-xs focus:text-ink">
           Skip to content
         </a>
@@ -94,6 +88,7 @@ gtag('config', 'G-NHY0XJ7SZP');`,
           <Header />
         </Suspense>
         {children}
+        {/^G-[A-Z0-9]+$/.test(measurementId) && <AnalyticsConsent measurementId={measurementId} />}
       </body>
     </html>
   );

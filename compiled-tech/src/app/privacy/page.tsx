@@ -16,7 +16,7 @@ export default function PrivacyPage() {
     <>
       <PageHero
         title="Privacy Policy"
-        lead="Last updated: 8 October 2026"
+        lead="Last updated: 22 November 2026"
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Privacy" },
@@ -88,8 +88,8 @@ export default function PrivacyPage() {
                 <h3 className="font-display uppercase text-[0.78rem] tracking-[0.1em] text-steel mb-2">
                   Analytics
                 </h3>
-                <p className="text-mist text-base leading-[1.65]">
-                  We use Plausible Analytics. It does not use cookies and does not track you across other websites. It records page views, the referring site, browser, device type, and approximate country in aggregate form.
+                <p id="analytics" className="scroll-mt-24 text-mist text-base leading-[1.65]">
+                  If you allow optional analytics, Google Analytics uses cookies to help us understand page views, referring sites, devices, and approximate location. You can change your choice on this page.
                 </p>
               </div>
               <div>
@@ -143,7 +143,7 @@ export default function PrivacyPage() {
               <li>Resend for sending email</li>
               <li>Cloudflare Turnstile for spam protection</li>
               <li>Cal.com for booking calls</li>
-              <li>Plausible for analytics</li>
+              <li>Google Analytics for optional analytics and Google Maps for the map on our contact page</li>
               <li>An AI provider, such as Anthropic, if the chatbot is enabled</li>
             </ul>
             <p className="text-mist text-base leading-[1.65] mt-4">
@@ -169,7 +169,7 @@ export default function PrivacyPage() {
               <li>Project records: for the life of the project, then as long as needed for support, accounting, and legal reasons.</li>
               <li>Newsletter email addresses: until you unsubscribe.</li>
               <li>Chatbot conversations: up to 30 days.</li>
-              <li>Analytics: kept only in aggregate form, with no personal data.</li>
+              <li>Analytics: retained according to the settings in our Google Analytics property.</li>
             </ul>
           </section>
 
@@ -178,7 +178,7 @@ export default function PrivacyPage() {
               8. Cookies
             </h2>
             <p className="text-mist text-base leading-[1.65]">
-              We do not use advertising or tracking cookies. Third-party tools we embed, such as the Cal.com booking widget and Cloudflare Turnstile, may set cookies that they need to work or to protect the site from abuse. You can block cookies in your browser, but the booking widget or contact form may stop working.
+              We use analytics cookies when you allow optional analytics. Third-party tools we embed, including Cal.com, Google Maps, and Cloudflare Turnstile, may use cookies to provide their services or protect the site from abuse. You can block cookies in your browser, but the booking widget or contact form may stop working.
             </p>
           </section>
 
