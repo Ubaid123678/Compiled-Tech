@@ -1,6 +1,6 @@
-// middleware.ts
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { isSiteAdmin } from "@/lib/admin-role";
 import { siteConfig } from "@/lib/seo";
 
 // ---------------------------------------------------------------------------
@@ -44,7 +44,7 @@ function agentLinkHeader(includeMarkdown = false) {
   return links.join(", ");
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // --- www → apex redirect ---------------------------------------------------
@@ -61,13 +61,19 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
-  // --- Admin auth (unchanged behaviour) ------------------------------------
-  if (pathname.startsWith("/admin")) {
+  // --- Admin access ------------------------------------
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) {
     let supabaseResponse = NextResponse.next({ request });
 
+    const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!url || !key) return new NextResponse("Admin is temporarily unavailable", {
+      status: 503, headers: { "Cache-Control": "private, no-store", "X-Robots-Tag": "noindex" },
+    });
+
     const supabase = createServerClient(
-      process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      url,
+      key,
       {
         cookies: {
           getAll() {
@@ -85,13 +91,19 @@ export async function middleware(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     const isLoginPath = pathname === "/admin/login";
 
-    if (!isLoginPath && !user) {
-      return NextResponse.redirect(new URL("/admin/login", request.url));
+    const authorized = isSiteAdmin(user);
+    let response = supabaseResponse;
+    if (!isLoginPath && !authorized) {
+      response = new NextResponse(null, { status: 307, headers: { Location: "/admin/login" } });
+    } else if (isLoginPath && authorized) {
+      response = new NextResponse(null, { status: 307, headers: { Location: "/admin" } });
     }
-    if (isLoginPath && user) {
-      return NextResponse.redirect(new URL("/admin", request.url));
+    if (response !== supabaseResponse) {
+      for (const cookie of supabaseResponse.cookies.getAll()) response.cookies.set(cookie);
     }
-    return supabaseResponse;
+    response.headers.set("Cache-Control", "private, no-store");
+    response.headers.set("X-Robots-Tag", "noindex");
+    return response;
   }
 
   // --- Agent negotiation ---------------------------------------------------

@@ -1,26 +1,21 @@
 // app/api/admin/projects/[id]/route.ts
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { authorizeAdminMutation } from "@/lib/admin-session";
 import { NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
 export async function DELETE(
-  _req: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const cookieStore = await cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-  );
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const denied = await authorizeAdminMutation(request);
+  if (denied) return denied;
 
   const { error } = await getSupabaseAdmin().from("work_projects").delete().eq("id", id);
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    console.error("Admin operation failed", error);
+    return NextResponse.json({ error: "Could not complete this operation" }, { status: 500 });
+  }
 
   return NextResponse.json({ success: true });
 }

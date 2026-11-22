@@ -8,7 +8,7 @@ export async function POST() {
   const supabase = createServerClient(
     process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
+    { cookies: { getAll: () => cookieStore.getAll(), setAll: (values) => values.forEach(({ name, value, options }) => cookieStore.set(name, value, options)) } }
   );
 
   await supabase.auth.signOut();

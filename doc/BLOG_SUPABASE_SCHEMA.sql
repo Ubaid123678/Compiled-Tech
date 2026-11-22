@@ -27,12 +27,13 @@ create policy "Public read published posts"
   for select
   using (published = true);
 
--- Policy: allow authenticated users to manage posts (adjust as needed)
-create policy "Authenticated users can manage posts"
+-- Policy: allow approved site administrators to manage posts (adjust as needed)
+create policy "Site administrators can manage posts"
   on blog_posts
   for all
   to authenticated
-  using (true);
+  using ((select auth.jwt()) -> 'app_metadata' -> 'compiled_tech_admin' = 'true'::jsonb)
+  with check ((select auth.jwt()) -> 'app_metadata' -> 'compiled_tech_admin' = 'true'::jsonb);
 
 -- Index for performance
 create index if not exists blog_posts_category_published_idx

@@ -1,6 +1,6 @@
 // app/admin/blogs/page.tsx
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { getAdminSession } from "@/lib/admin-session";
+import { isSiteAdmin } from "@/lib/admin-role";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
@@ -26,15 +26,8 @@ async function getBlogs() {
 }
 
 export default async function BlogsListPage() {
-  const cookieStore = await cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-  );
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/admin/login");
+  const { user } = await getAdminSession();
+  if (!isSiteAdmin(user)) redirect("/admin/login");
 
   const blogs = await getBlogs();
 

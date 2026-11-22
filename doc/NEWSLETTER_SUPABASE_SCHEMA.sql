@@ -15,8 +15,8 @@ create policy "Public can subscribe"
   to anon, authenticated
   with check (true);
 
-create policy "Authenticated users can read subscribers"
+create policy "Site administrators can read subscribers"
   on newsletter
   for select
   to authenticated
-  using (true);
+  using ((select auth.jwt()) -> 'app_metadata' -> 'compiled_tech_admin' = 'true'::jsonb);

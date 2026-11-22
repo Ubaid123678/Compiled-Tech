@@ -1,19 +1,12 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { authorizeAdminMutation } from "@/lib/admin-session";
 import { NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
 const folders = new Set(["blogs", "projects"]);
 
 export async function POST(request: Request) {
-  const cookieStore = await cookies();
-  const supabase = createServerClient(
-    process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
-  );
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const denied = await authorizeAdminMutation(request);
+  if (denied) return denied;
 
   const formData = await request.formData();
   const file = formData.get("file");
@@ -34,7 +27,10 @@ export async function POST(request: Request) {
     contentType: file.type,
     upsert: false,
   });
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    console.error("Admin operation failed", error);
+    return NextResponse.json({ error: "Could not complete this operation" }, { status: 500 });
+  }
 
   const { data } = admin.storage.from(bucket).getPublicUrl(path);
   return NextResponse.json({ url: data.publicUrl });

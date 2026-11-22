@@ -2,7 +2,8 @@
 "use client";
 
 import { useState } from "react";
-import { createBrowserClient } from "@supabase/auth-helpers-nextjs";
+import { createBrowserClient } from "@supabase/ssr";
+import { isSiteAdmin } from "@/lib/admin-role";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -21,10 +22,17 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
       setError(error.message);
+      setLoading(false);
+      return;
+    }
+
+    if (!isSiteAdmin(data.user)) {
+      await supabase.auth.signOut({ scope: "local" });
+      setError("This account does not have administrator access.");
       setLoading(false);
       return;
     }
@@ -61,7 +69,7 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full bg-night border border-line rounded-[12px] px-4 py-3 text-frost placeholder:text-mist/40 focus:outline-none focus:border-steel focus:ring-2 focus:ring-steel/50 transition-colors"
-              placeholder="admin@compiled.tech"
+              placeholder="you@compiledtech.io"
             />
           </div>
 

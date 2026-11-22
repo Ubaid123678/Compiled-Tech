@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createBrowserClient } from "@supabase/auth-helpers-nextjs";
+import { createBrowserClient } from "@supabase/ssr";
 import { uploadAdminImage } from "@/lib/admin-upload";
 
 const categories = ["AI", "Mobile", "Web", "Automation", "Guides"];

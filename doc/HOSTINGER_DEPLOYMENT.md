@@ -175,3 +175,16 @@ Deployment still requires your external configuration:
 
 This guide does not require sharing credentials. Enter all secret values
 directly in Hostinger's protected environment settings.
+
+## Prepare admin access before deploying the authorization change
+
+Confirm the approved administrator user IDs in Supabase Authentication. For each approved user, run this SQL with their exact UUID. This preserves their other app metadata.
+
+```sql
+update auth.users
+set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb)
+  || '{"compiled_tech_admin": true}'::jsonb
+where id = '<approved-user-uuid>'::uuid;
+```
+
+Review the live policies on `work_projects`, `blog_posts`, and `newsletter` for additional broad grants. Apply `ADMIN_AUTHORIZATION_MIGRATION.sql` and have approved administrators sign out and back in to refresh their claims before testing. In staging, verify that an approved account can manage content and an ordinary signed-in account can read only published content and has no subscriber access. Disable public account signup if the project only serves staff. When removing an administrator, revoke their sessions and account access as appropriate, since database policies use the claims in issued tokens until they expire.
