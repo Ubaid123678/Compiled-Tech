@@ -1,66 +1,62 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
-import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
+import { siteConfig } from "@/lib/seo";
+import { signNewsletterAction } from "@/lib/newsletter";
+import { verifyTurnstile } from "@/lib/turnstile";
 
-const getResend = () => new Resend(process.env.RESEND_API_KEY || "re_dummy");
-const getSupabase = () => createClient(
-  process.env.SUPABASE_URL || "http://localhost:54321",
-  process.env.SUPABASE_SERVICE_ROLE_KEY || "dummy"
-);
-
-const newsletterSchema = z.object({
-  email: z.string().email("Enter a valid email address"),
+const schema = z.object({
+  email: z.string().trim().max(254).email().transform((email) => email.toLowerCase()),
+  token: z.string().min(1).max(2048),
+  website: z.string().max(0).optional(),
 });
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const contentType = req.headers.get("content-type") || "";
-    const body = contentType.includes("application/json")
-      ? await req.json()
-      : Object.fromEntries((await req.formData()).entries());
-    const parsed = newsletterSchema.safeParse(body);
+    const parsed = schema.safeParse(await request.json().catch(() => null));
     if (!parsed.success) {
-      return NextResponse.json(
-        { error: parsed.error.flatten().fieldErrors },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Enter a valid email address and complete verification." }, { status: 400 });
     }
 
-    const { email } = parsed.data;
+    const { email, token } = parsed.data;
+    if (!await verifyTurnstile(token)) {
+      return NextResponse.json({ error: "Verification expired. Please try again." }, { status: 400 });
+    }
 
-    const { error } = await getSupabase().from("newsletter").insert({
-      email,
-      created_at: new Date().toISOString(),
+    const from = process.env.RESEND_FROM_EMAIL;
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!from || !apiKey) throw new Error("Newsletter email is not configured");
+
+    const id = crypto.randomUUID();
+    const confirmation = signNewsletterAction("confirm", id);
+    const unsubscribe = signNewsletterAction("unsubscribe", id);
+    const db = getSupabaseAdmin();
+    const { data: pending, error: dbError } = await db.rpc("request_newsletter_confirmation", {
+      address: email,
+      request_id: id,
     });
+    if (dbError) throw dbError;
 
-    if (error) {
-      if (error.code === "23505") {
-        return NextResponse.json({ error: "Already subscribed" }, { status: 400 });
+    if (pending) {
+      const { data, error } = await new Resend(apiKey).emails.send({
+        from, to: email,
+        subject: "Confirm your Compiled Tech newsletter subscription",
+        html: `<p>Confirm that you want to receive updates from Compiled Tech.</p>
+<p><a href="${siteConfig.url}/newsletter/confirm?token=${confirmation}">Confirm subscription</a></p>
+<p>Use the most recent confirmation email within 24 hours. If you didn't request this, you can ignore this email.</p>
+<p><a href="${siteConfig.url}/newsletter/unsubscribe?token=${unsubscribe}">Unsubscribe</a></p>`,
+      }, { idempotencyKey: `newsletter/${id}` });
+      if (error || !data?.id) {
+        console.error("Newsletter confirmation email was not accepted", { id, code: error?.name });
+        throw new Error("Could not send confirmation email");
       }
-      console.error("Newsletter DB error:", error);
-      return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
     }
 
-    try {
-      await getResend().emails.send({
-        from: process.env.RESEND_FROM_EMAIL || "Compiled Tech <onboarding@resend.dev>",
-        to: email,
-        subject: "Welcome to Compiled Tech insights",
-        html: `
-          <p>Thanks for subscribing!</p>
-          <p>You'll get notes on software and AI from our team.</p>
-          <hr>
-          <p>— Compiled Tech</p>
-        `,
-      });
-    } catch (emailError) {
-      console.error("Newsletter welcome email error:", emailError);
-    }
-
+    // Return the same response for existing subscribers and requests on cooldown.
     return NextResponse.json({ success: true });
-  } catch (err) {
-    console.error("Newsletter API error:", err);
-    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+  } catch {
+    console.error("Could not process newsletter signup");
+    return NextResponse.json({ error: "Newsletter signup is temporarily unavailable. Please try again later." }, { status: 503 });
   }
 }

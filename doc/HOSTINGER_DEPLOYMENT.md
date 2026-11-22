@@ -188,3 +188,13 @@ where id = '<approved-user-uuid>'::uuid;
 ```
 
 Review the live policies on `work_projects`, `blog_posts`, and `newsletter` for additional broad grants. Apply `ADMIN_AUTHORIZATION_MIGRATION.sql` and have approved administrators sign out and back in to refresh their claims before testing. In staging, verify that an approved account can manage content and an ordinary signed-in account can read only published content and has no subscriber access. Disable public account signup if the project only serves staff. When removing an administrator, revoke their sessions and account access as appropriate, since database policies use the claims in issued tokens until they expire.
+
+## Prepare newsletter confirmation
+
+Apply `NEWSLETTER_CONFIRMATION_MIGRATION.sql` before deploying the signup changes. Set
+`NEWSLETTER_SIGNING_SECRET` to a stable, randomly generated value of at least 32
+characters in the Hostinger server environment. Keep it private. Rotating it
+invalidates existing links. Existing subscribers remain subscribed. Include a
+signed unsubscribe link generated with `signNewsletterAction("unsubscribe", subscriber.id)`
+in future newsletter emails. Existing subscribers can also request removal by
+email. Test confirmation and unsubscribe with a company-controlled address.

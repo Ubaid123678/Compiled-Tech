@@ -115,7 +115,7 @@ export default function PrivacyPage() {
                 <li>To reply to your inquiry and prepare a proposal or quote.</li>
                 <li>To schedule and hold calls with you.</li>
                 <li>To deliver and support a project once you hire us.</li>
-                <li>To send our newsletter, only if you subscribed, and you can unsubscribe at any time.</li>
+                <li>To send our newsletter after you confirm your subscription by email. You can unsubscribe using the link in a newsletter or by emailing us.</li>
                 <li>To protect the site against spam, abuse, and security threats.</li>
                 <li>To understand which pages are useful and improve the site.</li>
                 <li>To meet legal and accounting obligations.</li>

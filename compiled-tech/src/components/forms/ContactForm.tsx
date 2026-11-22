@@ -1,11 +1,11 @@
 "use client";
 
-import Script from "next/script";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { useTurnstile } from "./use-turnstile";
 import { FormField } from "@/components/forms/FormField";
 import { contactSchema, type ContactInput } from "@/lib/validation";
 import { contactFields, contactInfo } from "@/data/contact";
@@ -13,14 +13,9 @@ import { contactFields, contactInfo } from "@/data/contact";
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
-  const [turnstileToken, setTurnstileToken] = useState("");
-  const [verificationFailed, setVerificationFailed] = useState(false);
+  const { siteKey, turnstileToken, resetVerification, verification } = useTurnstile();
   const request = useRef<{ id: string; payload: string } | null>(null);
   const submitting = useRef(false);
-  const turnstileRef = useRef<HTMLDivElement>(null);
-  const turnstileWidgetId = useRef<string | null>(null);
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
-
   const {
     register,
     handleSubmit,
@@ -32,40 +27,6 @@ export function ContactForm() {
     resolver: zodResolver(contactSchema),
     mode: "onBlur",
   });
-
-  useEffect(() => {
-    if (!siteKey || !turnstileRef.current) return;
-
-    const renderWidget = () => {
-      if (!turnstileRef.current || !window.turnstile || turnstileWidgetId.current) return;
-      turnstileWidgetId.current = window.turnstile.render(turnstileRef.current, {
-        sitekey: siteKey,
-        callback: (token) => {
-          setTurnstileToken(token);
-          setVerificationFailed(false);
-        },
-        "error-callback": () => {
-          setTurnstileToken("");
-          setVerificationFailed(true);
-        },
-        "expired-callback": () => setTurnstileToken(""),
-      });
-    };
-
-    if (window.turnstile) {
-      renderWidget();
-    } else {
-      window.addEventListener("turnstile:ready", renderWidget);
-    }
-
-    return () => {
-      window.removeEventListener("turnstile:ready", renderWidget);
-      if (turnstileWidgetId.current && window.turnstile) {
-        window.turnstile.remove(turnstileWidgetId.current);
-        turnstileWidgetId.current = null;
-      }
-    };
-  }, [siteKey]);
 
   const onSubmit = async (data: ContactInput) => {
     if (submitting.current) return;
@@ -123,8 +84,7 @@ export function ContactForm() {
       setMessage(`We couldn't confirm your submission. Try again, or email ${contactInfo.email}.`);
     } finally {
       submitting.current = false;
-      setTurnstileToken("");
-      if (turnstileWidgetId.current) window.turnstile?.reset(turnstileWidgetId.current);
+      resetVerification();
     }
   };
 
@@ -134,14 +94,6 @@ export function ContactForm() {
 
   return (
     <>
-      {siteKey && (
-        <Script
-          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-          strategy="afterInteractive"
-          onReady={() => { window.dispatchEvent(new Event("turnstile:ready")); }}
-          onError={() => setVerificationFailed(true)}
-        />
-      )}
       {/* Declarative WebMCP: a static scanner (and an agent reading the raw
           HTML before hydration) can discover what this form does and what each
           field wants. The imperative registerTool() calls only exist after the
@@ -231,16 +183,12 @@ export function ContactForm() {
       {/* Honeypot - hidden field, validated by API */}
       <input type="text" {...register("website")} tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
 
-      {/* Turnstile */}
-      {siteKey ? (
-        <div ref={turnstileRef} aria-label="Security verification" />
-      ) : (
+      {verification}
+      {!siteKey && (
         <p className="text-sm text-steel" role="status">
           The project form is temporarily unavailable. Please email {contactInfo.email}.
         </p>
       )}
-
-      {verificationFailed && <p role="alert">Verification could not load. Try reloading the page or email {contactInfo.email}.</p>}
 
       {status === "success" && (
         <div className="flex items-start gap-3 p-4 rounded-[12px] bg-green-900/30 border border-green-500/30" role="status">
@@ -262,19 +210,4 @@ export function ContactForm() {
       </form>
     </>
   );
-}
-
-declare global {
-  interface Window {
-    turnstile?: {
-      render: (container: HTMLElement, options: {
-        sitekey: string;
-        callback: (token: string) => void;
-        "error-callback": () => void;
-        "expired-callback": () => void;
-      }) => string;
-      remove: (widgetId: string) => void;
-      reset: (widgetId: string) => void;
-    };
-  }
 }

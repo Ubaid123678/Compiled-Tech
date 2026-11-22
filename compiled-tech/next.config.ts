@@ -80,6 +80,13 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        source: "/newsletter/:path*",
+        headers: [
+          { key: "Referrer-Policy", value: "no-referrer" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
     ];
   },
   turbopack: {

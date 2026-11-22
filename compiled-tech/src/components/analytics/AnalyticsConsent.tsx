@@ -80,12 +80,12 @@ function setAnalytics(id: string, enabled: boolean) {
 export function AnalyticsConsent({ measurementId }: { measurementId: string }) {
   const choice = useSyncExternalStore(subscribe, preference, () => null);
   const path = usePathname();
-  const admin = path === "/admin" || path.startsWith("/admin/");
+  const privatePage = path === "/admin" || path.startsWith("/admin/") || path.startsWith("/newsletter/");
 
   useEffect(() => {
-    setAnalytics(measurementId, !admin && choice === "allow");
+    setAnalytics(measurementId, !privatePage && choice === "allow");
     if (choice === "decline") clearAnalyticsCookies();
-  }, [measurementId, admin, choice]);
+  }, [measurementId, privatePage, choice]);
 
   function changeChoice(value: "allow" | "decline") {
     setAnalytics(measurementId, value === "allow");
@@ -93,7 +93,7 @@ export function AnalyticsConsent({ measurementId }: { measurementId: string }) {
     save(value);
   }
 
-  if (choice === null || admin) return null;
+  if (choice === null || privatePage) return null;
 
   return (
     <>
