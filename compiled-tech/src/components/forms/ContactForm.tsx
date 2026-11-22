@@ -8,12 +8,15 @@ import { CheckCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { FormField } from "@/components/forms/FormField";
 import { contactSchema, type ContactInput } from "@/lib/validation";
-import { contactFields } from "@/data/contact";
+import { contactFields, contactInfo } from "@/data/contact";
 
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
+  const [verificationFailed, setVerificationFailed] = useState(false);
+  const request = useRef<{ id: string; payload: string } | null>(null);
+  const submitting = useRef(false);
   const turnstileRef = useRef<HTMLDivElement>(null);
   const turnstileWidgetId = useRef<string | null>(null);
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
@@ -37,8 +40,14 @@ export function ContactForm() {
       if (!turnstileRef.current || !window.turnstile || turnstileWidgetId.current) return;
       turnstileWidgetId.current = window.turnstile.render(turnstileRef.current, {
         sitekey: siteKey,
-        callback: setTurnstileToken,
-        "error-callback": () => setTurnstileToken(""),
+        callback: (token) => {
+          setTurnstileToken(token);
+          setVerificationFailed(false);
+        },
+        "error-callback": () => {
+          setTurnstileToken("");
+          setVerificationFailed(true);
+        },
         "expired-callback": () => setTurnstileToken(""),
       });
     };
@@ -59,26 +68,33 @@ export function ContactForm() {
   }, [siteKey]);
 
   const onSubmit = async (data: ContactInput) => {
+    if (submitting.current) return;
     if (!turnstileToken) {
       setStatus("error");
       setMessage("Please complete the verification before sending.");
       return;
     }
 
+    submitting.current = true;
     setStatus("submitting");
     setMessage("");
 
     try {
+      const payload = JSON.stringify(data);
+      if (request.current?.payload !== payload) {
+        request.current = { payload, id: crypto.randomUUID() };
+      }
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, "cf-turnstile-response": turnstileToken }),
+        body: JSON.stringify({ ...data, requestId: request.current.id, "cf-turnstile-response": turnstileToken }),
       });
 
-      const json = await res.json();
+      const json = await res.json().catch(() => null);
 
       if (!res.ok) {
-        if (json.fieldErrors) {
+        if (res.status === 409) request.current = null;
+        if (json?.fieldErrors) {
           Object.entries(json.fieldErrors).forEach(([field, messages]) => {
             const message = Array.isArray(messages) ? messages[0] : undefined;
             if (message && field in data) {
@@ -86,16 +102,29 @@ export function ContactForm() {
             }
           });
         }
-        throw new Error(json.error || "Something went wrong. Try again, or email us at " + data.email + ".");
+        setStatus("error");
+        setMessage(json?.error || `We couldn't confirm your submission. Try again, or email ${contactInfo.email}.`);
+        return;
       }
 
+      if (json?.success !== true) throw new Error("Unconfirmed submission");
       setStatus("success");
-      setMessage(`Thanks, ${data.name}. We got your message and will reply within one working day. A copy is on its way to your email.`);
+      if (!json?.teamNotified) {
+        setMessage(`Your inquiry was saved, but we couldn't confirm the team email. If it's urgent, email ${contactInfo.email}.`);
+      } else {
+        setMessage(json.copyAccepted
+          ? `Thanks, ${data.name}. We received your inquiry and sent a confirmation email.`
+          : `Thanks, ${data.name}. We received your inquiry. We couldn't send a confirmation email.`);
+      }
       reset();
-      setTurnstileToken("");
-    } catch (err) {
+      request.current = null;
+    } catch {
       setStatus("error");
-      setMessage(err instanceof Error ? err.message : `Something went wrong. Try again, or email us at ${data.email}.`);
+      setMessage(`We couldn't confirm your submission. Try again, or email ${contactInfo.email}.`);
+    } finally {
+      submitting.current = false;
+      setTurnstileToken("");
+      if (turnstileWidgetId.current) window.turnstile?.reset(turnstileWidgetId.current);
     }
   };
 
@@ -109,7 +138,8 @@ export function ContactForm() {
         <Script
           src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
           strategy="afterInteractive"
-          onLoad={() => window.dispatchEvent(new Event("turnstile:ready"))}
+          onReady={() => window.dispatchEvent(new Event("turnstile:ready"))}
+          onError={() => setVerificationFailed(true)}
         />
       )}
       {/* Declarative WebMCP: a static scanner (and an agent reading the raw
@@ -206,9 +236,11 @@ export function ContactForm() {
         <div ref={turnstileRef} aria-label="Security verification" />
       ) : (
         <p className="text-sm text-steel" role="status">
-          Verification is not configured yet. Add the Turnstile keys to enable submissions.
+          The project form is temporarily unavailable. Please email {contactInfo.email}.
         </p>
       )}
+
+      {verificationFailed && <p role="alert">Verification could not load. Try reloading the page or email {contactInfo.email}.</p>}
 
       {status === "success" && (
         <div className="flex items-start gap-3 p-4 rounded-[12px] bg-green-900/30 border border-green-500/30" role="status">
@@ -224,7 +256,7 @@ export function ContactForm() {
         </div>
       )}
 
-      <Button type="submit" size="lg" className="w-full sm:w-auto" loading={status === "submitting"}>
+      <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={!siteKey} loading={status === "submitting"}>
         {status === "submitting" ? "Sending..." : "Send Message"}
       </Button>
       </form>
@@ -242,6 +274,7 @@ declare global {
         "expired-callback": () => void;
       }) => string;
       remove: (widgetId: string) => void;
+      reset: (widgetId: string) => void;
     };
   }
 }

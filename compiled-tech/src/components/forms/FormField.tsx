@@ -142,10 +142,13 @@ function renderSelect<T extends FieldValues>({
           parser still finds it next to the control. */}
       <div toolparamdescription={toolDescription}>
       <Select
+        name={field.name}
         onValueChange={field.onChange as (v: string) => void}
-        defaultValue={field.value ?? ""}
+        value={field.value ?? ""}
       >
         <SelectTrigger
+          id={name}
+          onBlur={field.onBlur}
           ref={field.ref}
           className={cn(
             "bg-night border-line text-frost placeholder:text-mist/40 focus:border-steel",
@@ -199,7 +202,7 @@ export function FormField<T extends FieldValues>({
         control={control}
         rules={rules}
         render={({ field, fieldState }: { field: ControllerRenderProps<T>; fieldState: { invalid: boolean; isTouched: boolean } }) => {
-          const showError = fieldState.invalid && fieldState.isTouched;
+          const showError = fieldState.invalid;
           const ariaInvalid = showError;
           const describedBy = showError ? `${name}-error` : hint ? `${name}-hint` : undefined;
 

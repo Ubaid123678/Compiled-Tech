@@ -1,125 +1,128 @@
+import { createHash } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
-import { createClient } from "@supabase/supabase-js";
+import { Resend, type CreateEmailOptions } from "resend";
+import { z } from "zod";
+import { contactInfo } from "@/data/contact";
 import { contactSchema } from "@/lib/validation";
 import { inquiryAdminEmail, inquiryReceivedEmail } from "@/lib/email-template";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
+import { verifyTurnstile } from "@/lib/turnstile";
 
-const getResend = () => new Resend(process.env.RESEND_API_KEY);
-const getSupabase = () => createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+const requestSchema = contactSchema.extend({
+  requestId: z.uuid().optional(),
+  "cf-turnstile-response": z.string().min(1, "Complete the verification").max(2048),
+});
+
+const retryWindowMs = 23 * 60 * 60 * 1000;
 
 function escapeHtml(value: string) {
-  return value.replace(/[&<>"']/g, (character) => (
-    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character] || character
-  ));
+  return value.replace(/[&<>"']/g, (character) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character] || character
+  );
 }
 
-function requireEnvironment() {
-  const required = [
-    "RESEND_API_KEY",
-    "CONTACT_TO_EMAIL",
-    "RESEND_FROM_EMAIL",
-    "SUPABASE_URL",
-    "SUPABASE_SERVICE_ROLE_KEY",
-    "TURNSTILE_SECRET_KEY",
-  ];
-  const missing = required.filter((key) => !process.env[key]);
-  if (missing.length) throw new Error(`Missing server environment variables: ${missing.join(", ")}`);
-}
+async function sendLeadEmail(
+  db: ReturnType<typeof getSupabaseAdmin>,
+  resend: Resend | null,
+  requestId: string,
+  column: "admin_email_id" | "customer_email_id",
+  existingId: string | null,
+  email: CreateEmailOptions,
+) {
+  if (existingId) return true;
+  if (!resend) {
+    console.error("Lead email configuration is missing", { requestId, column });
+    return false;
+  }
 
-async function verifyTurnstile(token: string): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY!;
-  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ secret, response: token }).toString(),
-  });
-  const data = await res.json();
-  return data.success === true;
+  try {
+    const { data, error } = await resend.emails.send(email, { idempotencyKey: `lead/${requestId}/${column}` });
+    if (error || !data?.id) {
+      console.error("Lead email was not accepted", { requestId, column, code: error?.name });
+      return false;
+    }
+    const result = await db.from("leads").update({ [column]: data.id }).eq("request_id", requestId);
+    if (result.error) console.error("Could not record lead email ID", { requestId, column, code: result.error.code });
+    return true;
+  } catch {
+    console.error("Lead email request failed", { requestId, column });
+    return false;
+  }
 }
 
 export async function POST(req: NextRequest) {
   try {
-    requireEnvironment();
-    const body = await req.json();
-
-    // Verify honeypot
-    if (body.website && body.website.trim() !== "") {
-      return NextResponse.json({ error: "Spam detected" }, { status: 400 });
-    }
-
-    // Validate input
-    const parsed = contactSchema.safeParse(body);
+    const parsed = requestSchema.safeParse(await req.json().catch(() => null));
     if (!parsed.success) {
-      return NextResponse.json({ error: "Please check the highlighted fields.", fieldErrors: parsed.error.flatten().fieldErrors }, { status: 400 });
+      return NextResponse.json({ error: "Please check the highlighted fields and complete verification.", fieldErrors: parsed.error.flatten().fieldErrors }, { status: 400 });
+    }
+    const {
+      requestId = crypto.randomUUID(),
+      "cf-turnstile-response": token,
+      name, email, company, service, budget, timeline, details,
+    } = parsed.data;
+    if (!await verifyTurnstile(token)) {
+      return NextResponse.json({ error: "Verification expired or failed. Please try again." }, { status: 400 });
     }
 
-    const data = parsed.data;
-    const safeName = escapeHtml(data.name);
-    const safeEmail = escapeHtml(data.email);
-    const safeCompany = escapeHtml(data.company || "Not provided");
-    const safeDetails = escapeHtml(data.details).replace(/\n/g, "<br>");
+    const lead = { name, email, company: company || null, service, budget, timeline, details };
+    const fingerprint = createHash("sha256").update(JSON.stringify(lead)).digest("hex");
+    const db = getSupabaseAdmin();
+    const saved = await db.from("leads").upsert(
+      { ...lead, request_id: requestId, request_fingerprint: fingerprint },
+      { onConflict: "request_id", ignoreDuplicates: true },
+    );
+    if (saved.error) throw saved.error;
 
-    // Verify Turnstile
-    const turnstileToken = data["cf-turnstile-response"];
-    if (!turnstileToken) {
-      return NextResponse.json({ error: "Verification failed" }, { status: 400 });
+    const { data: record, error } = await db.from("leads")
+      .select("request_fingerprint, created_at, admin_email_id, customer_email_id")
+      .eq("request_id", requestId).single();
+    if (error) throw error;
+    if (record.request_fingerprint !== fingerprint) {
+      return NextResponse.json({ error: "The inquiry changed. Please submit it again." }, { status: 409 });
     }
-    const turnstileOk = await verifyTurnstile(turnstileToken);
-    if (!turnstileOk) {
-      return NextResponse.json({ error: "Verification failed" }, { status: 400 });
+
+    // Resend retains idempotency keys for 24 hours. Never retry after that window.
+    if (Date.now() - Date.parse(record.created_at) >= retryWindowMs) {
+      return NextResponse.json({
+        success: true,
+        copyAccepted: Boolean(record.customer_email_id),
+        teamNotified: Boolean(record.admin_email_id),
+      });
     }
 
-    // Store in Supabase
-    const { error: dbError } = await getSupabase().from("leads").insert({
-      name: data.name,
-      email: data.email,
-      company: data.company,
-      service: data.service,
-      budget: data.budget,
-      timeline: data.timeline,
-      details: data.details,
-      created_at: new Date().toISOString(),
-    });
+    const mail = {
+      name: escapeHtml(name),
+      email: escapeHtml(email),
+      company: escapeHtml(company || "Not provided"),
+      service, budget, timeline,
+      details: escapeHtml(details).replace(/\n/g, "<br>"),
+    };
+    const from = process.env.RESEND_FROM_EMAIL;
+    const to = process.env.CONTACT_TO_EMAIL;
+    const apiKey = process.env.RESEND_API_KEY;
+    const resend = from && apiKey ? new Resend(apiKey) : null;
 
-    if (dbError) throw new Error(`Supabase error: ${dbError.message}`);
-
-    // Send email to you
-    await getResend().emails.send({
-      from: process.env.RESEND_FROM_EMAIL!,
-      to: process.env.CONTACT_TO_EMAIL!,
-      replyTo: data.email,
-      subject: `New project inquiry: ${data.service}`,
-      html: inquiryAdminEmail({
-        name: safeName,
-        email: safeEmail,
-        company: safeCompany,
-        service: data.service,
-        budget: data.budget,
-        timeline: data.timeline,
-        details: safeDetails,
+    const [adminAccepted, copyAccepted] = await Promise.all([
+      sendLeadEmail(db, to ? resend : null, requestId, "admin_email_id", record.admin_email_id, {
+        from: from || "", to: to || "", replyTo: email,
+        subject: `New project inquiry: ${service}`,
+        html: inquiryAdminEmail(mail),
       }),
-    });
-
-    // Auto-reply to user
-    await getResend().emails.send({
-      from: process.env.RESEND_FROM_EMAIL!,
-      to: data.email,
-      subject: "We received your message — Compiled Tech",
-      html: inquiryReceivedEmail({
-        name: safeName,
-        service: data.service,
-        budget: data.budget,
-        timeline: data.timeline,
-        details: safeDetails,
+      sendLeadEmail(db, resend, requestId, "customer_email_id", record.customer_email_id, {
+        from: from || "", to: email,
+        subject: "We received your message — Compiled Tech",
+        html: inquiryReceivedEmail(mail),
       }),
-    });
+    ]);
 
-    return NextResponse.json({ success: true });
-  } catch (err) {
-    console.error("Contact API error:", err);
+    return NextResponse.json({ success: true, copyAccepted, teamNotified: adminAccepted });
+  } catch (error) {
+    const code = typeof error === "object" && error && "code" in error ? error.code : undefined;
+    console.error("Could not process inquiry", { code });
     return NextResponse.json(
-      { error: `Something went wrong. Try again, or email us at ${process.env.CONTACT_TO_EMAIL || "our email address"}.` },
-      { status: 500 }
+      { error: `We couldn't confirm your submission. Try again, or email ${contactInfo.email}.` },
+      { status: 503 },
     );
   }
 }

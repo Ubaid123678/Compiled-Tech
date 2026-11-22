@@ -219,3 +219,5 @@ browser Network panel for the `/api/contact` response.
 - Never use `TURNSTILE_SECRET_KEY` in a `NEXT_PUBLIC_*` variable.
 - Use a verified Resend domain before production.
 - Use a production Turnstile hostname before deployment.
+
+Apply `CONTACT_DELIVERY_MIGRATION.sql` before deploying the contact changes. The unique request ID lets a visitor retry the same inquiry without creating a second lead. Review recent leads with a request ID and a missing `admin_email_id` in Supabase if application logs report rejected team notifications. Resend email IDs indicate provider acceptance. Confirm inbox delivery separately with a test inquiry after deployment.
