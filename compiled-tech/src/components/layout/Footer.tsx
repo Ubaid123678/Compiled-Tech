@@ -73,7 +73,7 @@ const footerNav: Record<string, NavLink[]> = {
   Contact: [
     { label: "hello@compiledtech.io", href: "mailto:hello@compiledtech.io", icon: Mail },
     { label: "+92 310 734 9552", href: contactInfo.whatsapp, icon: MessageSquare, target: "_blank" },
-    { label: "Hasilpur, Punjab, Pakistan", href: "#", icon: MapPin },
+    { label: contactInfo.location, href: contactInfo.mapsUrl, icon: MapPin, target: "_blank" },
   ],
 };
 

@@ -3,7 +3,7 @@ export const site = {
   heroLeft: { big: "COMPILE", small: "IDEAS" },
   heroRight: { big: "INTO", small: "INTELLIGENCE" },
   heroSrText: "Compiled Tech builds software and AI for startups and growing teams",
-  heroTagline: "Web, apps, SaaS & AI Automation or Workflows for your Bussiness.",
+  heroTagline: "Web and mobile apps, SaaS platforms, and AI automation.",
   secondaryCta: { label: "See Our Work", href: "/work" },
   socials: [
     { short: "IN", name: "LinkedIn", href: "https://www.linkedin.com/company/compiled-tech/" },

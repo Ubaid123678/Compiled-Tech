@@ -115,11 +115,6 @@ export function EngagementSection() {
               split into milestones, each paid when it passes your review. We invoice in US dollars
               by transfer or card.
             </p>
-            <p className="text-base leading-[1.7] text-mist" data-speakable>
-              Larger builds are split into milestones instead. You pay for each milestone when it
-              passes your review, so the risk stays small on both sides. We invoice in US dollars
-              and accept bank transfer or card.
-            </p>
           </div>
           <div>
             <h3
@@ -132,11 +127,6 @@ export function EngagementSection() {
               Compiled Tech sends a short written update every week. It says what shipped, what is
               next, and what is blocking us. If something will slip you hear it from us first, not
               at the deadline. Day-to-day questions go in a shared channel with the developers.
-            </p>
-            <p className="text-base leading-[1.7] text-mist" data-speakable>
-              For day-to-day questions there is a shared channel with the developers. No ticket
-              queue, no account manager relaying messages, and no waiting days for a reply on a
-              small change.
             </p>
           </div>
         </div>

@@ -1,6 +1,7 @@
 export const pillars = [
   {
     slug: "build",
+    searchTitle: "Web, Mobile & SaaS Development",
     title: "Build",
     line: "Web, mobile, and SaaS products that load fast and scale.",
     items: [
@@ -25,6 +26,7 @@ export const pillars = [
   },
   {
     slug: "ai-ml",
+    searchTitle: "Custom AI & Machine Learning Services",
     title: "AI and ML",
     line: "Custom models, intelligent agents, and document intelligence.",
     items: [
@@ -49,6 +51,7 @@ export const pillars = [
   },
   {
     slug: "automate-analyze",
+    searchTitle: "AI Automation & Agent Development",
     title: "Automate and Analyze",
     line: "Workflows and agents that remove manual work.",
     items: [
@@ -63,6 +66,7 @@ export const pillars = [
   },
   {
     slug: "advise-support",
+    searchTitle: "AI Consulting, Training & Software Support",
     title: "Advise and Support",
     line: "Guidance, training, and care after launch.",
     items: [

@@ -216,7 +216,7 @@ export async function generateMetadata({ params }: ServiceDetailPageProps) {
   if (!pillar) notFound();
 
   return generatePageMetadata({
-    title: pillar.title,
+    title: pillar.searchTitle,
     description: pillar.line,
     path: `/services/${slug}`,
     type: "website",

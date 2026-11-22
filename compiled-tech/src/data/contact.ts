@@ -28,5 +28,6 @@ export const contactInfo = {
   email: "hello@compiledtech.io",
   whatsapp: "https://wa.me/923107349552?text=Hi%20Compiled%20Tech%2C%20I%27d%20like%20to%20discuss%20a%20project.",
   location: "Hasilpur, Punjab, Pakistan",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Compiled+Tech,+Hasilpur,+Punjab,+Pakistan",
   calComUrl: process.env.NEXT_PUBLIC_CALCOM_URL ?? "",
 } as const;

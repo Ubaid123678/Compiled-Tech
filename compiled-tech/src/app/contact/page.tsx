@@ -10,10 +10,6 @@ import { generateJsonLd, siteConfig } from "@/lib/seo";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
-// Points at the real Google Business Profile pin (resolves to the verified
-// listing with its name and reviews, not a bare coordinate).
-const googleMapsUrl =
-  "https://www.google.com/maps/search/?api=1&query=Compiled+Tech,+Hasilpur,+Punjab,+Pakistan";
 const googleMapsEmbedUrl =
   "https://www.google.com/maps?q=Compiled+Tech,+Hasilpur,+Punjab,+Pakistan&output=embed";
 
@@ -47,7 +43,7 @@ export default function ContactPage() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [contactJsonLd] }) }}
         />
-        <section className="bg-linear-to-b from-ink via-night/50 to-ink py-10 lg:py-16">
+        <section className="bg-linear-to-b from-ink via-night/50 to-ink pb-10 pt-28 lg:pb-16 lg:pt-36">
           <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-16">
             <motion.div
               className="text-center max-w-3xl mx-auto"
@@ -110,7 +106,7 @@ export default function ContactPage() {
                         <span>WhatsApp · {siteConfig.phone}</span>
                       </a>
                       <a
-                        href={googleMapsUrl}
+                        href={contactInfo.mapsUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-4 text-mist hover:text-frost transition-colors"

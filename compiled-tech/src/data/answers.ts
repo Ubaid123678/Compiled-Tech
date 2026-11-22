@@ -32,7 +32,7 @@ export const answers = [
   },
   {
     q: "Who owns the code?",
-    a: "You do. The repository, the domain, and every account are yours from day one. We commit to your repository, not a private one. If you ever leave, nothing is held back, and no part of your product stops working because we walked away.",
+    a: "You get access to the project repository and accounts during the build. Once the project is paid in full, you own the custom work we created for you. Existing tools and third-party components remain subject to their licenses.",
   },
   {
     q: "How do we start?",

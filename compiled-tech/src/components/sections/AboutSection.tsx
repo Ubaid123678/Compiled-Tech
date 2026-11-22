@@ -1,19 +1,7 @@
-import { aboutData } from "@/data/about";
+import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 
-/**
- * Plain-language company copy on the homepage.
- *
- * Three audit findings pointed here at once: the page was thin (478 words),
- * its prose was too dense for voice answers (Flesch 49), and almost no
- * paragraph was the 15-60 word length a voice assistant can read out. Short
- * sentences, one idea each, with a definition-style opening.
- *
- * Facts come from data/about.ts — this section invents nothing.
- */
 export function AboutSection() {
-  const { hero } = aboutData;
-
   return (
     <section id="studio" aria-labelledby="studio-heading" className="border-t border-line">
       <div className="mx-auto max-w-300 px-4 py-12 sm:px-6 lg:px-16 lg:py-20">
@@ -37,28 +25,13 @@ export function AboutSection() {
 
           <Reveal delay={0.1} className="max-w-2xl space-y-6 text-[1.05rem] leading-[1.7] text-mist">
             <p data-speakable>
-              Compiled Tech is a software studio in Hasilpur, Pakistan. Four people build the
-              work, and you speak to them directly. There is no account manager between you and
-              the code.
+              At handover, you get the source code, documentation, and a walkthrough for running
+              the product. Ongoing support is available for fixes, updates, and new features.
             </p>
-            <p data-speakable>
-              The team started after watching the same project fail twice. A client paid up front
-              and waited. A developer finished half the work and vanished. So we changed the
-              order: agree the scope, agree the price, then start.
-            </p>
-            <p data-speakable>
-              Every project begins the same way. We learn your goal and your users. We write down
-              what will be built, what it costs, and when it lands. You approve that in writing
-              before any code is written.
-            </p>
-            <p data-speakable>
-              {hero.lead} That is small enough to stay reachable, and old enough to have shipped
-              work you can inspect on our work page before you decide anything.
-            </p>
-            <p data-speakable>
-              When the build ends you get the code, the documentation, and a handover you can run
-              without us. If you want us to stay, our support plan covers fixes, updates, and new
-              features. If you want to take it in-house, that is fine too.
+            <p>
+              <Link href="/work" className="underline underline-offset-4">Explore our work</Link>
+              {" or "}
+              <Link href="/about" className="underline underline-offset-4">meet the team</Link>.
             </p>
           </Reveal>
         </div>

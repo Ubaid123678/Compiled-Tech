@@ -14,7 +14,7 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 z-1 bg-linear-to-b from-ink/60 via-transparent to-ink/70" />
       <div className="pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgb(7_11_17/0.75)_100%)]" />
 
-      <h1 id="hero-heading" className="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between px-[clamp(20px,5vw,64px)] pb-30 pt-27.5 min-[760px]:grid min-[760px]:grid-cols-[1fr_minmax(200px,28%)_1fr] min-[760px]:items-center min-[760px]:pb-[6%] min-[760px]:pt-0">
+      <h1 id="hero-heading" className="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between px-[clamp(20px,5vw,64px)] pb-40 pt-27.5 min-[760px]:grid min-[760px]:grid-cols-[1fr_minmax(200px,28%)_1fr] min-[760px]:items-center min-[760px]:pb-[6%] min-[760px]:pt-0">
         <span className="sr-only absolute">{site.heroSrText}</span>
         <span
           aria-hidden="true"
@@ -40,7 +40,7 @@ export function Hero() {
         </span>
       </h1>
 
-      <div className="animate-[hero-bottom-in_1600ms_var(--ease-out)_900ms_both] absolute inset-x-0 bottom-0 z-20 flex flex-col items-center gap-4 px-[clamp(20px,5vw,64px)] py-5 min-[760px]:flex-row min-[760px]:flex-wrap min-[760px]:justify-between min-[760px]:gap-6 min-[760px]:py-7">
+      <div className="animate-[hero-bottom-in_1600ms_var(--ease-out)_900ms_both] absolute inset-x-0 bottom-0 z-20 flex flex-col items-start gap-3 px-[clamp(20px,5vw,64px)] py-5 min-[760px]:flex-row min-[760px]:flex-wrap min-[760px]:justify-between min-[760px]:gap-6 min-[760px]:py-7">
         <div className="hidden gap-5 min-[760px]:flex">
           {site.socials.map((social) => (
             <a
@@ -55,7 +55,7 @@ export function Hero() {
             </a>
           ))}
         </div>
-        <p className="hidden font-body text-[0.82rem] uppercase tracking-[0.14em] text-mist min-[900px]:block">
+        <p className="max-w-xs text-sm text-frost min-[760px]:max-w-none">
           {site.heroTagline}
         </p>
         <div className="flex w-full gap-2 min-[760px]:w-auto min-[760px]:gap-3">
