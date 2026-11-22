@@ -3,10 +3,13 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Footer } from "@/components/layout/Footer";
 
-export const metadata = {
-  title: "Terms and Conditions | Compiled Tech",
+import { generatePageMetadata } from "@/lib/seo";
+
+export const metadata = generatePageMetadata({
+  title: "Terms and Conditions",
   description: "Compiled Tech terms and conditions — website use and project terms.",
-};
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (

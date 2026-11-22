@@ -34,7 +34,7 @@ import { processSteps } from "@/data/process";
 // ponytail: visible page copy (hero, services list) is what actually ranks for these
 // keywords; the tags below just point Google at it consistently.
 export const metadata = generatePageMetadata({
-  title: "Software, Web & AI Development Company",
+  title: "Software, Web & AI Development",
   description:
     "Custom web apps, mobile apps, SaaS platforms, and AI automation for startups and growing teams. Hire a four-person team that ships. Get a quote today.",
   path: "/",
@@ -89,7 +89,7 @@ export default function Home() {
 
   const faqJsonLd = generateFaqJsonLd(answers, siteConfig.url, "answers");
   const speakableJsonLd = generateSpeakableJsonLd(siteConfig.url, {
-    name: "Software, Web & AI Development Company | Compiled Tech",
+    name: "Compiled Tech | Software, Web & AI Development",
     description:
       "Custom web apps, mobile apps, SaaS platforms, and AI automation for startups and growing teams.",
   });

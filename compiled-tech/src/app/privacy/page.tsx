@@ -3,10 +3,13 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Footer } from "@/components/layout/Footer";
 
-export const metadata = {
-  title: "Privacy Policy | Compiled Tech",
+import { generatePageMetadata } from "@/lib/seo";
+
+export const metadata = generatePageMetadata({
+  title: "Privacy Policy",
   description: "Compiled Tech privacy policy — what we collect, how we use it, and your rights.",
-};
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (

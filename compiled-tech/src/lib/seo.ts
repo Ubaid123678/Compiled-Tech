@@ -4,7 +4,7 @@ export const siteConfig = {
   name: "Compiled Tech",
   description: "Compiled Tech builds web apps, mobile apps, SaaS and AI solutions for startups and growing teams.",
   // Set NEXT_PUBLIC_SITE_URL at deploy time to the real origin; this fallback keeps canonical/OG URLs valid.
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://compiledtech.io",
+  url: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://compiledtech.io").origin,
   // WebP keeps the social preview under 25KB; 1200x630 as the OG spec wants.
   ogImage: "/og.webp",
   twitterHandle: "@compiledtech15",
@@ -85,7 +85,7 @@ export function generatePageMetadata({
   authors?: string[];
   tags?: string[];
 }): Metadata {
-  const fullTitle = `${title} | ${siteConfig.name}`;
+  const fullTitle = path === "/" ? `${siteConfig.name} | ${title}` : `${title} | ${siteConfig.name}`;
   const fullUrl = `${siteConfig.url}${path}`;
   const fullImage = image || siteConfig.ogImage;
 
@@ -234,19 +234,10 @@ export function generateJsonLd({
           value: siteConfig.employeeCount,
         },
       }),
-      // WebSite search action: the "potentialAction" the report asked for.
       ...(!isOrg && {
         publisher: { "@id": organizationId },
         // Language of the site's content; every page renders lang="en".
         inLanguage: "en",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: {
-            "@type": "EntryPoint",
-            urlTemplate: `${siteConfig.url}/blog?q={search_term_string}`,
-          },
-          "query-input": "required name=search_term_string",
-        },
       }),
     };
   }

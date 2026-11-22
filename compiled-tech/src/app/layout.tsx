@@ -1,8 +1,9 @@
+import type { Metadata } from "next";
 import { Orbitron, Exo_2, JetBrains_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { AgentTools } from "@/components/agents/AgentTools";
 import { Suspense } from "react";
-import { generatePageMetadata, generateJsonLd, siteConfig } from "@/lib/seo";
+import { generateJsonLd, siteConfig } from "@/lib/seo";
 import "./globals.css";
 
 const orbitron = Orbitron({
@@ -26,12 +27,11 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
-export const metadata = generatePageMetadata({
-  title: "Compiled Tech | Software and AI Studio",
-  description: "Compiled Tech builds web apps, mobile apps, SaaS and AI solutions for startups and growing teams. Technical SEO, Core Web Vitals optimization, and search visibility that drives qualified traffic.",
-  path: "/",
-  type: "website",
-});
+export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
+  title: "Compiled Tech",
+  description: siteConfig.description,
+};
 
 export default function RootLayout({ children }: React.PropsWithChildren) {
   const organizationJsonLd = generateJsonLd({
@@ -48,7 +48,7 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
     type: "WebSite",
     name: siteConfig.name,
     description: siteConfig.description,
-    url: siteConfig.url,
+    url: `${siteConfig.url}/`,
   });
 
   return (
@@ -64,8 +64,6 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
-        <link rel="sitemap" href="/sitemap.xml" />
-        <link rel="robots" href="/robots.txt" />
         {/* Bing Webmaster verification — must stay in the HTML even after verification. */}
         <meta name="msvalidate.01" content="9B0E3CCD5051C8D3ED5481693B50BDF1" />
         {/* Scroll-reveal sections ship with inline opacity:0 and are revealed by
