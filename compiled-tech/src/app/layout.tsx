@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   title: "Compiled Tech",
   description: siteConfig.description,
   icons: {
-    icon: { url: "/favicon.ico", type: "image/x-icon", sizes: "16x16 32x32 48x48 96x96" },
+    icon: { url: "/favicon-96.png", type: "image/png", sizes: "96x96" },
     apple: { url: "/apple-icon.png", type: "image/png", sizes: "180x180" },
   },
 };
